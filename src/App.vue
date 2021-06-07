@@ -1,23 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <Header />
+    <Menu />
     <router-view/>
   </div>
 </template>
 
 <script>
+import Header from './components/Header.vue';
+import Menu from './components/Menu.vue';
+
+
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+
+    }
+  },
+  components: {
+    Header,
+    Menu,
+
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+
+
 </style>
