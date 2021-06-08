@@ -12,10 +12,13 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 
+import store from './store';
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
