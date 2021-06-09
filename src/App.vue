@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Header from './components/Header/Header.vue';
-import Menu from './components/Header/Menu.vue';
+import Header from './components/header/Header';
+import Menu from './components/header/Menu';
 
 
 export default {
