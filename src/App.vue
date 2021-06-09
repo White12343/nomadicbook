@@ -14,14 +14,11 @@ import Menu from './components/Header/Menu.vue';
 export default {
   name: 'App',
   data() {
-    return {
-
-    }
+    return { }
   },
   components: {
     Header,
     Menu,
-
   }
 }
 </script>

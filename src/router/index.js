@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/layout/Home'
-import ProductList from '@/layout/ProductList'
-import SignIn from '@/layout/SignIn'
-import SignUp from '@/layout/SignUp'
+import Home from '@/views/Home'
+import ProductList from '@/views/ProductList'
+import SignIn from '@/views/SignIn'
+import SignUp from '@/views/SignUp'
 
 Vue.use(Router)
 
