@@ -5,7 +5,7 @@
       <input type="text" class="signup__mail" placeholder="Mail" v-model.lazy="mail" autocomplete>
       <p class="check__mail" v-if="!verificationMailResult">請輸入正確 mail 格式</p>
       <input type="password" class="signup__password" placeholder="密碼" v-model.lazy="password" autocomplete>
-      <p class="check__password" v-if="!verificationPasswordResult">密碼至少八個字符，至少一個字母和一個數字</p>
+      <p class="check__password" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
       <input type="password" class="signup__password" placeholder="確認密碼" v-model.lazy="passwordCheck" autocomplete>
       <p class="check__password" v-if="!isPasswordCheck">請輸入相同密碼</p>
       <input type="submit" class="signup__btn" value="註冊" @click="signUp">
@@ -57,7 +57,7 @@ export default {
     },
     testPassword(newValue) {
       // 至少八個字符，至少一個字母和一個數字
-      this.verificationPasswordResult = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(newValue);
+      this.verificationPasswordResult = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(newValue);
     },
     checkPassword(newValue) {
       this.isPasswordCheck = (newValue === this.password);

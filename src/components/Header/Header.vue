@@ -26,7 +26,16 @@ export default {
     }
   },
   components: {
+  },
+  created() {
+    console.log($cookies.get('isLogin'));
+  },
+  updated() {
+    console.log($cookies.get('isLogin'));
   }
+
+
+
 }
 </script>
 

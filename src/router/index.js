@@ -9,7 +9,7 @@ import UploadPd from '@/views/UploadPd'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -30,18 +30,47 @@ export default new Router({
     {
       path: '/signin',
       name: 'SignIn',
-      component: SignIn
+      component: SignIn,
+      beforeEnter: (to, from, next) => {
+        if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
+          next();
+        }else{
+          next('/');
+        }
+      }
     },
     {
       path: '/signup',
       name: 'SignUp',
-      component: SignUp
+      component: SignUp,
+      beforeEnter: (to, from, next) => {
+        if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
+          next();
+        }else{
+          next('/');
+        }
+      }
     },
     {
       path: '/uploadpd',
       name: 'UploadPd',
-      component: UploadPd
+      component: UploadPd,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          next('/signin');
+        }
+      }
     }
 
   ]
 })
+
+// router.beforeEach((to, from, next) => {
+//   console.log(to,from);
+//   next();
+// })
+
+
+export default router;

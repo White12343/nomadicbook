@@ -5,7 +5,7 @@
       <input type="text" class="signin__mail" placeholder="Mail" v-model.lazy="mail" autocomplete>
       <p class="check__mail" v-if="!verificationMailResult">請輸入正確 mail 格式</p>
       <input type="password" class="signin__password" placeholder="密碼" v-model.lazy="password" autocomplete>
-      <p class="check__password" v-if="!verificationPasswordResult">密碼至少八個字符，至少一個字母和一個數字</p>
+      <p class="check__password" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
       <input type="submit" class="signin__btn" value="登入" @click="signIn">
       <h4 class="signin__signup-link fs-6 text-center">還沒有帳號？<router-link class="signin__link" to="/signup">註冊</router-link></h4>
     </form>
@@ -42,14 +42,14 @@ export default {
       if(!this.verificationMailResult || !this.verificationPasswordResult){
         return;
       }
-      console.log('登入');
+      $cookies.set('isLogin', '1', '1d');
+      this.$router.push('/');
     },
     testEmail(newValue) {
       this.verificationMailResult = /^([\w\.\-]){1,64}\@([\w\.\-]){1,64}$/.test(newValue);
     },
     testPassword(newValue) {
-      // 至少八個字符，至少一個字母和一個數字
-      this.verificationPasswordResult = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(newValue);
+      this.verificationPasswordResult = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(newValue);
     }
   }
 }
