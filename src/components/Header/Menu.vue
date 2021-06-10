@@ -8,7 +8,7 @@
     >
       {{ item.name }}
       <nav class="submenu">
-        <router-link class="submenu__link text-center" to="/productlist"
+        <router-link class="submenu__link text-center" to="/booklist"
           v-for="(subItem, subKey) in item.sub" :key="subKey"
         >
           {{ subItem.name }}

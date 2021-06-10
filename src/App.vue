@@ -2,7 +2,9 @@
   <div id="app">
     <Header />
     <Menu />
-    <router-view/>
+    <main class="container mx-auto">
+      <router-view/>
+    </main>
   </div>
 </template>
 
