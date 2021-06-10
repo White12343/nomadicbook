@@ -1,20 +1,21 @@
 <template>
-  <nav class="menu container mx-auto">
-
-    <a class="menu__link text-center" href="#"
-      v-for="(item, key) in menuJsonData"
-      :key="key"
-      :class="{'divider': key !== (menuJsonData.length - 1)}"
-    >
-      {{ item.name }}
-      <nav class="submenu">
-        <router-link class="submenu__link text-center" to="/booklist"
-          v-for="(subItem, subKey) in item.sub" :key="subKey"
-        >
-          {{ subItem.name }}
-        </router-link>
-      </nav>
-    </a>
+  <nav class="menu">
+    <div class="menu__cntr container mx-auto">
+      <a class="menu__link text-center" href="#"
+        v-for="(item, key) in menuJsonData"
+        :key="key"
+        :class="{'divider': key !== (menuJsonData.length - 1)}"
+      >
+        {{ item.name }}
+        <nav class="submenu">
+          <router-link class="submenu__link text-center" to="/booklist"
+            v-for="(subItem, subKey) in item.sub" :key="subKey"
+          >
+            {{ subItem.name }}
+          </router-link>
+        </nav>
+      </a>
+    </div>
 
   </nav>
 </template>
@@ -104,10 +105,13 @@ export default {
 
 <style lang="stylus" scoped>
 .menu
-  display flex
-  align-items center
-  margin-top 1em
-  margin-bottom 1em
+  background-color $light
+  padding 1em
+  box-shadow 0 0 5px $gray
+  margin-bottom 2em
+  &__cntr
+    display flex
+    align-items center
 
   &__link
     display block
@@ -118,7 +122,6 @@ export default {
     &:hover
       color $stroke
       font-weight bold
-      background-color $light
       .submenu__link
         display block
 
