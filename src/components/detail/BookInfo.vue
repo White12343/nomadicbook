@@ -2,13 +2,8 @@
   <article class="book-info">
     <header class="book-info__head">
       <h2 class="book-info__tit">{{ bookName }}</h2>
-      <!-- <h3 class="book-info__desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</h3> -->
     </header>
     <div class="book-info__user">
-
-      <!-- <figure class="book-info__user-photo">
-        <img :src="userPhoto" alt="user" class="img-resp" width="64" height="64">
-      </figure> -->
       <a href="#" class="book-info__user-name">{{ userName }}</a>
       <a href="#" class="book-info__stall-btn">查看攤位</a>
     </div>
@@ -22,14 +17,17 @@
 
     </div>
     <div class="book-info__btn-group">
-      <a href="#" class="book-info__btn book-info__btn-dark">我要交換</a>
-      <a href="#" class="book-info__btn book-info__btn-light">聊聊</a>
-    </div>
 
+      <TradeBtn />
+
+      <a href="#" class="book-info__btn book-info__btn-light">聊聊</a> 
+    </div>
   </article>
 </template>
 
 <script>
+import TradeBtn from './TradeBtn';
+
 export default {
   name: 'BookInfo',
   props: [
@@ -41,8 +39,10 @@ export default {
   ],
   data() {
     return {
-      userPhoto: require('@/assets/icon/user.png'),
     }
+  },
+  components: {
+    TradeBtn,
   }
 }
 </script>
