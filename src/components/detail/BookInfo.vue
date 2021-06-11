@@ -18,9 +18,14 @@
     </div>
     <div class="book-info__btn-group">
 
-      <TradeBtn />
+      <TradeBtn title="我要交換">
+        <form class="tarde-form">
+          <h2 class="tarde-form__tit">我要交換</h2>
+          <input type="submit" value="送出" class="tarde-form__submit">
+        </form>
+      </TradeBtn>
 
-      <a href="#" class="book-info__btn book-info__btn-light">聊聊</a> 
+      <a href="#" class="book-info__btn book-info__btn-light">聊聊</a>
     </div>
   </article>
 </template>

@@ -6,6 +6,8 @@ import Detail from '@/views/Detail'
 import SignIn from '@/views/SignIn'
 import SignUp from '@/views/SignUp'
 import UploadPd from '@/views/UploadPd'
+import TradeManage from '@/views/TradeManage'
+import TradeMatch from '@/views/TradeMatch'
 
 Vue.use(Router)
 
@@ -35,6 +37,7 @@ const router = new Router({
         if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
           next();
         }else{
+          alert('您已登入');
           next('/');
         }
       }
@@ -47,6 +50,7 @@ const router = new Router({
         if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
           next();
         }else{
+          alert('您已登入');
           next('/');
         }
       }
@@ -59,6 +63,33 @@ const router = new Router({
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
           next();
         }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      }
+    },
+    {
+      path: '/trademanage',
+      name: 'TradeManage',
+      component: TradeManage,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      }
+    },
+    {
+      path: '/tradematch',
+      name: 'TradeMatch',
+      component: TradeMatch,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
           next('/signin');
         }
       }

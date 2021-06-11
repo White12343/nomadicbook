@@ -12,7 +12,7 @@
         </router-link>
 
       </h3>
-      <h4 class="card__author">{{ cardData.author }}</h4>
+      <h4 class="card__author" v-if="cardData.author">{{ cardData.author }}</h4>
     </header>
     <router-link class="card__link" :to="{
         name: 'Detail',
@@ -21,7 +21,7 @@
         }
       }">
       <figure class="card__img">
-        <img :src="cardData.url" :alt="cardData.name" class="img-resp">
+        <img :src="cardData.imgUrl" :alt="cardData.name" class="img-resp">
       </figure>
     </router-link>
   </article>
@@ -40,9 +40,9 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .card
-  width 20%
+  min-width 20%
   display flex
   flex-direction column-reverse
   margin-top 1em
