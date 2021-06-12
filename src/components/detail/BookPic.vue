@@ -20,7 +20,6 @@ export default {
 
 <style lang="stylus">
 .carousel
-  width 50%
   overflow hidden
   border 2px solid $bg-dark
   &__pics

@@ -8,6 +8,9 @@ import SignUp from '@/views/SignUp'
 import UploadPd from '@/views/UploadPd'
 import TradeManage from '@/views/TradeManage'
 import TradeMatch from '@/views/TradeMatch'
+import SeekManage from '@/views/trademanage/SeekManage'
+import AskManage from '@/views/trademanage/AskManage'
+import MatchManage from '@/views/trademanage/MatchManage'
 
 Vue.use(Router)
 
@@ -19,8 +22,7 @@ const router = new Router({
       component: Home
     },
     {
-      // 若參數為可有可無的話則加上 ? 可顯示無參數的頁面
-      path: '/booklist/:id?',
+      path: '/booklist',
       name: 'BookList',
       component: BookList
     },
@@ -93,7 +95,46 @@ const router = new Router({
           next('/signin');
         }
       }
-    }
+    },
+    {
+      path: '/seekmanage',
+      name: 'SeekManage',
+      component: SeekManage,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      }
+    },
+    {
+      path: '/askmanage',
+      name: 'AskManage',
+      component: AskManage,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      }
+    },
+    {
+      path: '/matchmanage',
+      name: 'MatchManage',
+      component: MatchManage,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      }
+    },
 
   ]
 })

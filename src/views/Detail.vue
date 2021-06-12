@@ -1,14 +1,21 @@
 <template>
   <section class="detail">
     <div class="detail__info">
-      <BookPic :book-photo="bookDesc.BookPhoto" :book-name="bookDesc.BookName"/>
+      <BookPic class="detail__pic" :book-photo="bookDesc.BookPhoto" :book-name="bookDesc.BookName"/>
       <BookInfo
         :user-name="bookDesc.UserName"
         :book-name="bookDesc.BookName"
         :book-author="bookDesc.Author"
         :publish-date="bookDesc.PublishDate"
         :publisher="bookDesc.Publisher"
-      />
+      >
+        <TradeBtn class="book-info__trade-btn" title="我要交換">
+          <form class="tarde-form">
+            <h2 class="tarde-form__tit">我要交換</h2>
+            <input type="submit" value="送出" class="tarde-form__submit">
+          </form>
+        </TradeBtn>
+      </BookInfo>
     </div>
     <div class="detail__cntr">
       <BookCntr cntr-title="簡介" :cntr="bookDesc.Introduction" />
@@ -21,52 +28,23 @@
 import BookPic from '../components/detail/BookPic';
 import BookInfo from '../components/detail/BookInfo';
 import BookCntr from '../components/detail/BookCntr';
+import TradeBtn from '../components/detail/TradeBtn';
 
 export default {
   namd: 'Detail',
   data() {
     return {
-      bookDesc: {
-        UserName: 'Lee',
-        ReleaseDate: '2020-06-08',
-        ISBN: '9781974709953',
-        BookName: 'Chainsaw Man, Vol. 3',
-        Author: 'Tatsuki Fujimoto',
-        Publisher: 'Viz Media, Subs. of Shogakukan Inc',
-        CategoryDetail: '',
-        PublishDate: '2020-06-08',
-        BookLong: '127',
-        BookWidth: '191',
-        BookHigh: '18',
-        Introduction: 'Denji was a small-time devil hunter just trying to survive a harsh world. After being killed on a job, Denji is revived by his pet devil-dog Pochita and becomes something new and dangerous-Chainsaw Man!',
-        Condition: "A mysterious devil is demanding Denji's heart! But will the devil hunters from Division 4 agree to this deal to save themselves? Or will Denji have to do what Denji does best-turn into a chainsaw and carve up everything that gets in his way?!",
-        BookStatus: '',
-        StoreAddress: '',
-        StoreName: '',
-        MailBoxAddress: '',
-        MailBoxName: '',
-        HomeAddress: '',
-        FaceTradeCity: '',
-        FaceTradeArea: '',
-        FaceTradeRound: '',
-        FaceTradePath: '',
-        FaceTradeDetail: '',
-        TrueName: '',
-        CellphoneNumber: '',
-        BookPhoto: [
-          'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/9747/9781974714803.jpg',
-          'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/9747/9781974709953.jpg',
-          'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/9747/9781974714803.jpg',
-          'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/9747/9781974709953.jpg',
-          'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/9747/9781974714803.jpg',
-          'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/9747/9781974709953.jpg',
-        ],
-      }
+      bookDesc: {}
     }
   },
   created() {
     console.log(this.$route.params.id);
     // 用 id 去 call api
+    const path = '/static/json/detail.json';
+    let vm = this;
+    this.$http.get(path).then(res => {
+      vm.bookDesc = res.data[0];
+    })
 
   },
   computed: {
@@ -76,6 +54,7 @@ export default {
     BookPic,
     BookInfo,
     BookCntr,
+    TradeBtn,
   }
 }
 </script>
@@ -84,6 +63,8 @@ export default {
 .detail
   &__info
     display flex
+  &__pic
+    width 50%
 
 
 </style>

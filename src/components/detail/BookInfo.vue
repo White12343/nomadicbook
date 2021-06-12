@@ -18,12 +18,13 @@
     </div>
     <div class="book-info__btn-group">
 
-      <TradeBtn title="我要交換">
+      <!-- <TradeBtn class="book-info__trade-btn" title="我要交換">
         <form class="tarde-form">
           <h2 class="tarde-form__tit">我要交換</h2>
           <input type="submit" value="送出" class="tarde-form__submit">
         </form>
-      </TradeBtn>
+      </TradeBtn> -->
+      <slot></slot>
 
       <a href="#" class="book-info__btn book-info__btn-light">聊聊</a>
     </div>
@@ -91,6 +92,7 @@ export default {
     &-light
       background-color $bg-light
       color $headline-dark
-
+  &__trade-btn
+    width 48%
 
 </style>

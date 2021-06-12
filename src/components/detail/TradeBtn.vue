@@ -1,6 +1,6 @@
 <template>
   <div class="trade-btn">
-    <a href="#" class="trade-btn__btn trade-btn__btn-dark" @click.stop.prevent="show">{{ title }}</a>
+    <a href="#" class="trade-btn__btn" :class='btnStyle' @click.stop.prevent="show">{{ title }}</a>
     <div class="trade-btn__popup-bg" v-if="isOpenTradeForm"></div>
     <div class="trade-btn__popup" v-if="isOpenTradeForm" ref="main">
       <slot></slot>
@@ -11,7 +11,7 @@
 <script>
 export default {
   name: 'TradeBtn',
-  props: ['title'],
+  props: ['title', 'btnStyle'],
   data() {
     return {
       isOpenTradeForm: false,
@@ -36,9 +36,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .trade-btn
-  width 48%
   &__btn
     display block
     border 2px solid $bg-dark
@@ -53,10 +52,9 @@ export default {
     left 50%
     top 50%
     transform translate(-50%, -50%)
-    width 800px
-    height 300px
+    width 80%
+    height 70vh
     background-color #fff
-    padding 1em
     border 2px solid $bg-dark
 
     &-bg
@@ -66,4 +64,12 @@ export default {
       background-color rgba(0,0,0,.7)
       width 100vw
       height 100vh
+
+
+.dark
+  background-color $bg-dark
+  color $headline-light
+.light
+  background-color $bg-light
+  color $headline-dark
 </style>

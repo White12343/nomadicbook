@@ -1,15 +1,23 @@
 <template>
   <article class="ask-card">
     <BookCard :card-data="bookData"/>
+    <TradeBtn title="查看攤位" btn-style="light">
+      <AskStall :seek-user-id="askData.SeekUserId"/>
+    </TradeBtn>
   </article>
 
 </template>
 
 <script>
-import BookCard from '../../book/BookCard';
+
+import TradeBtn from '@/components/detail/TradeBtn';
+import BookCard from '@/components//book/BookCard';
+import AskStall from '@/components/trademanage/ask/AskStall';
 export default {
   components: {
     BookCard,
+    TradeBtn,
+    AskStall,
   },
   props: ['askData'],
   computed: {
@@ -20,6 +28,9 @@ export default {
         imgUrl: this.askData.SeekedBookPhoto,
       }
     }
+  },
+  methods: {
+
   }
 }
 </script>
