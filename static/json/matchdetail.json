@@ -1,0 +1,30 @@
+[
+  {
+    "SeekId": "60c4b7f0e30e3a258df7d10c",
+    "SeekUserId": "60c4b7f07c4150e999b47306",
+    "SeekUserName": "Darcy Lara",
+    "SeekDate": "2021-06-08",
+    "SeekBookName": "Melissa Barnett",
+    "SeekName": "Clark Collier",
+    "SeekCellphone": 978854551,
+    "SeekBookPhoto": [
+      "http://placehold.it/32x32"
+    ],
+    "SeekIsCheck": false,
+    "TradeMode": 1,
+    "SeekToAddress": "新北市蘆洲區長榮路331號",
+    "SeekToName": "Garza Hyde",
+    "SeekedUserId": "60c4b7f00b47378daf014735",
+    "SeekedUserName": "Sparks Evans",
+    "SeekedDate": "2021-06-08",
+    "SeekedBookName": "Williamson Blake",
+    "SeekBookedPhoto": [
+      "http://placehold.it/32x32"
+    ],
+    "SeekStatus": 1,
+    "SeekedToAddress": "新北市蘆洲區長榮路331號",
+    "SeekedToName": "Odom Tucker",
+    "SeekedName": "Mays Britt",
+    "SeekedCellphone": 974548778
+  }
+]

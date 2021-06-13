@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     isLoading: true,
+    isLogin: $cookies.get('isLogin'),
   },
   mutations: {
     // 將 state 設為參數

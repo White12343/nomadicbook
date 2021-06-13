@@ -6,8 +6,8 @@ import VueAxios from 'vue-axios'
 import '@/assets/stylus/all.styl'
 import App from './App'
 import router from './router'
-import store from './store';
 import VueCookies from 'vue-cookies'
+import store from './store';
 
 
 Vue.config.productionTip = false
