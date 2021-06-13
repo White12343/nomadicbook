@@ -8,8 +8,21 @@
         <form class="search__form header__nav-item">
           <input type="text" class="search__query">
         </form>
-        <router-link class="header__link header__nav-item nav__link" to="/signin">登入</router-link>
-        <router-link class="header__link header__nav-item nav__link" to="/signup">註冊</router-link>
+
+        <div class="header__signin-btn" v-if="isLogin === '1'">
+          <router-link class="header__link header__nav-item nav__link" to="/member">Lee</router-link>
+          <a
+            href="#"
+            class="header__link header__nav-item nav__link"
+            @click.prevent="signOut"
+          >
+            登出
+          </a>
+        </div>
+        <div class="header__signin-btn" v-else>
+          <router-link class="header__link header__nav-item nav__link" to="/signin">登入</router-link>
+          <router-link class="header__link header__nav-item nav__link" to="/signup">註冊</router-link>
+        </div>
       </nav>
 
     </div>
@@ -17,22 +30,29 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 
 export default {
-  name: 'HelloWorld',
+  name: 'Header',
   data () {
     return {
 
     }
   },
-  components: {
+  computed: {
+
+    ...mapState([
+      'isLogin',
+    ]),
+
   },
-  created() {
-    console.log($cookies.get('isLogin'));
+  methods: {
+    signOut() {
+      $cookies.set('isLogin', '0');
+      this.$store.commit("changeLoginState");
+      alert('已登出')
+    },
   },
-  updated() {
-    console.log($cookies.get('isLogin'));
-  }
 
 
 

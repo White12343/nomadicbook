@@ -19,7 +19,9 @@
 
 <script>
 
+import { getAskBookList } from "@/request/api";
 import AskCard from '@/components/trademanage/ask/AskCard';
+
 export default {
   name: 'AskManage',
   data() {
@@ -31,11 +33,14 @@ export default {
     AskCard,
   },
   created() {
-    const path = '/static/json/ask.json';
     let vm = this;
-    this.$http.get(path).then(res => {
-      vm.askData = res.data;
-    })
+    getAskBookList()
+      .then(res => {
+        vm.askData = res.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
 
   }
 

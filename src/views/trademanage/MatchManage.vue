@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { getMatchList } from "@/request/api";
 import Match from '@/components/trademanage/match/Match';
 export default {
   name: 'MatchManage',
@@ -28,11 +29,14 @@ export default {
     }
   },
   created() {
-    const path = '/static/json/match.json';
     let vm = this;
-    this.$http.get(path).then(res => {
-      vm.matchData = res.data;
-    })
+    getMatchList()
+      .then(res => {
+        vm.matchData = res.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
   },
   components: {
     Match,

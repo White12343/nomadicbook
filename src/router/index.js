@@ -5,8 +5,8 @@ import BookList from '@/views/BookList'
 import Detail from '@/views/Detail'
 import SignIn from '@/views/SignIn'
 import SignUp from '@/views/SignUp'
+import Member from '@/views/Member'
 import UploadPd from '@/views/UploadPd'
-import TradeManage from '@/views/TradeManage'
 import TradeMatch from '@/views/TradeMatch'
 import SeekManage from '@/views/trademanage/SeekManage'
 import AskManage from '@/views/trademanage/AskManage'
@@ -31,6 +31,7 @@ const router = new Router({
       name: 'Detail',
       component: Detail
     },
+
     {
       path: '/signin',
       name: 'SignIn',
@@ -58,9 +59,9 @@ const router = new Router({
       }
     },
     {
-      path: '/uploadpd',
-      name: 'UploadPd',
-      component: UploadPd,
+      path: '/member',
+      name: 'Member',
+      component: Member,
       beforeEnter: (to, from, next) => {
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
           next();
@@ -71,9 +72,9 @@ const router = new Router({
       }
     },
     {
-      path: '/trademanage',
-      name: 'TradeManage',
-      component: TradeManage,
+      path: '/uploadpd',
+      name: 'UploadPd',
+      component: UploadPd,
       beforeEnter: (to, from, next) => {
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
           next();

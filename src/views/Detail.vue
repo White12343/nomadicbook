@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { getBookDetail } from "@/request/api";
 import BookPic from '../components/detail/BookPic';
 import BookInfo from '../components/detail/BookInfo';
 import BookCntr from '../components/detail/BookCntr';
@@ -40,11 +41,14 @@ export default {
   created() {
     console.log(this.$route.params.id);
     // 用 id 去 call api
-    const path = '/static/json/detail.json';
     let vm = this;
-    this.$http.get(path).then(res => {
-      vm.bookDesc = res.data[0];
-    })
+    getBookDetail()
+      .then(res => {
+        vm.bookDesc = res.data[0];
+      })
+      .catch(error => {
+        console.log(error);
+      })
 
   },
   computed: {

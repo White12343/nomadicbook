@@ -17,17 +17,28 @@ export default {
     }
   },
   computed: {
-
+    // 1.
     ...mapState([
       'isLoading',
     ]),
+    // 2.
+    isloading() {
+      // 透過$store取得狀態裡的isLoading
+      return this.$store.state.isLoading;
+    }
 
 
   },
   methods: {
+    // 1.
     ...mapMutations([
       'Loaded',
-    ])
+    ]),
+    // 2.
+    testMethods() {
+      // 提交改變狀態
+      this.$store.commit("Loaded");
+    }
   }
 
 

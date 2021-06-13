@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   name: 'SignIn',
   data() {
@@ -43,6 +44,7 @@ export default {
         return;
       }
       $cookies.set('isLogin', '1', '1d');
+      this.$store.commit("changeLoginState");
       this.$router.push('/');
     },
     testEmail(newValue) {

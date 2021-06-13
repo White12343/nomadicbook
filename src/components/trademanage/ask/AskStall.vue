@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { getBookDetail, getBookList } from "@/request/api";
 import BookPic from '@/components/detail/BookPic';
 import BookInfo from '@/components/detail/BookInfo';
 import BookCntr from '@/components/detail/BookCntr';
@@ -48,21 +49,27 @@ export default {
     }
   },
   created() {
-    const path = '/static/json/pd.json';
     let vm = this;
-    this.$http.get(path).then(res => {
-      vm.pdData = res.data;
-      vm.getBookDetail(vm.pdData[0].id)
-    })
+    getBookList()
+      .then(res => {
+        vm.pdData = res.data;
+        vm.getBookDetail(vm.pdData[0].id)
+      })
+      .catch(error => {
+        console.log(error);
+      })
   },
   methods: {
     getBookDetail(id) {
       console.log("Ask Stall: " + id);
-      const path = '/static/json/detail.json';
       let vm = this;
-      this.$http.get(path).then(res => {
-        vm.pdDetail = res.data[0];
-      })
+      getBookDetail()
+        .then(res => {
+          vm.pdDetail = res.data[0];
+        })
+        .catch(error => {
+          console.log(error);
+        })
     },
     requestExchange() {
       console.log('test');

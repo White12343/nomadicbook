@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { getSeekBookList } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 
 export default {
@@ -25,11 +26,14 @@ export default {
     BookCard,
   },
   created() {
-    const path = '/static/json/pd.json';
     let vm = this;
-    this.$http.get(path).then(res => {
-      vm.pdData = res.data;
-    })
+    getSeekBookList()
+      .then(res => {
+        vm.pdData = res.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
   },
 }
 </script>

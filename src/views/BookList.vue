@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { getBookList } from "@/request/api";
 import BookCard from '../components/book/BookCard';
 export default {
   name: 'BookList',
@@ -19,11 +20,14 @@ export default {
     }
   },
   created() {
-    const path = '/static/json/pd.json';
     let vm = this;
-    this.$http.get(path).then(res => {
-      vm.pdData = res.data;
-    })
+    getBookList()
+      .then(res => {
+        vm.pdData = res.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
   },
   components: {
     BookCard,
