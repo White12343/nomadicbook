@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import UploadForm from '../components/uploadpd/UploadForm';
+import UploadForm from '@/components/uploadpd/UploadForm';
 
 export default {
   name: 'UploadPd',

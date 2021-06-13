@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="match-card__btns">
-      <router-link class="match-card__btn match-card__btn--light" to="/tradematch">查看資訊</router-link>
+      <router-link class="match-card__btn match-card__btn--light" to="/manage/matchdetail">查看資訊</router-link>
       <a href="#" @click.prevent class="match-card__btn match-card__btn--dark">交易確認</a>
     </div>
 

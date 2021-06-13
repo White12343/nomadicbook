@@ -7,7 +7,7 @@
       <input type="password" class="signin__password" placeholder="密碼" v-model.lazy="password" autocomplete>
       <p class="check__password" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
       <input type="submit" class="signin__btn" value="登入" @click="signIn">
-      <h4 class="signin__signup-link fs-6 text-center">還沒有帳號？<router-link class="signin__link" to="/signup">註冊</router-link></h4>
+      <h4 class="signin__signup-link fs-6 text-center">還沒有帳號？<router-link class="signin__link" to="/login/signup">註冊</router-link></h4>
     </form>
   </div>
 </template>

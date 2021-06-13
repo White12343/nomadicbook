@@ -3,18 +3,21 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import BookList from '@/views/BookList'
 import Detail from '@/views/Detail'
-import SignIn from '@/views/SignIn'
-import SignUp from '@/views/SignUp'
+import Login from '@/views/Login'
+import SignIn from '@/views/login/SignIn'
+import SignUp from '@/views/login/SignUp'
 import Member from '@/views/Member'
-import UploadPd from '@/views/UploadPd'
-import TradeMatch from '@/views/TradeMatch'
+import UploadPd from '@/views/mamber/UploadPd'
+import Manage from '@/views/manage'
 import SeekManage from '@/views/trademanage/SeekManage'
 import AskManage from '@/views/trademanage/AskManage'
 import MatchManage from '@/views/trademanage/MatchManage'
+import TradeMatch from '@/views/trademanage/TradeMatch'
 
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -31,11 +34,11 @@ const router = new Router({
       name: 'Detail',
       component: Detail
     },
-
+    // 登入管理
     {
-      path: '/signin',
-      name: 'SignIn',
-      component: SignIn,
+      path: '/login',
+      name: 'Login',
+      component: Login,
       beforeEnter: (to, from, next) => {
         if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
           next();
@@ -43,21 +46,21 @@ const router = new Router({
           alert('您已登入');
           next('/');
         }
-      }
+      },
+      children: [
+        {
+          path: 'signin',
+          name: 'SignIn',
+          component: SignIn,
+        },
+        {
+          path: 'signup',
+          name: 'SignUp',
+          component: SignUp,
+        },
+      ]
     },
-    {
-      path: '/signup',
-      name: 'SignUp',
-      component: SignUp,
-      beforeEnter: (to, from, next) => {
-        if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
-          next();
-        }else{
-          alert('您已登入');
-          next('/');
-        }
-      }
-    },
+    // 會員管理
     {
       path: '/member',
       name: 'Member',
@@ -69,12 +72,21 @@ const router = new Router({
           alert('請先登入');
           next('/signin');
         }
-      }
+      },
+      children: [
+        {
+          path: 'uploadpd',
+          name: 'UploadPd',
+          component: UploadPd,
+        }
+      ]
     },
+    // 交易管理
     {
-      path: '/uploadpd',
-      name: 'UploadPd',
-      component: UploadPd,
+      path: '/manage',
+      name: 'Manage',
+      redirect: '/manage/seek',
+      component: Manage,
       beforeEnter: (to, from, next) => {
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
           next();
@@ -82,68 +94,33 @@ const router = new Router({
           alert('請先登入');
           next('/signin');
         }
-      }
-    },
-    {
-      path: '/tradematch',
-      name: 'TradeMatch',
-      component: TradeMatch,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      }
-    },
-    {
-      path: '/seekmanage',
-      name: 'SeekManage',
-      component: SeekManage,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      }
-    },
-    {
-      path: '/askmanage',
-      name: 'AskManage',
-      component: AskManage,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      }
-    },
-    {
-      path: '/matchmanage',
-      name: 'MatchManage',
-      component: MatchManage,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      }
+      },
+      children: [
+        {
+          path: 'seek',
+          name: 'Seek',
+          component: SeekManage,
+        },
+        {
+          path: 'ask',
+          name: 'Ask',
+          component: AskManage,
+        },
+        {
+          path: 'match',
+          name: 'Match',
+          component: MatchManage,
+
+        },
+        {
+          path: 'matchdetail',
+          name: 'detail',
+          component: TradeMatch,
+        },
+      ]
     },
 
   ]
 })
-
-// router.beforeEach((to, from, next) => {
-//   console.log(to,from);
-//   next();
-// })
-
 
 export default router;

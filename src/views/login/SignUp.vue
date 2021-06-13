@@ -11,7 +11,7 @@
       <input type="password" class="signup__input signup__password" placeholder="確認密碼" v-model.lazy="passwordCheck" autocomplete>
       <p class="check__password" v-if="!isPasswordCheck">請輸入相同密碼</p>
       <input type="submit" class="signup__btn" value="註冊" @click="signUp">
-      <h4 class="signup__signin-link fs-6 text-center">已經有帳號？<router-link class="signin__link" to="/signin">登入</router-link></h4>
+      <h4 class="signup__signin-link fs-6 text-center">已經有帳號？<router-link class="signin__link" to="/login/signin">登入</router-link></h4>
     </form>
   </div>
 </template>

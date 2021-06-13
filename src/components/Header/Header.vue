@@ -20,8 +20,8 @@
           </a>
         </div>
         <div class="header__signin-btn" v-else>
-          <router-link class="header__link header__nav-item nav__link" to="/signin">登入</router-link>
-          <router-link class="header__link header__nav-item nav__link" to="/signup">註冊</router-link>
+          <router-link class="header__link header__nav-item nav__link" to="/login/signin">登入</router-link>
+          <router-link class="header__link header__nav-item nav__link" to="/login/signup">註冊</router-link>
         </div>
       </nav>
 
@@ -50,6 +50,7 @@ export default {
     signOut() {
       $cookies.set('isLogin', '0');
       this.$store.commit("changeLoginState");
+      this.$router.push('/');
       alert('已登出')
     },
   },

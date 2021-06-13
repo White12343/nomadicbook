@@ -1,9 +1,10 @@
 <template>
   <div class="trade-btn">
     <a href="#" class="trade-btn__btn" :class='btnStyle' @click.stop.prevent="show">{{ title }}</a>
-    <div class="trade-btn__popup-bg" v-if="isOpenTradeForm"></div>
-    <div class="trade-btn__popup" v-if="isOpenTradeForm" ref="main">
-      <slot></slot>
+    <div class="trade-btn__popup-bg" v-if="isOpenTradeForm">
+      <div class="trade-btn__popup" v-if="isOpenTradeForm" ref="main">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
