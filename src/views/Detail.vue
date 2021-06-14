@@ -68,7 +68,7 @@ export default {
   &__info
     display flex
   &__pic
-    width 50%
+    width 40%
 
 
 </style>
