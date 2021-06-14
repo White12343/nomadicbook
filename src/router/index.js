@@ -8,7 +8,6 @@ import SignIn from '@/views/login/SignIn'
 import SignUp from '@/views/login/SignUp'
 import Member from '@/views/Member'
 import UploadPd from '@/views/mamber/UploadPd'
-import Manage from '@/views/manage'
 import SeekManage from '@/views/trademanage/SeekManage'
 import AskManage from '@/views/trademanage/AskManage'
 import MatchManage from '@/views/trademanage/MatchManage'
@@ -60,10 +59,11 @@ const router = new Router({
         },
       ]
     },
-    // 會員管理
+    // 管理
     {
       path: '/member',
       name: 'Member',
+      redirect: 'member/seek',
       component: Member,
       beforeEnter: (to, from, next) => {
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
@@ -78,24 +78,7 @@ const router = new Router({
           path: 'uploadpd',
           name: 'UploadPd',
           component: UploadPd,
-        }
-      ]
-    },
-    // 交易管理
-    {
-      path: '/manage',
-      name: 'Manage',
-      redirect: '/manage/seek',
-      component: Manage,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      },
-      children: [
+        },
         {
           path: 'seek',
           name: 'Seek',

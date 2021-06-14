@@ -57,15 +57,19 @@ export default {
 .book-info
   margin-left 1em
   flex-grow 1
+  padding 1em
   &__user
     display flex
     align-items center
+    margin-top 1em
+    margin-bottom 1em
 
   &__user-photo, &__user-name, &__stall-btn
     margin-right 1em
 
   &__user-name, &__stall-btn
     display block
+    color $headline-dark
 
   &__user-photo
     width 2em
@@ -74,6 +78,7 @@ export default {
     border 2px solid $bg-dark
     border-radius 3px
     padding 3px 6px
+
   &__btn-group
     display flex
     justify-content space-between
@@ -83,7 +88,7 @@ export default {
     width 48%
     border 2px solid $bg-dark
     text-align center
-    padding 6px 0
+    padding 3px 0
     border-radius 5px
 
     &-dark

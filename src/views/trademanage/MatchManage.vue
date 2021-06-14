@@ -11,7 +11,13 @@
       <h2 class="match-manage__tit">交易媒合</h2>
     </header>
     <div class="match-manage__cntr">
-      <Match v-for="(item, index) in matchData" :key="index" :match-data="item"/>
+      <Match
+        v-for="(item, index) in matchData"
+        :key="index"
+        :match-data="item"
+        class="match-manage__item"
+        :class="{'mr-0': (index % 2) === 1}"
+      />
     </div>
 
 
@@ -46,7 +52,13 @@ export default {
 
 <style lang="stylus">
 .match-manage
+  background-color $light
+  padding 1em
   &__cntr
     display flex
     flex-wrap wrap
+  &__item
+    width 49%
+    margin-right 2%
+    margin-top 2em
 </style>

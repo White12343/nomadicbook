@@ -12,7 +12,7 @@
       </div>
       <div class="ask-stall__detail ask-detail">
         <div class="ask-detail__info">
-        <BookPic class="ask-detail__pic" :book-photo="pdDetail.BookPhoto" :book-name="pdDetail.BookName"/>
+        <BookPic class="ask-detail__pic mx-auto" :book-photo="pdDetail.BookPhoto" :book-name="pdDetail.BookName"/>
           <BookInfo
             :user-name="pdDetail.UserName"
             :book-name="pdDetail.BookName"
@@ -96,15 +96,20 @@ export default {
     height 100%
 
   &__list
-    width 20%
+    min-width 20%
     height 100%
     overflow-y scroll
 
   &__item
     display block
-    padding 3px
+    padding 6px 1em
+    color $headline-dark
+    background-color $light
+    border-bottom 1px solid $gray
+    &:hover
+      background-color $gray
 .ask-detail
-  width 80%
+  flex-grow 2
   overflow-y scroll
   padding 1em
   &__pic

@@ -18,8 +18,8 @@
       </BookInfo>
     </div>
     <div class="detail__cntr">
-      <BookCntr cntr-title="簡介" :cntr="bookDesc.Introduction" />
-      <BookCntr cntr-title="書況" :cntr="bookDesc.Condition" />
+      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.Introduction" />
+      <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.Condition" />
     </div>
   </section>
 </template>
@@ -67,8 +67,17 @@ export default {
 .detail
   &__info
     display flex
+    background-color $light
+    box-shadow 0 0 5px $gray
   &__pic
     width 40%
-
-
+  &__cntr
+    background-color $light
+    padding 1em
+    margin-top 1em
+    box-shadow 0 0 5px $gray
+  &__desc
+    margin-bottom 2em
+.tarde-form
+  padding 1em
 </style>

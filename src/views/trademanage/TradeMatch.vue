@@ -74,6 +74,8 @@ export default {
 
 <style lang="stylus">
 .trade-match
+  background-color $light
+  padding 1em
   &__desc
     display flex
   &__list

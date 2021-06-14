@@ -1,15 +1,15 @@
 <template>
   <article class="match-card">
     <div class="match-card__cntr">
-      <div class="match-card__self">
+      <div class="match-card__item match-card__self">
         <BookCard :card-data="selfBook"/>
       </div>
-      <div class="match-card__other-side">
+      <div class="match-card__item match-card__other-side">
         <BookCard :card-data="otherSideBook"/>
       </div>
     </div>
     <div class="match-card__btns">
-      <router-link class="match-card__btn match-card__btn--light" to="/manage/matchdetail">查看資訊</router-link>
+      <router-link class="match-card__btn match-card__btn--light" to="/member/matchdetail">查看資訊</router-link>
       <a href="#" @click.prevent class="match-card__btn match-card__btn--dark">交易確認</a>
     </div>
 
@@ -48,19 +48,26 @@ export default {
 .match-card
   min-width 25%
   background-color #fff
-  padding 1em
   &__cntr
     display flex
+    justify-content space-between
+  &__item
+    width 48%
+
   &__self
     margin-right 1em
   &__btns
-    text-align right
+    margin-top 12px
+    display flex
   &__btn
+    display block
     border 2px solid $bg-dark
-    padding 3px
+    text-align center
+    padding 3px 6px
+    margin-right 6px
     border-radius 5px
     &--light
-      background-color $bg-light
+      background-color $light
       color $headline-dark
     &--dark
       background-color $bg-dark

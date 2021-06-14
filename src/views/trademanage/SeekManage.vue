@@ -5,7 +5,7 @@
       <h2 class="seek-manage__tit">我的徵求</h2>
     </header>
     <div class="seek-manage__cntr">
-      <BookCard v-for="(item, key) in pdData" :key="key" :card-data="item" />
+      <BookCard class="seek-manage__item" v-for="(item, key) in pdData" :key="key" :card-data="item" />
     </div>
 
   </section>
@@ -40,7 +40,12 @@ export default {
 
 <style lang="stylus">
 .seek-manage
+  background-color $light
+  padding 1em
   &__cntr
     display flex
     flex-wrap wrap
+  &__item
+    width 20%
+    margin-top 1em
 </style>

@@ -3,54 +3,36 @@
     "SeekId": 72526,
     "SeekBookId": 24937,
     "SeekBookName": "Hollie Williams",
-    "SeekBookPhoto": "http://lorempixel.com/150/200/technics/1",
+    "SeekBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9821/9781982147662.jpg",
     "SeekedBookId": 71386,
     "SeekedBookName": "Casey Wolf",
-    "SeekedBookPhoto": "http://lorempixel.com/150/200/technics/2"
+    "SeekedBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0083/9780008399474.jpg"
   },
   {
     "SeekId": 56589,
     "SeekBookId": 17118,
     "SeekBookName": "Lucille Larson",
-    "SeekBookPhoto": "http://lorempixel.com/150/200/technics/1",
+    "SeekBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/5293/9781529385212.jpg",
     "SeekedBookId": 23820,
     "SeekedBookName": "Maritza Wise",
-    "SeekedBookPhoto": "http://lorempixel.com/150/200/technics/2"
+    "SeekedBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0084/9780008472344.jpg"
   },
   {
     "SeekId": 77021,
     "SeekBookId": 12437,
     "SeekBookName": "Maura Meyer",
-    "SeekBookPhoto": "http://lorempixel.com/150/200/technics/1",
+    "SeekBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9788/4082/9788408237389.jpg",
     "SeekedBookId": 27304,
     "SeekedBookName": "Dana Rowe",
-    "SeekedBookPhoto": "http://lorempixel.com/150/200/technics/2"
+    "SeekedBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9788/4929/9788492966790.jpg"
   },
   {
     "SeekId": 70412,
     "SeekBookId": 12659,
     "SeekBookName": "Marcella Park",
-    "SeekBookPhoto": "http://lorempixel.com/150/200/technics/1",
+    "SeekBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9747/9781974710041.jpg",
     "SeekedBookId": 67800,
     "SeekedBookName": "Sally Mcdowell",
-    "SeekedBookPhoto": "http://lorempixel.com/150/200/technics/2"
-  },
-  {
-    "SeekId": 78279,
-    "SeekBookId": 14162,
-    "SeekBookName": "Rollins Diaz",
-    "SeekBookPhoto": "http://lorempixel.com/150/200/technics/1",
-    "SeekedBookId": 80367,
-    "SeekedBookName": "Eloise Maxwell",
-    "SeekedBookPhoto": "http://lorempixel.com/150/200/technics/2"
-  },
-  {
-    "SeekId": 67586,
-    "SeekBookId": 96019,
-    "SeekBookName": "Nichols Burton",
-    "SeekBookPhoto": "http://lorempixel.com/150/200/technics/1",
-    "SeekedBookId": 47728,
-    "SeekedBookName": "Hammond Dominguez",
-    "SeekedBookPhoto": "http://lorempixel.com/150/200/technics/2"
+    "SeekedBookPhoto": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9747/9781974714810.jpg"
   }
 ]

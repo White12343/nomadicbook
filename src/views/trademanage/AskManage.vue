@@ -11,7 +11,7 @@
       <h2 class="ask-manage__tit">請求交換</h2>
     </header>
     <div class="ask-manage__cntr">
-      <AskCard v-for="(item, index) in askData" :key="index" :ask-data="item" />
+      <AskCard class="ask-manage__item" v-for="(item, index) in askData" :key="index" :ask-data="item" />
     </div>
 
   </section>
@@ -49,7 +49,12 @@ export default {
 
 <style lang="stylus">
 .ask-manage
+  background-color $light
+  padding 1em
   &__cntr
     display flex
     flex-wrap wrap
+  &__item
+    width 20%
+    margin-top 1em
 </style>

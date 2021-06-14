@@ -4,7 +4,13 @@
       <h2 class="book-list__tit">列表頁</h2>
     </header>
     <div class="book-list__cntr">
-      <BookCard v-for="(item, key) in pdData" :key="key" :card-data="item" />
+      <BookCard
+        v-for="(item, key) in pdData"
+        :key="key"
+        :card-data="item"
+        class="book-list__item"
+        :class="{'mr-0': (key % 5) === 4}"
+      />
     </div>
   </section>
 </template>
@@ -40,5 +46,8 @@ export default {
   &__cntr
     display flex
     flex-wrap wrap
-
+  &__item
+    width 19%
+    margin-right 1.25%
+    margin-top 1em
 </style>

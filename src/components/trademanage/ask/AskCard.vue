@@ -1,7 +1,7 @@
 <template>
   <article class="ask-card">
     <BookCard :card-data="bookData"/>
-    <TradeBtn title="查看攤位" btn-style="light">
+    <TradeBtn title="查看攤位" btn-style="light" class="ask-card__btn mx-auto">
       <AskStall :seek-user-id="askData.SeekUserId"/>
     </TradeBtn>
   </article>
@@ -40,10 +40,8 @@ export default {
   min-width 20%
   background-color $light
   &__btn
-    border 2px solid $bg-dark
-    color $headline-dark
-    padding 3px
-    border-radius 5px
+    width 50%
+    margin-top 12px
 
 
 </style>
