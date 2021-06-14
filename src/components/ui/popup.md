@@ -1,3 +1,7 @@
+
+## 使用方式
+
+```
 <template>
   <div>
     <!-- 5. 做一個按鈕來打開 isOpen -->
@@ -30,3 +34,6 @@ export default {
 <style>
 
 </style>
+
+
+```

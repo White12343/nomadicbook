@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
 export default {
   name: 'SignIn',
   data() {
@@ -22,6 +21,7 @@ export default {
       password: '',
       verificationMailResult: true,
       verificationPasswordResult: true,
+      fromPath: '',
     }
   },
   watch: {
@@ -31,6 +31,11 @@ export default {
     password(newValue) {
       this.testPassword(newValue);
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.fromPath = from.path;
+    })
   },
   methods: {
     signIn() {
@@ -45,7 +50,7 @@ export default {
       }
       $cookies.set('isLogin', '1', '1d');
       this.$store.commit("changeLoginState");
-      this.$router.push('/');
+      this.$router.push(this.fromPath);
     },
     testEmail(newValue) {
       this.verificationMailResult = /^([\w\.\-]){1,64}\@([\w\.\-]){1,64}$/.test(newValue);

@@ -50,7 +50,7 @@ export default {
     signOut() {
       $cookies.set('isLogin', '0');
       this.$store.commit("changeLoginState");
-      this.$router.push('/');
+      this.$router.push('/login/signin');
       alert('已登出')
     },
   },

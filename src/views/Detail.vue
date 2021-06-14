@@ -9,12 +9,15 @@
         :publish-date="bookDesc.PublishDate"
         :publisher="bookDesc.Publisher"
       >
-        <TradeBtn class="book-info__trade-btn" title="我要交換">
-          <form class="tarde-form">
-            <h2 class="tarde-form__tit">我要交換</h2>
-            <input type="submit" value="送出" class="tarde-form__submit">
-          </form>
-        </TradeBtn>
+        <Btn
+          desc="我要交換"
+          btnStyle="dark"
+          class="book-info__trade-btn"
+          @click.native.stop="openPopup"
+        />
+        <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
+          <!-- 自定義內容  -->
+        </Popup>
       </BookInfo>
     </div>
     <div class="detail__cntr">
@@ -26,16 +29,19 @@
 
 <script>
 import { getBookDetail } from "@/request/api";
-import BookPic from '../components/detail/BookPic';
-import BookInfo from '../components/detail/BookInfo';
-import BookCntr from '../components/detail/BookCntr';
-import TradeBtn from '../components/detail/TradeBtn';
+import BookPic from '@/components/detail/BookPic';
+import BookInfo from '@/components/detail/BookInfo';
+import BookCntr from '@/components/detail/BookCntr';
+import Popup from '@/components/ui/Popup';
+import Btn from '@/components/ui/Btn';
+
 
 export default {
   namd: 'Detail',
   data() {
     return {
-      bookDesc: {}
+      bookDesc: {},
+      isOpenPopup: false,
     }
   },
   created() {
@@ -51,14 +57,24 @@ export default {
       })
 
   },
-  computed: {
-
+  methods: {
+    checkLogin() {
+      if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
+        alert('請先登入');
+        this.$router.push('/login/signin');
+      }
+    },
+    openPopup() {
+      this.checkLogin();
+      this.isOpenPopup = true;
+    }
   },
   components: {
     BookPic,
     BookInfo,
     BookCntr,
-    TradeBtn,
+    Btn,
+    Popup,
   }
 }
 </script>

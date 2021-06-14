@@ -1,6 +1,5 @@
 <template>
   <div class="popup">
-    <!-- <a href="#" class="popup__btn" :class='btnStyle' @click.stop.prevent="show">{{ title }}</a> -->
     <div class="popup__bg" v-if="isOpen">
       <div class="popup__window" v-if="isOpen" ref="main">
         <slot></slot>
@@ -12,9 +11,19 @@
 <script>
 export default {
   name: 'Popup',
+  props: ['visible'],
   data() {
     return {
       isOpen: false,
+    }
+  },
+  watch: {
+    visible(val) {
+      if(val){
+        this.show();
+      }else {
+        this.hide();
+      }
     }
   },
   methods: {
@@ -25,6 +34,7 @@ export default {
     hide() {
       this.isOpen = false;
       document.removeEventListener("click", this.hidePanel);
+      this.$emit("hide");
     },
     hidePanel (e) {
       if (this.$refs.main && !this.$refs.main.contains(e.target)) {

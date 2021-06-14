@@ -1,25 +1,39 @@
 <template>
   <article class="ask-card">
     <BookCard :card-data="bookData"/>
-    <TradeBtn title="查看攤位" btn-style="light" class="ask-card__btn mx-auto">
+    <Btn
+      desc="查看攤位"
+      btnStyle="light"
+       class="ask-card__btn mx-auto"
+      @click.native.stop="isOpenPopup = true"
+    />
+    <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
       <AskStall :seek-user-id="askData.SeekUserId"/>
-    </TradeBtn>
+    </Popup>
   </article>
 
 </template>
 
 <script>
-
-import TradeBtn from '@/components/detail/TradeBtn';
 import BookCard from '@/components//book/BookCard';
 import AskStall from '@/components/trademanage/ask/AskStall';
+import Btn from '@/components/ui/Btn';
+import Popup from '@/components/ui/Popup';
+
 export default {
+  props: ['askData'],
+  data() {
+    return {
+
+      isOpenPopup: false,
+    }
+  },
   components: {
     BookCard,
-    TradeBtn,
     AskStall,
+    Btn,
+    Popup,
   },
-  props: ['askData'],
   computed: {
     bookData() {
       return {
