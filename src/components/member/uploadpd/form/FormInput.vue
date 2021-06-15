@@ -14,5 +14,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.form__input-group
+  margin-bottom 1em
 </style>

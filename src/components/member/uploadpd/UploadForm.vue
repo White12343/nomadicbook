@@ -9,7 +9,7 @@
       <FormTextarea title="書況" nameId="Condition"/>
 
       <h3 class="upload-form__tit">交易方式</h3>
-      <h4>請至少選擇一種交易方式</h4>
+      <h4 class="upload-form__subtit">*請至少選擇一種交易方式</h4>
       <AddressSelect title="面交" nameId="FaceTrade"/>
       <AddressSelect title="店到店" nameId="Store"/>
       <AddressSelect title="黑貓" nameId="BlackCat"/>
@@ -66,5 +66,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.upload-form
+  &__tit, &__subtit
+    margin-bottom 6px
+  &__subtit
+    color $danger
 </style>

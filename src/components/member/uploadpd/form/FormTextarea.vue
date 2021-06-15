@@ -13,6 +13,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus">
+.form__input-group
+  margin-bottom 1em
 </style>
