@@ -22,16 +22,20 @@ export default {
   display block
   border 2px solid $bg-dark
   text-align center
-  padding 6px 0
+  padding 3px 0
   border-radius 5px
   background-color $bg-dark
   color $headline-light
+  transition all .3s
 
 .dark
-  background-color $bg-dark
+  background-color $dark
   color $headline-light
 .light
-  background-color $bg-light
+  background-color $light
   color $headline-dark
+  &:hover
+    background-color $dark
+    color $headline-light
 
 </style>

@@ -17,7 +17,8 @@
       <AddressSelect title="i 郵箱" nameId="MailBox"/>
       <div class="upload-form__btn-group">
         <a href="#" class="upload-form__btn">取消</a>
-        <button class="upload-form__btn" type="submit">上架</button>
+        <button class="upload-form__btn" type="submit" v-if="!bookId" @click="upLoadBook">上架</button>
+        <button class="upload-form__btn" type="submit" v-else @click="updataBookData">更新</button>
       </div>
     </form>
   </div>
@@ -31,11 +32,28 @@ import AddressSelect from './form/AddressSelect';
 
 export default {
   name: 'UploadFrom',
+  props: ['bookId'],
   data() {
     return {
       uploadData: {
 
       }
+    }
+  },
+  created() {
+    if(this.bookId) {
+      console.log('上架頁：帶入' + this.bookId + '資料');
+    }
+  },
+  methods: {
+
+    upLoadBook() {
+      alert('上架頁：上架產品資料');
+      this.$router.push('/member/booth');
+    },
+    updataBookData() {
+      alert('上架頁：更新產品資料' + this.bookId);
+      this.$router.push('/member/booth');
     }
   },
   components: {

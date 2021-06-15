@@ -56,6 +56,7 @@ export default {
   &__btn
     width 50%
     margin-top 12px
+    background-color $light
 
 
 </style>

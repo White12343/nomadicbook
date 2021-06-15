@@ -11,7 +11,9 @@ export const getBookList = () => req("get", "/json/pd.json");
 // 取得產品 detail
 export const getBookDetail = () => req("get", "/json/detail.json");
 
-// 交易管理
+// 管理
+// Booth
+export const getBoothBookList = () => req("get", "/json/pd.json");
 // Ask Manage
 export const getAskBookList = () => req("get", "/json/ask.json");
 // Match Manage

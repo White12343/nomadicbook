@@ -5,7 +5,7 @@
         :class="{'member__link--active': item.path === nowPath}"
         v-for="item, index in mamberNav"
         :key="index"
-        :to="`/member/${item.path}`"
+        :to="item.path"
         @click.native="changePath(item.path)"
       >
         {{ item.title }}
@@ -24,23 +24,27 @@ export default {
     return {
       mamberNav: [
         {
-          path: 'seek',
+          path: '/member/booth',
+          title: '我的攤位',
+        },
+        {
+          path: '/member/seek',
           title: '我的徵求',
         },
         {
-          path: 'ask',
+          path: '/member/ask',
           title: '別人要求',
         },
         {
-          path: 'match',
+          path: '/member/match',
           title: '交易媒合',
         },
         {
-          path: 'uploadpd',
+          path: '/uploadpd',
           title: '上架新書',
         }
       ],
-      nowPath: 'seek',
+      nowPath: '/member/booth',
     }
   },
   methods: {
@@ -65,10 +69,11 @@ export default {
     background-color $light
     color $headline-dark
     border 2px solid $bg-dark
-    border-radius 3px
+    border-radius 5px
     text-align center
     margin-bottom 1em
     padding 3px
+    transition all .3s
     &:hover, &--active
       background-color $dark
       color $headline-light
