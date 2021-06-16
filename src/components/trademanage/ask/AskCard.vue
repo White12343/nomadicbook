@@ -4,7 +4,7 @@
     <Btn
       desc="查看攤位"
       btnStyle="light"
-       class="ask-card__btn mx-auto"
+      class="ask-card__btn mx-auto"
       @click.native.stop="isOpenPopup = true"
     />
     <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
@@ -55,7 +55,7 @@ export default {
   background-color $light
   &__btn
     width 50%
-    margin-top 12px
+    margin-bottom 1em
     background-color $light
 
 

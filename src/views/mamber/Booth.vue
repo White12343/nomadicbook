@@ -48,5 +48,9 @@ export default {
   &__item
     width 20%
     margin-top 1em
+    box-shadow 0 0 3px $gray
+    transition all .3s
+    &:hover
+      box-shadow 2px 2px 3px $gray
 
 </style>

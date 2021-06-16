@@ -40,11 +40,9 @@ export default {
     }
   },
   computed: {
-
     ...mapState([
       'isLogin',
     ]),
-
   },
   methods: {
     signOut() {

@@ -45,9 +45,6 @@ export default {
   display flex
   flex-direction column-reverse
   background-color $light
-  box-shadow 0 0 3px $gray
-  &:hover
-    box-shadow 2px 2px 3px $gray
 
   &__inner
     height 220px

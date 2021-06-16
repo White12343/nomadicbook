@@ -1,9 +1,12 @@
 <template>
   <article class="booth-card">
     <BookCard :card-data="BoothData"/>
-    <router-link class="booth-card__btn mx-auto"
-      :to="{ path: '/uploadpd', query: {id: BoothData.id}}"
-    >編輯</router-link>
+    <div class="booth-card__btns">
+      <a href="#" class="booth-card__btn" @click.prevent>下架</a>
+      <router-link class="booth-card__btn"
+        :to="{ path: '/uploadpd', query: {id: BoothData.id}}"
+      >編輯</router-link>
+    </div>
   </article>
 </template>
 
@@ -26,9 +29,12 @@ export default {
 <style lang="stylus">
 .booth-card
   background-color $light
+  &__btns
+    display flex
+    justify-content space-around
   &__btn
-    width 50%
-    margin-top 12px
+    width 35%
+    margin-bottom 1em
     display block
     border 2px solid $bg-dark
     text-align center

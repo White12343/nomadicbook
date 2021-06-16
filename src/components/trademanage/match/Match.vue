@@ -57,7 +57,8 @@ export default {
   &__self
     margin-right 1em
   &__btns
-    margin-top 12px
+    margin-bottom 1em
+    margin-left 1em
     display flex
   &__btn
     display block

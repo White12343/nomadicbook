@@ -16,7 +16,7 @@
       <AddressSelect title="郵寄" nameId="PostOffice"/>
       <AddressSelect title="i 郵箱" nameId="MailBox"/>
       <div class="upload-form__btn-group">
-        <a href="#" class="upload-form__btn">取消</a>
+        <router-link to="/member" class="upload-form__btn">取消</router-link>
         <button class="upload-form__btn" type="submit" v-if="!bookId" @click="upLoadBook">上架</button>
         <button class="upload-form__btn" type="submit" v-else @click="updataBookData">更新</button>
       </div>
