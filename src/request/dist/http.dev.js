@@ -15,7 +15,8 @@ var LOACL_PATH = '/static/'; // baseURL 是 API 的主要 Domain，只後發請�
 var instance = _axios["default"].create({
   baseURL: API_PATH,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "http://35.236.167.85/"
   },
   timeout: 20000
 }); // request 的攔截器 (Request Interceptors)，放入兩個函式做為參數。

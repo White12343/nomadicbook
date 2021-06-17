@@ -17,22 +17,23 @@
 
     </div>
     <div class="book-info__btn-group">
-
-      <!-- <TradeBtn class="book-info__trade-btn" title="我要交換">
-        <form class="tarde-form">
-          <h2 class="tarde-form__tit">我要交換</h2>
-          <input type="submit" value="送出" class="tarde-form__submit">
-        </form>
-      </TradeBtn> -->
-      <slot></slot>
-
+      <Btn
+        desc="我要交換"
+        btnStyle="dark"
+        class="book-info__trade-btn"
+        @click.native.stop="openPopup"
+      />
+      <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
+        <!-- 自定義內容  -->
+      </Popup>
       <a href="#" class="book-info__btn book-info__btn-light">聊聊</a>
     </div>
   </article>
 </template>
 
 <script>
-import TradeBtn from './TradeBtn';
+import Popup from '@/components/ui/Popup';
+import Btn from '@/components/ui/Btn';
 
 export default {
   name: 'BookInfo',
@@ -45,10 +46,24 @@ export default {
   ],
   data() {
     return {
+      isOpenPopup: false,
+    }
+  },
+  methods: {
+    checkLogin() {
+      if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
+        alert('請先登入');
+        this.$router.push('/login/signin');
+      }
+    },
+    openPopup() {
+      this.checkLogin();
+      this.isOpenPopup = true;
     }
   },
   components: {
-    TradeBtn,
+    Popup,
+    Btn,
   }
 }
 </script>

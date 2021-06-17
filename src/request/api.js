@@ -16,7 +16,8 @@ export const checkMail = (mail) => req("get", "/user/mail", mail);
 export const getBookList = () => req("get", "/product/list");
 // 取得產品 detail
 // export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
-export const getBookDetail = (id) => req("get", "/product/"+id);
+export const getBookDetail = (id) => req("get", "/product/" + id);
+
 
 // 管理
 // Booth
@@ -30,14 +31,23 @@ export const getMatchDetail = () => req("get", "/json/matchdetail.json");
 // Seek Manage
 export const getSeekBookList = () => req("get", "/json/pd.json");
 
+// 上架
+export const uploadProduct = (data) => req("post", "/product/new", data);
+
+
+// 地址
+// city
+export const getCity = () => req("get", "/Trade/address/city");
+export const getArea = (data) => req("get", "/Trade/address/area", data);
+export const getRoad = (data) => req("get", "/Trade/address/road", data);
 
 
 
 // 使用範例
 /*
-import { checkNickName } from "@/request/api";
+import { uploadProduct } from "@/request/api";
 
-checkNickName()
+uploadProduct()
   .then(res => {
     console.log(res);
   })

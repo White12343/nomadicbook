@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
+exports.getRoad = exports.getArea = exports.getCity = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -86,12 +86,39 @@ exports.getMatchDetail = getMatchDetail;
 
 var getSeekBookList = function getSeekBookList() {
   return (0, _http["default"])("get", "/json/pd.json");
+}; // 上架
+
+
+exports.getSeekBookList = getSeekBookList;
+
+var uploadProduct = function uploadProduct(data) {
+  return (0, _http["default"])("post", "/product/new", data);
+}; // 地址
+// city
+
+
+exports.uploadProduct = uploadProduct;
+
+var getCity = function getCity() {
+  return (0, _http["default"])("get", "/Trade/address/city");
+};
+
+exports.getCity = getCity;
+
+var getArea = function getArea(data) {
+  return (0, _http["default"])("get", "/Trade/address/area", data);
+};
+
+exports.getArea = getArea;
+
+var getRoad = function getRoad(data) {
+  return (0, _http["default"])("get", "/Trade/address/road", data);
 }; // 使用範例
 
 /*
-import { checkNickName } from "@/request/api";
+import { uploadProduct } from "@/request/api";
 
-checkNickName()
+uploadProduct()
   .then(res => {
     console.log(res);
   })
@@ -102,4 +129,4 @@ checkNickName()
 */
 
 
-exports.getSeekBookList = getSeekBookList;
+exports.getRoad = getRoad;

@@ -8,17 +8,7 @@
         :book-author="bookDesc.author"
         :publish-date="bookDesc.releaseDate"
         :publisher="bookDesc.publishingHouse"
-      >
-        <Btn
-          desc="我要交換"
-          btnStyle="dark"
-          class="book-info__trade-btn"
-          @click.native.stop="openPopup"
-        />
-        <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
-          <!-- 自定義內容  -->
-        </Popup>
-      </BookInfo>
+      />
     </div>
     <div class="detail__cntr">
       <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
@@ -32,8 +22,6 @@ import { getBookDetail } from "@/request/api";
 import BookPic from '@/components/detail/BookPic';
 import BookInfo from '@/components/detail/BookInfo';
 import BookCntr from '@/components/detail/BookCntr';
-import Popup from '@/components/ui/Popup';
-import Btn from '@/components/ui/Btn';
 
 
 export default {
@@ -58,23 +46,11 @@ export default {
 
   },
   methods: {
-    checkLogin() {
-      if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
-        alert('請先登入');
-        this.$router.push('/login/signin');
-      }
-    },
-    openPopup() {
-      this.checkLogin();
-      this.isOpenPopup = true;
-    }
   },
   components: {
     BookPic,
     BookInfo,
     BookCntr,
-    Btn,
-    Popup,
   }
 }
 </script>

@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     isLoading: true,
     isLogin: $cookies.get('isLogin'),
-    nickName: $cookies.get('nickName'),
+    user: $cookies.get('user'),
   },
   mutations: {
     // 將 state 設為參數
@@ -17,7 +17,7 @@ const store = new Vuex.Store({
     },
     changeLoginState(state) {
       state.isLogin = $cookies.get('isLogin');
-      state.nickName = $cookies.get('nickName');
+      state.user = $cookies.get('user');
     }
   }
 

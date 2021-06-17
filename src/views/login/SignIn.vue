@@ -58,8 +58,12 @@ export default {
       });
       userSignin(signInData)
         .then(res => {
-          $cookies.set('isLogin', '1', '1d');
-          $cookies.set('nickName', res.data.nickName, '1d');
+          this.$cookies.set('isLogin', '1', '1d');
+          const user = {
+            id: res.data.userId,
+            nickName: res.data.nickName
+          }
+          this.$cookies.set('user', user, '1d');
           this.$store.commit("changeLoginState");
           this.$router.push(this.fromPath);
         })
