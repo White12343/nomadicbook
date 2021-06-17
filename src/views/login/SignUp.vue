@@ -3,20 +3,25 @@
     <h2 class="signup__tit">註冊</h2>
     <form class="signup__form">
       <input type="text" class="signup__input" placeholder="暱稱" v-model.lazy="nickName" autocomplete>
-      <p class="check__mail" v-if="!verificationNickNameResult">請輸入正確暱稱，至少 2 個字符，且不得超出 8 個字符</p>
+      <p class="check__mail" v-if="!checkNickName.verificationResult">請輸入正確暱稱，至少 2 個字符，且不得超出 8 個字符</p>
+      <p class="check__mail" v-if="checkNickName.isRepeat">此暱稱已被使用</p>
+      <a href="#" @click.prevent="checkNickNameIsRepeat">檢查暱稱</a>
       <input type="text" class="signup__input signup__mail" placeholder="Mail" v-model.lazy="mail" autocomplete>
-      <p class="check__mail" v-if="!verificationMailResult">請輸入正確 mail 格式</p>
+      <p class="check__mail" v-if="!checkMail.verificationResult">請輸入正確 mail 格式</p>
+      <p class="check__mail" v-if="checkMail.isRepeat">此 Mail 已被註冊過</p>
+      <a href="#" @click.prevent="checkMailIsRepeat">檢查 Mail</a>
       <input type="password" class="signup__input signup__password" placeholder="密碼" v-model.lazy="password" autocomplete>
       <p class="check__password" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
       <input type="password" class="signup__input signup__password" placeholder="確認密碼" v-model.lazy="passwordCheck" autocomplete>
       <p class="check__password" v-if="!isPasswordCheck">請輸入相同密碼</p>
-      <input type="submit" class="signup__btn" value="註冊" @click="signUp">
+      <input type="submit" class="signup__btn" value="註冊" @click.prevent="signUp">
       <h4 class="signup__signin-link fs-6 text-center">已經有帳號？<router-link class="signin__link" to="/login/signin">登入</router-link></h4>
     </form>
   </div>
 </template>
 
 <script>
+import { userSignUp, checkNickName, checkMail } from "@/request/api";
 export default {
   name: 'SignUp',
   data() {
@@ -25,18 +30,31 @@ export default {
       mail: '',
       password: '',
       passwordCheck: '',
-      verificationNickNameResult: true,
-      verificationMailResult: true,
       verificationPasswordResult: true,
       isPasswordCheck: true,
+      checkNickName: {
+        isCheck: false,
+        isRepeat: false,
+        verificationResult: true,
+        // msg: '',
+      },
+      checkMail: {
+        isCheck: false,
+        isRepeat: false,
+        verificationResult: true,
+        // msg: '',
+      }
+
     }
   },
   watch: {
     nickName(newValue) {
       this.testNickName(newValue);
+      this.checkNickName.isCheck = false;
     },
     mail(newValue) {
       this.testEmail(newValue);
+      this.checkMail.isCheck = false;
     },
     password(newValue) {
       this.testPassword(newValue);
@@ -47,6 +65,7 @@ export default {
   },
   methods: {
     signUp() {
+      // 如果沒填就全檢查一邊告知使用者
       if(this.nickName === '' || this.mail === '' || this.password === '' || this.passwordCheck === ''){
         this.testNickName(this.nickName);
         this.testEmail(this.mail);
@@ -54,17 +73,50 @@ export default {
         this.checkPassword(this.passwordCheck)
         return;
       }
-
-      if(!this.verificationMailResult || !this.verificationPasswordResult || !this.isPasswordCheck){
+      // 如果沒按過檢查暱稱，就跳訊息告知
+      if(!this.checkNickName.isCheck) {
+        alert('請先檢查暱稱是否可用');
         return;
       }
-      console.log('註冊');
+      // 如果沒按過檢查mail，就跳訊息告知
+      if(!this.checkMail.isCheck) {
+        alert('請先檢查 Mail 是否可用');
+        return;
+      }
+      // 檢查是否重複
+      if(this.checkNickName.isRepeat || this.checkMail.isRepeat){
+        alert('有重複');
+        return;
+      }
+      // 檢查格式
+      if(!this.checkNickName.verificationResult || !this.checkMail.verificationResult || !this.verificationPasswordResult || !this.isPasswordCheck) {
+        alert('格式有誤');
+        return
+      }
+      // {
+      //   "Nickname": "lee",
+      //   "Email": "abc@gmail.com",
+      //   "Password": "test1234"
+      // }
+      const signUpData = JSON.stringify({
+        Nickname: this.nickName,
+        Email: this.mail,
+        Password: this.password
+      })
+      userSignUp(signUpData)
+        .then(res => {
+          alert('註冊成功');
+          this.$router.push('/login/signin');
+        })
+        .catch(error => {
+          alert('註冊失敗');
+        })
     },
     testNickName(newValue) {
-      this.verificationNickNameResult = /^([\d\w\u4e00-\u9fa5,\.;\:"'?!\-]){2,8}$/.test(newValue);
+      this.checkNickName.verificationResult = /^([\d\w\u4e00-\u9fa5,\.;\:"'?!\-]){2,8}$/.test(newValue);
     },
     testEmail(newValue) {
-      this.verificationMailResult = /^([\w\.\-]){1,64}\@([\w\.\-]){1,64}$/.test(newValue);
+      this.checkMail.verificationResult = /^([\w\.\-]){1,64}\@([\w\.\-]){1,64}$/.test(newValue);
     },
     testPassword(newValue) {
       // 至少八個字符，至少一個字母和一個數字
@@ -72,7 +124,39 @@ export default {
     },
     checkPassword(newValue) {
       this.isPasswordCheck = (newValue === this.password);
-    }
+    },
+    checkNickNameIsRepeat() {
+      if(this.nickName === ''){
+        return;
+      }
+      this.checkNickName.isCheck = true;
+      checkNickName({
+        Nickname: this.nickName
+      })
+        .then(res => {
+          this.checkNickName.isRepeat = false;
+        })
+        .catch(error => {
+          // this.checkNickName.msg = error.response.data;
+          this.checkNickName.isRepeat = true;
+        })
+    },
+    checkMailIsRepeat() {
+      if(this.mail === ''){
+        return;
+      }
+      this.checkMail.isCheck = true;
+      checkMail({
+        Email: this.mail
+      })
+        .then(res => {
+          this.checkMail.isRepeat = false;
+        })
+        .catch(error => {
+          console.log(error.response);
+          this.checkMail.isRepeat = true;
+        })
+    },
   }
 }
 </script>

@@ -3,37 +3,46 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.userDelete = exports.userLogOut = exports.userLogIn = exports.userSignUp = void 0;
+exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userLogOut = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // user.js
+// user
 var userSignUp = function userSignUp(signUpData) {
-  return (0, _http["default"])("post", "/user/sign-in", signUpData);
+  return (0, _http["default"])("post", "/user/signup", signUpData);
 };
 
 exports.userSignUp = userSignUp;
 
-var userLogIn = function userLogIn(logInData) {
-  return (0, _http["default"])("post", "/user/log-in", logInData);
+var userSignin = function userSignin(logInData) {
+  return (0, _http["default"])("post", "/user/signin", logInData);
 };
 
-exports.userLogIn = userLogIn;
+exports.userSignin = userSignin;
 
 var userLogOut = function userLogOut() {
-  return (0, _http["default"])("get", "/user/log-out");
-};
+  return (0, _http["default"])("get", "/user/logout");
+}; // 檢查
+
 
 exports.userLogOut = userLogOut;
 
-var userDelete = function userDelete(userNo) {
-  return (0, _http["default"])("delete", "/user/delete", userNo);
-}; // 取得產品列表
+var checkNickName = function checkNickName(nickName) {
+  return (0, _http["default"])("get", "/user/name", nickName);
+};
+
+exports.checkNickName = checkNickName;
+
+var checkMail = function checkMail(mail) {
+  return (0, _http["default"])("get", "/user/mail", mail);
+}; // export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
+// 取得產品列表
 
 
-exports.userDelete = userDelete;
+exports.checkMail = checkMail;
 
 var getBookList = function getBookList() {
   return (0, _http["default"])("get", "/json/pd.json");
@@ -83,9 +92,9 @@ var getSeekBookList = function getSeekBookList() {
 }; // 使用範例
 
 /*
-import { getBookList } from "@/request/api";
+import { checkNickName } from "@/request/api";
 
-getBookList()
+checkNickName()
   .then(res => {
     console.log(res);
   })

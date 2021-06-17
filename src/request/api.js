@@ -1,10 +1,15 @@
 // user.js
 import req from "./http";
+// user
+export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
+export const userSignin = (logInData) => req("post", "/user/signin", logInData);
+export const userLogOut = () => req("get", "/user/logout");
+// 檢查
+export const checkNickName = (nickName) => req("get", "/user/name", nickName);
+export const checkMail = (mail) => req("get", "/user/mail", mail);
 
-export const userSignUp = (signUpData) => req("post", "/user/sign-in", signUpData);
-export const userLogIn = (logInData) => req("post", "/user/log-in", logInData);
-export const userLogOut = () => req("get", "/user/log-out");
-export const userDelete = (userNo) => req("delete", "/user/delete", userNo);
+
+// export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
 
 // 取得產品列表
 export const getBookList = () => req("get", "/json/pd.json");
@@ -28,9 +33,9 @@ export const getSeekBookList = () => req("get", "/json/pd.json");
 
 // 使用範例
 /*
-import { getBookList } from "@/request/api";
+import { checkNickName } from "@/request/api";
 
-getBookList()
+checkNickName()
   .then(res => {
     console.log(res);
   })

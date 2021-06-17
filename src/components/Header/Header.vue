@@ -10,7 +10,7 @@
         </form>
 
         <div class="header__signin-btn" v-if="isLogin === '1'">
-          <router-link class="header__link header__nav-item nav__link" to="/member">Lee</router-link>
+          <router-link class="header__link header__nav-item nav__link" to="/member">{{nickName}}</router-link>
           <a
             href="#"
             class="header__link header__nav-item nav__link"
@@ -42,6 +42,7 @@ export default {
   computed: {
     ...mapState([
       'isLogin',
+      'nickName',
     ]),
   },
   methods: {
