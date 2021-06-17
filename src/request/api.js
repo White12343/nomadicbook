@@ -3,7 +3,7 @@ import req from "./http";
 // user
 export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
 export const userSignin = (logInData) => req("post", "/user/signin", logInData);
-export const userLogOut = () => req("get", "/user/logout");
+// export const userLogOut = () => req("get", "/user/logout");
 // 檢查
 export const checkNickName = (nickName) => req("get", "/user/name", nickName);
 export const checkMail = (mail) => req("get", "/user/mail", mail);
@@ -12,9 +12,11 @@ export const checkMail = (mail) => req("get", "/user/mail", mail);
 // export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
 
 // 取得產品列表
-export const getBookList = () => req("get", "/json/pd.json");
+// export const getBookList = () => req("get", "/json/pd.json"); // 測試用
+export const getBookList = () => req("get", "/product/list");
 // 取得產品 detail
-export const getBookDetail = () => req("get", "/json/detail.json");
+// export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
+export const getBookDetail = (id) => req("get", "/product/"+id);
 
 // 管理
 // Booth

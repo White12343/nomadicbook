@@ -1,0 +1,29 @@
+{
+  "UserId": 1,
+  "PublishDateDate": "2021-06-17",
+  "ISBN": "9789864793129",
+  "BookName": "漫步華爾街",
+  "Author": "莫基爾",
+  "PublishingHouse": "天下文化",
+  "CategoryId": 1,
+  "BookLong": 21,
+  "BookWidth": 15,
+  "BookHigh": 2,
+  "Introduction": "最具影響力的投資經典、投資新手必讀書單",
+  "Condition": "二手書，九成新",
+  "StoreAddress": null,
+  "StoreName": null,
+  "MailBoxAddress": null,
+  "MailBoxName": null,
+  "HomeAddress": "新北市板橋區文化路一段266號",
+  "FaceTradeCity": "新北市",
+  "FaceTradeArea": "板橋區",
+  "FaceTradeRoad": "文化路",
+  "FaceTradePath": "一段266號",
+  "FaceTradeDetail": "田明大樓正門口",
+  "TrueName": "李翊銘",
+  "CellphoneNumber": "0983191227",
+  "BookPhoto":[
+      "aaa"
+  ]
+}

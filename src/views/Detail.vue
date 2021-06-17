@@ -1,13 +1,13 @@
 <template>
   <section class="detail">
     <div class="detail__info">
-      <BookPic class="detail__pic" :book-photo="bookDesc.BookPhoto" :book-name="bookDesc.BookName"/>
+      <BookPic class="detail__pic" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
       <BookInfo
-        :user-name="bookDesc.UserName"
-        :book-name="bookDesc.BookName"
-        :book-author="bookDesc.Author"
-        :publish-date="bookDesc.PublishDate"
-        :publisher="bookDesc.Publisher"
+        :user-name="bookDesc.userName"
+        :book-name="bookDesc.bookName"
+        :book-author="bookDesc.author"
+        :publish-date="bookDesc.releaseDate"
+        :publisher="bookDesc.publishingHouse"
       >
         <Btn
           desc="我要交換"
@@ -21,8 +21,8 @@
       </BookInfo>
     </div>
     <div class="detail__cntr">
-      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.Introduction" />
-      <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.Condition" />
+      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
+      <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.condition" />
     </div>
   </section>
 </template>
@@ -48,9 +48,9 @@ export default {
     console.log(this.$route.params.id);
     // 用 id 去 call api
     let vm = this;
-    getBookDetail()
+    getBookDetail(this.$route.params.id)
       .then(res => {
-        vm.bookDesc = res.data[0];
+        vm.bookDesc = res.data;
       })
       .catch(error => {
         console.log(error);

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userLogOut = exports.userSignin = exports.userSignUp = void 0;
+exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -19,16 +19,11 @@ exports.userSignUp = userSignUp;
 
 var userSignin = function userSignin(logInData) {
   return (0, _http["default"])("post", "/user/signin", logInData);
-};
+}; // export const userLogOut = () => req("get", "/user/logout");
+// 檢查
+
 
 exports.userSignin = userSignin;
-
-var userLogOut = function userLogOut() {
-  return (0, _http["default"])("get", "/user/logout");
-}; // 檢查
-
-
-exports.userLogOut = userLogOut;
 
 var checkNickName = function checkNickName(nickName) {
   return (0, _http["default"])("get", "/user/name", nickName);
@@ -40,19 +35,21 @@ var checkMail = function checkMail(mail) {
   return (0, _http["default"])("get", "/user/mail", mail);
 }; // export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
 // 取得產品列表
+// export const getBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
 exports.checkMail = checkMail;
 
 var getBookList = function getBookList() {
-  return (0, _http["default"])("get", "/json/pd.json");
+  return (0, _http["default"])("get", "/product/list");
 }; // 取得產品 detail
+// export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
 
 
 exports.getBookList = getBookList;
 
-var getBookDetail = function getBookDetail() {
-  return (0, _http["default"])("get", "/json/detail.json");
+var getBookDetail = function getBookDetail(id) {
+  return (0, _http["default"])("get", "/product/" + id);
 }; // 管理
 // Booth
 

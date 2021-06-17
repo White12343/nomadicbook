@@ -1,14 +1,14 @@
 <template>
-  <article class="card" :id="cardData.id">
+  <article class="card" :id="cardData.bookId">
     <header class="card__header">
       <router-link class="card__link" :to="{
           name: 'Detail',
           params: {
-            id: cardData.id,
+            id: cardData.bookId,
           }
         }">
         <h3 class="card__tit">
-          {{ cardData.name }}
+          {{ cardData.bookName }}
         </h3>
       </router-link>
 
@@ -17,11 +17,11 @@
     <router-link class="card__link" :to="{
         name: 'Detail',
         params: {
-          id: cardData.id,
+          id: cardData.bookId,
         }
       }">
       <figure class="card__inner">
-        <img :src="cardData.imgUrl" :alt="cardData.name" class="card__img img-resp">
+        <img :src="cardData.bookPhoto" :alt="cardData.name" class="card__img img-resp">
       </figure>
     </router-link>
   </article>
