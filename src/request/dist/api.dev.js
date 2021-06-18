@@ -58,34 +58,39 @@ exports.getBookDetail = getBookDetail;
 
 var getBoothBookList = function getBoothBookList() {
   return (0, _http["default"])("get", "/json/pd.json");
-}; // Ask Manage
+}; // 測試用
+// Ask Manage
 
 
 exports.getBoothBookList = getBoothBookList;
 
 var getAskBookList = function getAskBookList() {
   return (0, _http["default"])("get", "/json/ask.json");
-}; // Match Manage
+}; // 測試用
+// Match Manage
 
 
 exports.getAskBookList = getAskBookList;
 
 var getMatchList = function getMatchList() {
   return (0, _http["default"])("get", "/json/match.json");
-}; // Match Detail
+}; // 測試用
+// Match Detail
 
 
 exports.getMatchList = getMatchList;
 
 var getMatchDetail = function getMatchDetail() {
   return (0, _http["default"])("get", "/json/matchdetail.json");
-}; // Seek Manage
+}; // 測試用
+// Seek Manage
+// export const getSeekBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
 exports.getMatchDetail = getMatchDetail;
 
-var getSeekBookList = function getSeekBookList() {
-  return (0, _http["default"])("get", "/json/pd.json");
+var getSeekBookList = function getSeekBookList(id) {
+  return (0, _http["default"])("get", "/seek/myself", id);
 }; // 上架
 
 

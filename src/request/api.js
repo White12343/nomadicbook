@@ -21,15 +21,16 @@ export const getBookDetail = (id) => req("get", "/product/" + id);
 
 // 管理
 // Booth
-export const getBoothBookList = () => req("get", "/json/pd.json");
+export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
 // Ask Manage
-export const getAskBookList = () => req("get", "/json/ask.json");
+export const getAskBookList = () => req("get", "/json/ask.json"); // 測試用
 // Match Manage
-export const getMatchList = () => req("get", "/json/match.json");
+export const getMatchList = () => req("get", "/json/match.json"); // 測試用
 // Match Detail
-export const getMatchDetail = () => req("get", "/json/matchdetail.json");
+export const getMatchDetail = () => req("get", "/json/matchdetail.json"); // 測試用
 // Seek Manage
-export const getSeekBookList = () => req("get", "/json/pd.json");
+// export const getSeekBookList = () => req("get", "/json/pd.json"); // 測試用
+export const getSeekBookList = (id) => req("get", "/seek/myself", id);
 
 // 上架
 export const uploadProduct = (data) => req("post", "/product/new", data);

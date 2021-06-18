@@ -3,17 +3,19 @@
     <h2 class="signup__tit">註冊</h2>
     <form class="signup__form">
       <input type="text" class="signup__input" placeholder="暱稱" v-model.lazy="nickName" autocomplete>
-      <p class="check__mail" v-if="!checkNickName.verificationResult">請輸入正確暱稱，至少 2 個字符，且不得超出 8 個字符</p>
-      <p class="check__mail" v-if="checkNickName.isRepeat">此暱稱已被使用</p>
+      <p class="check__name check--danger" v-if="!checkNickName.verificationResult">請輸入正確暱稱，至少 2 個字符，且不得超出 8 個字符</p>
+      <p class="check__name check--danger" v-if="checkNickName.isRepeat">此暱稱已被使用</p>
+      <p class="check__name check--success" v-if="checkNickName.isCheck && !checkNickName.isRepeat">此暱稱可使用</p>
       <a href="#" @click.prevent="checkNickNameIsRepeat">檢查暱稱</a>
       <input type="text" class="signup__input signup__mail" placeholder="Mail" v-model.lazy="mail" autocomplete>
-      <p class="check__mail" v-if="!checkMail.verificationResult">請輸入正確 mail 格式</p>
-      <p class="check__mail" v-if="checkMail.isRepeat">此 Mail 已被註冊過</p>
+      <p class="check__mail check--danger" v-if="!checkMail.verificationResult">請輸入正確 mail 格式</p>
+      <p class="check__mail check--danger" v-if="checkMail.isRepeat">此 Mail 已被註冊過</p>
+      <p class="check__name check--success" v-if="checkMail.isCheck && !checkMail.isRepeat">此 Mail 可使用</p>
       <a href="#" @click.prevent="checkMailIsRepeat">檢查 Mail</a>
       <input type="password" class="signup__input signup__password" placeholder="密碼" v-model.lazy="password" autocomplete>
-      <p class="check__password" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
+      <p class="check__password check--danger" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
       <input type="password" class="signup__input signup__password" placeholder="確認密碼" v-model.lazy="passwordCheck" autocomplete>
-      <p class="check__password" v-if="!isPasswordCheck">請輸入相同密碼</p>
+      <p class="check__password check--danger" v-if="!isPasswordCheck">請輸入相同密碼</p>
       <input type="submit" class="signup__btn" value="註冊" @click.prevent="signUp">
       <h4 class="signup__signin-link fs-6 text-center">已經有帳號？<router-link class="signin__link" to="/login/signin">登入</router-link></h4>
     </form>
@@ -189,8 +191,11 @@ export default {
 
 
 .check
-  &__mail, &__password
-    color $danger
+  &__name, &__mail, &__password
     margin 0
     font-size $font-sizes-xs
+  &--danger
+    color $danger
+  &--success
+    color $success
 </style>

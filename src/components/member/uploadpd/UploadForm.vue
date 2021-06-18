@@ -129,7 +129,8 @@ export default {
         TrueName: "",
         CellphoneNumber: "",
         BookPhoto:[
-          "aaa"
+          "https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/088/99/0010889910.jpg&v=60796785&w=348&h=348",
+          "https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/088/99/0010889910_bc_01.jpg&v=6079676a&w=348&h=348"
         ]
       }
     }
@@ -161,6 +162,7 @@ export default {
           this.$router.push('/member/booth');
         })
         .catch(error => {
+          alert('上架失敗');
           console.log(error);
         })
 
