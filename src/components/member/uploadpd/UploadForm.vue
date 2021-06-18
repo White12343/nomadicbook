@@ -69,13 +69,11 @@
         <input type="text" class="form__input" id="CellphoneNumber" v-model="uploadData.CellphoneNumber">
       </div>
       <!-- 地址 -->
-      <AddressSelect title="住址" :isOptional="false" nameId="FaceTrade" :openInput="true" @getVal="getAddress"/>
       <h3 class="upload-form__tit">交易方式</h3>
       <h4 class="upload-form__subtit">*請至少選擇一種交易方式</h4>
+      <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="FaceTrade" :openInput="true" @getVal="getAddress"/>
       <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress"/>
       <!-- <AddressSelect title="店到店" nameId="Store"/> -->
-      <!-- <AddressSelect title="黑貓" nameId="BlackCat"/> -->
-      <!-- <AddressSelect title="郵寄" nameId="PostOffice"/> -->
       <!-- <AddressSelect title="i 郵箱" nameId="MailBox"/> -->
       <div class="upload-form__btn-group">
         <router-link to="/member" class="upload-form__btn">取消</router-link>
@@ -129,8 +127,7 @@ export default {
         TrueName: "",
         CellphoneNumber: "",
         BookPhoto:[
-          "https://im1.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/088/99/0010889910.jpg&v=60796785&w=348&h=348",
-          "https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/088/99/0010889910_bc_01.jpg&v=6079676a&w=348&h=348"
+          "https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/088/66/0010886603.jpg&v=6049f15f&w=348&h=348"
         ]
       }
     }
@@ -199,4 +196,8 @@ export default {
     margin-bottom 6px
   &__subtit
     color $danger
+
+.form
+  &__input-group
+    margin-bottom 1em
 </style>

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRoad = exports.getArea = exports.getCity = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getRoad = exports.getArea = exports.getCity = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -59,38 +59,48 @@ exports.getBookDetail = getBookDetail;
 var getBoothBookList = function getBoothBookList() {
   return (0, _http["default"])("get", "/json/pd.json");
 }; // 測試用
-// Ask Manage
+// 邀約方書本資料
 
 
 exports.getBoothBookList = getBoothBookList;
 
-var getAskBookList = function getAskBookList() {
-  return (0, _http["default"])("get", "/json/ask.json");
-}; // 測試用
-// Match Manage
+var getAskBoothBookList = function getAskBoothBookList(id, mode) {
+  return (0, _http["default"])("get", "/seek/otherpeople/books/".concat(id, "/").concat(mode));
+}; // 確認回應邀約方資料
+
+
+exports.getAskBoothBookList = getAskBoothBookList;
+
+var selectedBook = function selectedBook(id, data) {
+  return (0, _http["default"])("put", "/seek/otherpeople/selectedbook/".concat(id), data);
+}; // Ask Manage
+
+
+exports.selectedBook = selectedBook;
+
+var getAskBookList = function getAskBookList(id) {
+  return (0, _http["default"])("get", "/seek/otherpeople/" + id);
+}; // Match Manage
 
 
 exports.getAskBookList = getAskBookList;
 
-var getMatchList = function getMatchList() {
-  return (0, _http["default"])("get", "/json/match.json");
-}; // 測試用
-// Match Detail
+var getMatchList = function getMatchList(id) {
+  return (0, _http["default"])("get", "/seek/match/" + id);
+}; // Match Detail
 
 
 exports.getMatchList = getMatchList;
 
-var getMatchDetail = function getMatchDetail() {
-  return (0, _http["default"])("get", "/json/matchdetail.json");
-}; // 測試用
-// Seek Manage
-// export const getSeekBookList = () => req("get", "/json/pd.json"); // 測試用
+var getMatchDetail = function getMatchDetail(id) {
+  return (0, _http["default"])("get", "/seek/match/detail/" + id);
+}; // Seek Manage
 
 
 exports.getMatchDetail = getMatchDetail;
 
 var getSeekBookList = function getSeekBookList(id) {
-  return (0, _http["default"])("get", "/seek/myself", id);
+  return (0, _http["default"])("get", "/seek/myself/" + id);
 }; // 上架
 
 
@@ -118,12 +128,19 @@ exports.getArea = getArea;
 
 var getRoad = function getRoad(data) {
   return (0, _http["default"])("get", "/Trade/address/road", data);
+}; // 產品
+
+
+exports.getRoad = getRoad;
+
+var seekNew = function seekNew(data) {
+  return (0, _http["default"])("post", "/seek/new", data);
 }; // 使用範例
 
 /*
-import { uploadProduct } from "@/request/api";
+import { getMatchList } from "@/request/api";
 
-uploadProduct()
+getMatchList()
   .then(res => {
     console.log(res);
   })
@@ -134,4 +151,4 @@ uploadProduct()
 */
 
 
-exports.getRoad = getRoad;
+exports.seekNew = seekNew;

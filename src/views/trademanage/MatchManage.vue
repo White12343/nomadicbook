@@ -36,9 +36,10 @@ export default {
   },
   created() {
     let vm = this;
-    getMatchList()
+    getMatchList(this.$cookies.get('user').id)
       .then(res => {
         vm.matchData = res.data;
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error);

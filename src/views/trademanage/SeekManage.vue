@@ -5,7 +5,7 @@
       <h2 class="seek-manage__tit">我的徵求</h2>
     </header>
     <div class="seek-manage__cntr">
-      <BookCard class="seek-manage__item" v-for="(item, key) in pdData" :key="key" :card-data="item" />
+      <SeekCard class="seek-manage__item" v-for="(item, key) in pdData" :key="key" :seekData="item" />
     </div>
 
   </section>
@@ -13,7 +13,7 @@
 
 <script>
 import { getSeekBookList } from "@/request/api";
-import BookCard from '@/components/book/BookCard';
+import SeekCard from '@/components/trademanage/seek/SeekCard';
 
 export default {
   name: 'SeekManage',
@@ -23,11 +23,11 @@ export default {
     }
   },
   components: {
-    BookCard,
+    SeekCard,
   },
   created() {
     let vm = this;
-    getSeekBookList()
+    getSeekBookList(this.$cookies.get('user').id)
       .then(res => {
         vm.pdData = res.data;
       })

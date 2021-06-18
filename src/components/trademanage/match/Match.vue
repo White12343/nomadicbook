@@ -9,7 +9,12 @@
       </div>
     </div>
     <div class="match-card__btns">
-      <router-link class="match-card__btn match-card__btn--light" to="/member/matchdetail">查看資訊</router-link>
+      <router-link class="match-card__btn match-card__btn--light" :to="{
+          name: 'MatchDetail',
+          params: {
+            id: matchData.seekId,
+          }
+        }">查看資訊</router-link>
       <a href="#" @click.prevent class="match-card__btn match-card__btn--dark">交易確認</a>
     </div>
 
@@ -18,7 +23,7 @@
 </template>
 
 <script>
-import BookCard from '../../book/BookCard';
+import BookCard from '@/components/book/BookCard';
 export default {
   name: 'Match',
   props: ['matchData'],
@@ -28,16 +33,16 @@ export default {
   computed: {
     selfBook() {
       return {
-        id: this.matchData.SeekBookId,
-        name: this.matchData.SeekBookName,
-        imgUrl: this.matchData.SeekBookPhoto,
+        bookId: this.matchData.seekBookId,
+        bookName: this.matchData.seekBookName,
+        bookPhoto: this.matchData.seekBookPhoto,
       }
     },
     otherSideBook() {
       return {
-        id: this.matchData.SeekedBookId,
-        name: this.matchData.SeekedBookName,
-        imgUrl: this.matchData.SeekedBookPhoto,
+        bookId: this.matchData.seekedBookId,
+        bookName: this.matchData.seekedBookName,
+        bookPhoto: this.matchData.seekedBookPhoto,
       }
     }
   }

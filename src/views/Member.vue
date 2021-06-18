@@ -33,7 +33,7 @@ export default {
         },
         {
           path: '/member/ask',
-          title: '別人要求',
+          title: '請求交換',
         },
         {
           path: '/member/match',

@@ -12,23 +12,23 @@
         <div class="trade-match__list">
           <h4 class="trade-match__list__tit fs-5">自己</h4>
           <ul class="trade-match__list__cntr">
-            <li class="trade-match__item">日期：{{matchData.SeekDate}}</li>
-            <li class="trade-match__item">名字：{{matchData.SeekUserName}}</li>
-            <li class="trade-match__item">書名：{{matchData.SeekBookName}}</li>
-            <li class="trade-match__item">交易方式：{{matchData.TradeMode}}</li>
-            <li class="trade-match__item">交易資訊：{{matchData.SeekToAddress}}</li>
-            <li class="trade-match__item">手機：{{matchData.SeekCellphone}}</li>
+            <li class="trade-match__item">日期：{{matchData.seekDate}}</li>
+            <li class="trade-match__item">名字：{{matchData.seekUserName}}</li>
+            <li class="trade-match__item">書名：{{matchData.seekBookName}}</li>
+            <li class="trade-match__item">交易方式：{{matchData.tradeMode}}</li>
+            <li class="trade-match__item">交易資訊：{{matchData.seekToAddress}}</li>
+            <li class="trade-match__item">手機：{{matchData.seekCellphone}}</li>
           </ul>
         </div>
         <div class="trade-match__list">
           <h4 class="trade-match__list__tit fs-5">對方</h4>
           <ul class="trade-match__list__cntr">
-            <li class="trade-match__item">日期：{{matchData.SeekedDate}}</li>
-            <li class="trade-match__item">名字：{{matchData.SeekedUserName}}</li>
-            <li class="trade-match__item">書名：{{matchData.SeekedBookName}}</li>
-            <li class="trade-match__item">交易方式：{{matchData.TradeMode}}</li>
-            <li class="trade-match__item">交易資訊：{{matchData.SeekedToAddress}}</li>
-            <li class="trade-match__item">手機：{{matchData.SeekedCellphone}}</li>
+            <li class="trade-match__item">日期：{{matchData.seekedDate}}</li>
+            <li class="trade-match__item">名字：{{matchData.seekedUserName}}</li>
+            <li class="trade-match__item">書名：{{matchData.seekedBookName}}</li>
+            <li class="trade-match__item">交易方式：{{matchData.tradeMode}}</li>
+            <li class="trade-match__item">交易資訊：{{matchData.seekedToAddress}}</li>
+            <li class="trade-match__item">手機：{{matchData.seekedCellphone}}</li>
           </ul>
         </div>
       </div>
@@ -56,9 +56,9 @@ export default {
   },
   created() {
     let vm = this;
-    getMatchDetail()
+    getMatchDetail(this.$route.params.id)
       .then(res => {
-        vm.matchData = res.data[0];
+        vm.matchData = res.data;
       })
       .catch(error => {
         console.log(error);

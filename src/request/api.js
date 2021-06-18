@@ -1,15 +1,18 @@
 // user.js
 import req from "./http";
+
+
 // user
 export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
 export const userSignin = (logInData) => req("post", "/user/signin", logInData);
 // export const userLogOut = () => req("get", "/user/logout");
+
+
 // 檢查
 export const checkNickName = (nickName) => req("get", "/user/name", nickName);
 export const checkMail = (mail) => req("get", "/user/mail", mail);
-
-
 // export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
+
 
 // 取得產品列表
 // export const getBookList = () => req("get", "/json/pd.json"); // 測試用
@@ -22,15 +25,19 @@ export const getBookDetail = (id) => req("get", "/product/" + id);
 // 管理
 // Booth
 export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
+// 邀約方書本資料
+export const getAskBoothBookList = (id, mode) => req("get", `/seek/otherpeople/books/${id}/${mode}`);
+// 確認回應邀約方資料
+export const selectedBook = (id, data) => req("put", `/seek/otherpeople/selectedbook/${id}`, data);
 // Ask Manage
-export const getAskBookList = () => req("get", "/json/ask.json"); // 測試用
+export const getAskBookList = (id) => req("get", "/seek/otherpeople/" + id);
 // Match Manage
-export const getMatchList = () => req("get", "/json/match.json"); // 測試用
+export const getMatchList = (id) => req("get", "/seek/match/" + id);
 // Match Detail
-export const getMatchDetail = () => req("get", "/json/matchdetail.json"); // 測試用
+export const getMatchDetail = (id) => req("get", "/seek/match/detail/" + id);
 // Seek Manage
-// export const getSeekBookList = () => req("get", "/json/pd.json"); // 測試用
-export const getSeekBookList = (id) => req("get", "/seek/myself", id);
+export const getSeekBookList = (id) => req("get", "/seek/myself/" + id);
+
 
 // 上架
 export const uploadProduct = (data) => req("post", "/product/new", data);
@@ -43,12 +50,16 @@ export const getArea = (data) => req("get", "/Trade/address/area", data);
 export const getRoad = (data) => req("get", "/Trade/address/road", data);
 
 
+// 產品
+export const seekNew = (data) => req("post", "/seek/new", data);
+
+
 
 // 使用範例
 /*
-import { uploadProduct } from "@/request/api";
+import { getMatchList } from "@/request/api";
 
-uploadProduct()
+getMatchList()
   .then(res => {
     console.log(res);
   })

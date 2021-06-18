@@ -8,14 +8,15 @@
       @click.native.stop="isOpenPopup = true"
     />
     <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
-      <AskStall :seek-user-id="askData.SeekUserId"/>
+
+      <AskStall :seek-user-id="askData.seekUserId" :seek-id="askData.seekId"/>
     </Popup>
   </article>
 
 </template>
 
 <script>
-import BookCard from '@/components//book/BookCard';
+import BookCard from '@/components/book/BookCard';
 import AskStall from '@/components/trademanage/ask/AskStall';
 import Btn from '@/components/ui/Btn';
 import Popup from '@/components/ui/Popup';
@@ -24,7 +25,6 @@ export default {
   props: ['askData'],
   data() {
     return {
-
       isOpenPopup: false,
     }
   },
@@ -37,9 +37,9 @@ export default {
   computed: {
     bookData() {
       return {
-        id: this.askData.SeekedBookId,
-        name: this.askData.SeekedBookName,
-        imgUrl: this.askData.SeekedBookPhoto,
+        bookId: this.askData.seekBookId,
+        bookName: this.askData.seekBookName,
+        bookPhoto: this.askData.seekBookPhoto,
       }
     }
   },

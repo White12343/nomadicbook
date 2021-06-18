@@ -52,7 +52,7 @@ export default {
     },
     // 處理檔案
     handleFiles(files) {
-      if(files.length > 5){
+      if(files.length > 5 || (this.image.length + files.length) > 5){
         alert('系統：一次最多只能上傳五張，請重試。')
         return;
       }

@@ -110,8 +110,8 @@ const router = new Router({
 
         },
         {
-          path: 'matchdetail',
-          name: 'detail',
+          path: 'matchdetail/:id',
+          name: 'MatchDetail',
           component: TradeMatch,
         },
       ]

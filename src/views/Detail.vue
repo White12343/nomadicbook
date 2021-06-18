@@ -3,11 +3,8 @@
     <div class="detail__info">
       <BookPic class="detail__pic" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
       <BookInfo
-        :user-name="bookDesc.userName"
-        :book-name="bookDesc.bookName"
-        :book-author="bookDesc.author"
-        :publish-date="bookDesc.releaseDate"
-        :publisher="bookDesc.publishingHouse"
+        :book-id="this.$route.params.id"
+        :bookDesc="bookDesc"
       />
     </div>
     <div class="detail__cntr">
@@ -33,7 +30,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.params.id);
     // 用 id 去 call api
     let vm = this;
     getBookDetail(this.$route.params.id)

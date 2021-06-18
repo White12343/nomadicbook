@@ -5,27 +5,23 @@
         <a href="#" class="ask-stall__item"
           v-for="(item, index) in pdData"
           :key="index"
-          @click.prevent="getBookDetail(item.id)"
+          @click.prevent="bookDetail(item.bookId)"
         >
-          {{ item.name }}
+          {{ item.bookName }}
         </a>
       </div>
       <div class="ask-stall__detail ask-detail">
         <div class="ask-detail__info">
-        <BookPic class="ask-detail__pic mx-auto" :book-photo="pdDetail.BookPhoto" :book-name="pdDetail.BookName"/>
+          <BookPic class="ask-detail__pic mx-auto" :book-photo="pdDetail.bookPhotos" :book-name="pdDetail.bookName"/>
           <BookInfo
-            :user-name="pdDetail.UserName"
-            :book-name="pdDetail.BookName"
-            :book-author="pdDetail.Author"
-            :publish-date="pdDetail.PublishDate"
-            :publisher="pdDetail.Publisher"
-          >
-            <a href="#" class="ask-detail__btn" @click.prevent="requestExchange">交換</a>
-          </BookInfo>
+            :bookDesc="pdDetail"
+            :popupOpen="false"
+            @exchange="requestExchange"
+          />
         </div>
         <div class="ask-detail__cntr">
-          <BookCntr cntr-title="簡介" :cntr="pdDetail.Introduction" />
-          <BookCntr cntr-title="書況" :cntr="pdDetail.Condition" />
+          <BookCntr cntr-title="簡介" :cntr="pdDetail.introduction" />
+          <BookCntr cntr-title="書況" :cntr="pdDetail.condition" />
         </div>
       </div>
     </div>
@@ -33,13 +29,13 @@
 </template>
 
 <script>
-import { getBookDetail, getBookList } from "@/request/api";
+import { getBookDetail, getAskBoothBookList, selectedBook } from "@/request/api";
 import BookPic from '@/components/detail/BookPic';
 import BookInfo from '@/components/detail/BookInfo';
 import BookCntr from '@/components/detail/BookCntr';
 export default {
   name: 'AskList',
-  props: ['seekUserId'],
+  props: ['seekUserId', 'seekId'],
   data() {
     return {
       pdData: [],
@@ -50,29 +46,38 @@ export default {
   },
   created() {
     let vm = this;
-    getBookList()
+    getAskBoothBookList(this.seekUserId, 4)
       .then(res => {
         vm.pdData = res.data;
-        vm.getBookDetail(vm.pdData[0].id)
+        vm.bookDetail(vm.pdData[0].bookId)
       })
       .catch(error => {
         console.log(error);
       })
   },
   methods: {
-    getBookDetail(id) {
-      console.log("Ask Stall: " + id);
+    bookDetail(id) {
       let vm = this;
-      getBookDetail()
+      getBookDetail(id)
         .then(res => {
-          vm.pdDetail = res.data[0];
+          vm.pdDetail = res.data;
         })
         .catch(error => {
           console.log(error);
         })
     },
-    requestExchange() {
-      console.log('test');
+    requestExchange(id) {
+      const exchangeData = JSON.stringify({
+        bookId: id,
+        tradeMode: 4
+      })
+      selectedBook(this.seekId, exchangeData)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        })
     }
   },
   components: {
@@ -96,20 +101,21 @@ export default {
     height 100%
 
   &__list
-    min-width 20%
+    width 20%
     height 100%
     overflow-y scroll
 
   &__item
     display block
-    padding 6px 1em
+    padding 3px 1em
     color $headline-dark
     background-color $light
     border-bottom 1px solid $gray
+    textHiding(1)
     &:hover
       background-color $gray
 .ask-detail
-  flex-grow 2
+  width 80%
   overflow-y scroll
   padding 1em
   &__pic

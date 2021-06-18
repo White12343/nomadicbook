@@ -34,7 +34,7 @@ export default {
   },
   created() {
     let vm = this;
-    getAskBookList()
+    getAskBookList(this.$cookies.get('user').id)
       .then(res => {
         vm.askData = res.data;
       })
