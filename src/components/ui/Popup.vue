@@ -1,7 +1,7 @@
 <template>
   <div class="popup">
     <div class="popup__bg" v-if="isOpen">
-      <div class="popup__window" v-if="isOpen" ref="main">
+      <div class="popup__window" v-if="isOpen" ref="main" :style="{'width': popupWidth, 'height': popupHeight}">
         <slot></slot>
       </div>
     </div>
@@ -11,7 +11,22 @@
 <script>
 export default {
   name: 'Popup',
-  props: ['visible'],
+  props: {
+    visible: {
+      type: Boolean,
+    },
+    popupWidth: {
+      type: String,
+      require: false,
+      default: '80%',
+    },
+    popupHeight: {
+      type: String,
+      require: false,
+      default: 'auto',
+    }
+  },
+  // props: ['visible', 'popupSize'],
   data() {
     return {
       isOpen: false,
@@ -60,10 +75,8 @@ export default {
     left 50%
     top 50%
     transform translate(-50%, -50%)
-    width 80%
-    height 70vh
     background-color #fff
-    border 2px solid $bg-dark
+    border-radius 5px
 
 
 </style>

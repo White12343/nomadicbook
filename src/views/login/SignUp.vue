@@ -166,21 +166,31 @@ export default {
 <style lang="stylus" scoped>
 
 .signup
-  width 300px
-  padding 1em
-  border 2px solid $dark
+  width 350px
+  padding 1em 2em
   margin-top 60px
+  box-shadow 2px 3px 10px $shadow
+  background-color $light
+  &__tit
+    margin-bottom 1em
 
   &__input, &__btn
     display block
     width 100%
     padding 6px
-    border-radius 3px
-    border 2px solid $dark
     margin-top 1em
 
+  &__input
+    border-bottom 1px solid $dark
+    margin-bottom 6px
+
+
   &__btn
-    box-shadow 2px 2px 5px $gray
+    box-shadow 2px 2px 5px $shadow
+    background-color $accent
+    cursor pointer
+    border-radius 3px
+    color $light
 
     &:active
       box-shadow 0px 0px 5px $gray

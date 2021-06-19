@@ -67,16 +67,14 @@ export default {
   &__link
     display block
     background-color $light
-    color $headline-dark
-    border 2px solid $bg-dark
-    border-radius 5px
+    color $dark
     text-align center
     margin-bottom 1em
     padding 3px
     transition all .3s
     &:hover, &--active
-      background-color $dark
-      color $headline-light
+      background-color $accent
+      color $light
 
 
   &__cntr

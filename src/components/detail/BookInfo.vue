@@ -38,7 +38,7 @@
         v-if="popupOpen"
       />
       <a href="#" class="book-info__btn book-info__btn--dark" @click.prevent="requestExchange" v-else>交換</a>
-      <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" v-if="popupOpen">
+      <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" v-if="popupOpen" class="exchange__popup" popupWidth="30%">
         <!-- 自定義內容  -->
         <article class="seek-new">
           <header class="seek-new__header">
@@ -47,22 +47,25 @@
           <form class="seek-new__form">
             <h3 class="seek-new__form__tit">選擇交易方式：</h3>
             <div class="seek-new__input-group" v-if="bookDesc.storeAddress">
-              <input type="radio" class="form__input" id="StoreTrade" v-model="tradeMode" :value="1">
+              <input type="radio" class="seek-new__input" id="StoreTrade" v-model="tradeMode" :value="1">
               <label for="StoreTrade">7-11</label>
             </div>
             <div class="seek-new__input-group" v-if="bookDesc.homeAddress">
-              <input type="radio" class="form__input" id="Delivery" v-model="tradeMode" :value="2">
+              <input type="radio" class="seek-new__input" id="Delivery" v-model="tradeMode" :value="2">
               <label for="Delivery">宅配 ( 郵寄、黑貓 )</label>
             </div>
             <div class="seek-new__input-group" v-if="bookDesc.mailBoxAddress">
-              <input type="radio" class="form__input" id="MailBoxTrade" v-model="tradeMode" :value="3">
+              <input type="radio" class="seek-new__input" id="MailBoxTrade" v-model="tradeMode" :value="3">
               <label for="MailBoxTrade">i郵箱</label>
             </div>
             <div class="seek-new__input-group" v-if="bookDesc.faceTradeArea">
-              <input type="radio" class="form__input" id="FaceTrade" v-model="tradeMode" :value="4">
+              <input type="radio" class="seek-new__input" id="FaceTrade" v-model="tradeMode" :value="4">
               <label for="FaceTrade">面交</label>
             </div>
-            <input type="submit" value="提出交換" @click.prevent="seek">
+            <div class="seek-new__btn-group text-right">
+              <a class="seek-new__btn seek-new__btn--light" href="#" @click.prevent="isOpenPopup = false">取消</a>
+              <input class="seek-new__btn" type="submit" value="提出交換" @click.prevent="seek">
+            </div>
           </form>
         </article>
       </Popup>
@@ -158,7 +161,7 @@ export default {
       console.log(seekData);
       seekNew(seekData)
         .then(res => {
-          console.log(res);
+          this.isOpenPopup = false;
         })
         .catch(error => {
           console.log(error);
@@ -221,5 +224,16 @@ export default {
       color $headline-dark
   &__trade-btn
     width 48%
+.seek-new
+  padding 1em
+  &__btn
+    display inline-block
+    padding 6px 1em
+    background-color $accent
+    color $light
+    cursor pointer
+    &--light
+      background-color $bg-light
+      color $headline-dark
 
 </style>

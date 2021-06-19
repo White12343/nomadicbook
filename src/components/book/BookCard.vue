@@ -45,6 +45,8 @@ export default {
   display flex
   flex-direction column-reverse
   background-color $light
+  padding-top 1em
+  padding-bottom .6em
 
   &__inner
     height 220px
@@ -59,9 +61,10 @@ export default {
 
   &__tit
     textHiding(1)
-    color $headline-dark
+    color $text-primary
+    margin-top .6em
     &:hover
       text-decoration underline
   &__author
-    color $paragraph-dark
+    color $text-secondary
 </style>

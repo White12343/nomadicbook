@@ -50,8 +50,8 @@ export default {
     width 19%
     margin-right 1.25%
     margin-top 1em
-    box-shadow 0 0 3px $gray
+    // box-shadow 2px 2px 10px $shadow
     transition all .3s
     &:hover
-      box-shadow 2px 2px 3px $gray
+      box-shadow 0 0 10px $shadow
 </style>
