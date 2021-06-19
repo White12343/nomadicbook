@@ -1,7 +1,7 @@
 <template>
   <nav class="menu">
     <div class="menu__cntr container mx-auto">
-      <a class="menu__link text-center" href="#"
+      <!-- <a class="menu__link text-center" href="#"
         v-for="(item, key) in menuJsonData"
         :key="key"
         :class="{'divider': key !== (menuJsonData.length - 1)}"
@@ -14,7 +14,8 @@
             {{ subItem.name }}
           </router-link>
         </nav>
-      </a>
+      </a> -->
+
     </div>
 
   </nav>
@@ -107,7 +108,7 @@ export default {
 .menu
   background-color $light
   padding 1em
-  box-shadow 0 0 5px $gray
+  box-shadow 0 3px 5px $shadow
   margin-bottom 2em
   &__cntr
     display flex

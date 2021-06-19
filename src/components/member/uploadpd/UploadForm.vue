@@ -129,9 +129,7 @@ export default {
         FaceTradeDetail: "",
         TrueName: "",
         CellphoneNumber: "",
-        BookPhoto:[
-          "https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/088/66/0010886603.jpg&v=6049f15f&w=348&h=348"
-        ]
+        BookPhoto:[]
       }
     }
   },
@@ -190,7 +188,6 @@ export default {
         isbn: this.uploadData.ISBN,
       })
         .then(res => {
-          console.log(res.data);
           vm.uploadData.Author = res.data.author;
           vm.uploadData.BookHigh = res.data.bookHigh;
           vm.uploadData.BookLong = res.data.bookLong;
