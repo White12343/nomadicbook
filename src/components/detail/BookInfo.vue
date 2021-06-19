@@ -10,7 +10,7 @@
     <ul class="book-info__list">
       <li class="book-info__list-item">作者：{{ bookDesc.author }}</li>
       <li class="book-info__list-item">出版社：{{ bookDesc.publishingHouse }}</li>
-      <li class="book-info__list-item">出版日：{{ bookDesc.releaseDate }}</li>
+      <li class="book-info__list-item">出版日：{{ bookDesc.publishDate }}</li>
     </ul>
     <div class="book-info__trade">
       <h3 class="book-info__trade-tit fs-6">交易方式：</h3>
@@ -79,7 +79,7 @@ import Btn from '@/components/ui/Btn';
 export default {
   name: 'BookInfo',
   props: {
-    bookId: String,
+    bookId: Number,
     bookDesc: Object,
     popupOpen: {
       type: Boolean,

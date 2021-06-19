@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getRoad = exports.getArea = exports.getCity = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -108,11 +108,18 @@ exports.getSeekBookList = getSeekBookList;
 
 var uploadProduct = function uploadProduct(data) {
   return (0, _http["default"])("post", "/product/new", data);
+}; // isbn
+
+
+exports.uploadProduct = uploadProduct;
+
+var getDataByISBNApi = function getDataByISBNApi(isbn) {
+  return (0, _http["default"])("get", "/Product", isbn);
 }; // 地址
 // city
 
 
-exports.uploadProduct = uploadProduct;
+exports.getDataByISBNApi = getDataByISBNApi;
 
 var getCity = function getCity() {
   return (0, _http["default"])("get", "/Trade/address/city");
@@ -128,19 +135,26 @@ exports.getArea = getArea;
 
 var getRoad = function getRoad(data) {
   return (0, _http["default"])("get", "/Trade/address/road", data);
-}; // 產品
+}; // iMail
 
 
 exports.getRoad = getRoad;
+
+var getIMailBox = function getIMailBox(data) {
+  return (0, _http["default"])("get", "/trade/mailbox", data);
+}; // 產品
+
+
+exports.getIMailBox = getIMailBox;
 
 var seekNew = function seekNew(data) {
   return (0, _http["default"])("post", "/seek/new", data);
 }; // 使用範例
 
 /*
-import { getMatchList } from "@/request/api";
+import { getDataByISBN } from "@/request/api";
 
-getMatchList()
+getDataByISBNApi()
   .then(res => {
     console.log(res);
   })

@@ -3,7 +3,7 @@
     <div class="detail__info">
       <BookPic class="detail__pic" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
       <BookInfo
-        :book-id="this.$route.params.id"
+        :book-id="parseInt(this.$route.params.id)"
         :bookDesc="bookDesc"
       />
     </div>

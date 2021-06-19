@@ -27,7 +27,6 @@ export default {
 
 <style lang="stylus" scoped>
 .upload-pd
-  // width 900px
   background-color $light
   padding 1em
 

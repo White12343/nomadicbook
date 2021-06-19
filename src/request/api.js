@@ -41,6 +41,8 @@ export const getSeekBookList = (id) => req("get", "/seek/myself/" + id);
 
 // 上架
 export const uploadProduct = (data) => req("post", "/product/new", data);
+// isbn
+export const getDataByISBNApi = (isbn) => req("get", "/Product", isbn);
 
 
 // 地址
@@ -48,6 +50,8 @@ export const uploadProduct = (data) => req("post", "/product/new", data);
 export const getCity = () => req("get", "/Trade/address/city");
 export const getArea = (data) => req("get", "/Trade/address/area", data);
 export const getRoad = (data) => req("get", "/Trade/address/road", data);
+// iMail
+export const getIMailBox = (data) => req("get", "/trade/mailbox", data);
 
 
 // 產品
@@ -57,9 +61,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getMatchList } from "@/request/api";
+import { getDataByISBN } from "@/request/api";
 
-getMatchList()
+getDataByISBNApi()
   .then(res => {
     console.log(res);
   })

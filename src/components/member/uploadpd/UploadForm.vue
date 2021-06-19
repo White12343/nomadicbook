@@ -2,19 +2,21 @@
   <div class="upload-form">
     <form class="upload-form__cntr">
       <SelectImg />
+      <!-- ISBN -->
+      <div class="form__input-group">
+        <label for="Isbn">ISBN: </label>
+        <input type="text" class="form__input" id="Isbn" v-model="uploadData.ISBN">
+        <button class="upload-form__btn" type="submit" @click.prevent="getDataByISBN">ISBN 代入資料</button>
+      </div>
       <!-- 出版日 -->
       <div class="form__input-group">
-        <label for="PublishYear">出版年: </label>
+        <label for="PublishYear">出版年:</label>
+
         <input type="number" class="form__input" id="PublishYear" v-model="publish.year">
         <label for="PublishMonth">月: </label>
         <input type="number" class="form__input" id="PublishMonth" v-model="publish.month">
         <label for="PublishDay">日: </label>
         <input type="number" class="form__input" id="PublishDay" v-model="publish.day">
-      </div>
-      <!-- ISBN -->
-      <div class="form__input-group">
-        <label for="Isbn">ISBN: </label>
-        <input type="text" class="form__input" id="Isbn" v-model="uploadData.ISBN">
       </div>
       <!-- 書名 -->
       <div class="form__input-group">
@@ -71,10 +73,10 @@
       <!-- 地址 -->
       <h3 class="upload-form__tit">交易方式</h3>
       <h4 class="upload-form__subtit">*請至少選擇一種交易方式</h4>
-      <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="FaceTrade" :openInput="true" @getVal="getAddress"/>
+      <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress"/>
       <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress"/>
       <!-- <AddressSelect title="店到店" nameId="Store"/> -->
-      <!-- <AddressSelect title="i 郵箱" nameId="MailBox"/> -->
+      <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress"/>
       <div class="upload-form__btn-group">
         <router-link to="/member" class="upload-form__btn">取消</router-link>
         <button class="upload-form__btn" type="submit" v-if="!bookId" @click.prevent="upLoadBook">上架</button>
@@ -85,11 +87,12 @@
 </template>
 
 <script>
-import { uploadProduct } from "@/request/api";
+import { uploadProduct, getDataByISBNApi } from "@/request/api";
 import SelectImg from './form/SelectImg';
 import FormInput from './form/FormInput';
 import FormTextarea from './form/FormTextarea';
 import AddressSelect from './form/AddressSelect';
+import IMailBoxSelect from './form/IMailBoxSelect';
 
 export default {
   name: 'UploadFrom',
@@ -150,8 +153,7 @@ export default {
     upLoadBook() {
       this.uploadData.PublishDate = this.getPublishDate;
       this.uploadData.UserId = this.getUserId;
-
-
+      console.log(this.uploadData);
       uploadProduct(JSON.stringify(this.uploadData))
         .then(res => {
           console.log(res.data);
@@ -162,9 +164,6 @@ export default {
           alert('上架失敗');
           console.log(error);
         })
-
-
-
     },
     updataBookData() {
       alert('上架頁：更新產品資料' + this.bookId);
@@ -179,6 +178,38 @@ export default {
     },
     getAddress(val) {
       this.uploadData.HomeAddress = val.city + val.area + val.road + val.path;
+    },
+    getIMailAddress(val) {
+      this.uploadData.MailBoxAddress = val.detail.mailboxAddress;
+      this.uploadData.MailBoxName = val.detail.mailboxName;
+
+    },
+    getDataByISBN() {
+      let vm = this;
+      getDataByISBNApi({
+        isbn: this.uploadData.ISBN,
+      })
+        .then(res => {
+          console.log(res.data);
+          vm.uploadData.Author = res.data.author;
+          vm.uploadData.BookHigh = res.data.bookHigh;
+          vm.uploadData.BookLong = res.data.bookLong;
+          vm.uploadData.BookWidth = res.data.bookWidth;
+          vm.uploadData.BookName = res.data.bookName;
+          vm.uploadData.CategoryId = res.data.categoryId;
+          // 分類名稱
+          // vm.uploadData.CategoryName = res.data.categoryName;
+          vm.uploadData.Introduction = res.data.introduction;
+          let publishDate = res.data.publishDate.split('/');
+          vm.publish.year = publishDate[0];
+          vm.publish.month = publishDate[1];
+          vm.publish.day = publishDate[2];
+          vm.uploadData.PublishingHouse = res.data.publishingHouse;
+        })
+        .catch(error => {
+          alert('取得失敗，請確認是否有輸入正確 ISBN');
+          console.log(error);
+        })
     }
   },
   components: {
@@ -186,6 +217,7 @@ export default {
     FormInput,
     FormTextarea,
     AddressSelect,
+    IMailBoxSelect,
   }
 }
 </script>
