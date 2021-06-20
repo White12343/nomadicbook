@@ -1,6 +1,18 @@
 <template>
   <article class="seek-card">
     <BookCard :card-data="bookData"/>
+    <div class="seek-card__cntr">
+      <router-link
+        class="seek-card__btn"
+        :to="{
+          name: 'Detail',
+          params: {
+            id: bookData.bookId,
+          }
+        }">
+        產品細節
+      </router-link>
+    </div>
   </article>
 
 </template>
@@ -34,8 +46,16 @@ export default {
 
 <style lang="stylus">
 .seek-card
-  min-width 20%
-  background-color $light
-
+  &__cntr
+    padding 0 1em
+  &__btn
+    display block
+    text-align center
+    padding .6em 0
+    margin 1em 0
+    border-radius 3px
+    transition all .3s
+    background-color $gray
+    color $text-secondary
 
 </style>

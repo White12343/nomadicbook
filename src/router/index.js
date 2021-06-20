@@ -25,7 +25,7 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/booklist',
+      path: '/booklist/:mainId?/:bigCategory?',
       name: 'BookList',
       component: BookList
     },

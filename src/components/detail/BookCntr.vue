@@ -19,6 +19,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+.book-desc
+  padding 1em
 
 </style>

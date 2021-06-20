@@ -13,10 +13,14 @@ export const checkNickName = (nickName) => req("get", "/user/name", nickName);
 export const checkMail = (mail) => req("get", "/user/mail", mail);
 // export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
 
+// 取得分類
+export const getCategory = (id) => req("get", "/Product/category", id);
+
+
 
 // 取得產品列表
 // export const getBookList = () => req("get", "/json/pd.json"); // 測試用
-export const getBookList = () => req("get", "/product/list");
+export const getBookList = (data) => req("get", "/product/list", data);
 // 取得產品 detail
 // export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
 export const getBookDetail = (id) => req("get", "/product/" + id);
@@ -61,9 +65,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getDataByISBN } from "@/request/api";
+import { getBigCategory } from "@/request/api";
 
-getDataByISBNApi()
+getBigCategory()
   .then(res => {
     console.log(res);
   })

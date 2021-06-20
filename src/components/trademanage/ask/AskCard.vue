@@ -1,16 +1,17 @@
 <template>
   <article class="ask-card">
     <BookCard :card-data="bookData"/>
-    <Btn
-      desc="查看攤位"
-      btnStyle="light"
-      class="ask-card__btn mx-auto"
-      @click.native.stop="isOpenPopup = true"
-    />
-    <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" popupHeight="70vh">
-
-      <AskStall :seek-user-id="askData.seekUserId" :seek-id="askData.seekId"/>
-    </Popup>
+    <div class="ask-card__cntr">
+      <Btn
+        desc="查看攤位"
+        btnStyle="light"
+        class="ask-card__btn"
+        @click.native.stop="isOpenPopup = true"
+      />
+      <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" popupHeight="70vh">
+        <AskStall :seek-user-id="askData.seekUserId" :seek-id="askData.seekId"/>
+      </Popup>
+    </div>
   </article>
 
 </template>
@@ -51,12 +52,8 @@ export default {
 
 <style lang="stylus">
 .ask-card
-  min-width 20%
-  background-color $light
-  &__btn
-    width 50%
-    margin-bottom 1em
-    background-color $light
+  &__cntr
+    padding 0 1em
 
 
 </style>

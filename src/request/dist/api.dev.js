@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getCategory = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -34,14 +34,21 @@ exports.checkNickName = checkNickName;
 var checkMail = function checkMail(mail) {
   return (0, _http["default"])("get", "/user/mail", mail);
 }; // export const userDelete = (nickName) => req("delete", "/user/delete", nickName);
-// 取得產品列表
-// export const getBookList = () => req("get", "/json/pd.json"); // 測試用
+// 取得分類
 
 
 exports.checkMail = checkMail;
 
-var getBookList = function getBookList() {
-  return (0, _http["default"])("get", "/product/list");
+var getCategory = function getCategory(id) {
+  return (0, _http["default"])("get", "/Product/category", id);
+}; // 取得產品列表
+// export const getBookList = () => req("get", "/json/pd.json"); // 測試用
+
+
+exports.getCategory = getCategory;
+
+var getBookList = function getBookList(data) {
+  return (0, _http["default"])("get", "/product/list", data);
 }; // 取得產品 detail
 // export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
 
@@ -152,9 +159,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { getDataByISBN } from "@/request/api";
+import { getBigCategory } from "@/request/api";
 
-getDataByISBNApi()
+getBigCategory()
   .then(res => {
     console.log(res);
   })

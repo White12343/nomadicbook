@@ -1,5 +1,8 @@
 <template>
   <article class="card" :id="cardData.bookId">
+    <div class="card__cntr">
+      <slot></slot>
+    </div>
     <header class="card__header">
       <router-link class="card__link" :to="{
           name: 'Detail',
@@ -11,7 +14,6 @@
           {{ cardData.bookName }}
         </h3>
       </router-link>
-
       <h4 class="card__author" v-if="cardData.author">{{ cardData.author }}</h4>
     </header>
     <router-link class="card__link" :to="{
@@ -50,14 +52,14 @@ export default {
   display flex
   flex-direction column-reverse
   background-color $light
-
   &__inner
-    height 180px
+    height 200px
     overflow hidden
     display flex
     align-items center
 
-
+  &__cntr
+    padding 0 1em
   &__img
     display block
     margin-left auto
@@ -67,10 +69,13 @@ export default {
     padding 1em
 
   &__tit
-    textHiding(1)
+    textHiding(2)
     color $text-primary
+    font-size 1em
+    height 48px
     &:hover
       text-decoration underline
   &__author
     color $text-secondary
+    font-size .9em
 </style>

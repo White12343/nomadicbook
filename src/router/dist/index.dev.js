@@ -46,7 +46,7 @@ var router = new _vueRouter["default"]({
     name: 'Home',
     component: _Home["default"]
   }, {
-    path: '/booklist',
+    path: '/booklist/:mainId?/:bigCategory?',
     name: 'BookList',
     component: _BookList["default"]
   }, {

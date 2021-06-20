@@ -13,15 +13,24 @@
       <div class="ask-stall__detail ask-detail">
         <div class="ask-detail__info">
           <BookPic class="ask-detail__pic mx-auto" :book-photo="pdDetail.bookPhotos" :book-name="pdDetail.bookName"/>
-          <BookInfo
-            :bookDesc="pdDetail"
-            :popupOpen="false"
-            @exchange="requestExchange"
-          />
+          <div class="ask-detail__desc">
+            <BookInfo
+              class="ask-detail__book-info"
+              :bookDesc="pdDetail"
+              :popupOpen="false"
+            />
+            <DetailTrade
+              :book-id="parseInt(pdDetail.bookId)"
+              :bookDesc="pdDetail"
+              :popupOpen="false"
+              class="ask-detail__trade"
+              @exchange="requestExchange"
+            />
+          </div>
         </div>
         <div class="ask-detail__cntr">
-          <BookCntr cntr-title="簡介" :cntr="pdDetail.introduction" />
-          <BookCntr cntr-title="書況" :cntr="pdDetail.condition" />
+          <BookCntr class="ask-detail__cntr-item" cntr-title="簡介" :cntr="pdDetail.introduction" />
+          <BookCntr class="ask-detail__cntr-item" cntr-title="書況" :cntr="pdDetail.condition" />
         </div>
       </div>
     </div>
@@ -33,6 +42,7 @@ import { getBookDetail, getAskBoothBookList, selectedBook } from "@/request/api"
 import BookPic from '@/components/detail/BookPic';
 import BookInfo from '@/components/detail/BookInfo';
 import BookCntr from '@/components/detail/BookCntr';
+import DetailTrade from '@/components/detail/DetailTrade';
 export default {
   name: 'AskList',
   props: ['seekUserId', 'seekId'],
@@ -61,6 +71,7 @@ export default {
       getBookDetail(id)
         .then(res => {
           vm.pdDetail = res.data;
+          console.log(vm.pdDetail);
         })
         .catch(error => {
           console.log(error);
@@ -73,7 +84,8 @@ export default {
       })
       selectedBook(this.seekId, exchangeData)
         .then(res => {
-          console.log(res);
+          alert(res.data);
+
         })
         .catch(error => {
           console.log(error);
@@ -84,6 +96,7 @@ export default {
     BookPic,
     BookInfo,
     BookCntr,
+    DetailTrade,
   }
 
 }
@@ -119,7 +132,8 @@ export default {
   overflow-y scroll
   padding 1em
   &__pic
-    width 50%
+    width 100%
+    margin-bottom 1em
 
   &__btn
     display block
@@ -130,4 +144,19 @@ export default {
     border-radius 5px
     background-color $bg-dark
     color $headline-light
+  &__desc
+    display flex
+  &__book-info
+    width 70%
+    box-shadow 0 0 5px $gray
+    margin-bottom 1em
+  &__trade
+    width 30%
+    margin-left 1em
+    box-shadow 0 0 5px $gray
+    margin-bottom 1em
+  &__cntr
+    box-shadow 0 0 5px $gray
+    margin-bottom 1em
+
 </style>

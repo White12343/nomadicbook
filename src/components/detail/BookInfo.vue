@@ -49,7 +49,6 @@ export default {
 
 <style lang="stylus">
 .book-info
-  margin-left 1em
   flex-grow 1
   padding 1em
   &__tit

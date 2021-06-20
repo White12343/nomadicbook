@@ -20,7 +20,6 @@ export default {
 
 .btn
   display block
-  border 2px solid $accent
   text-align center
   padding .6em 0
   margin 1em 0
@@ -33,8 +32,5 @@ export default {
 .light
   background-color $gray
   color $text-secondary
-  &:hover
-    background-color $accent
-    color $headline-light
 
 </style>

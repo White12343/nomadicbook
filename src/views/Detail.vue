@@ -71,23 +71,31 @@ export default {
 
   &__head
     display flex
+
   &__trade
     width 25%
     margin-left 1em
+
   &__info
     display flex
     width 75%
+
   &__info-inner
     width 60%
+    margin-left 1em
+
   &__pic
     width 40%
+
   &__cntr
     background-color $light
     padding 1em
     margin-top 1em
     box-shadow 0 0 5px $gray
+
   &__desc
     margin-bottom 2em
+
 .tarde-form
   padding 1em
 </style>

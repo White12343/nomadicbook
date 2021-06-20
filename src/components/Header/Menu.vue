@@ -1,35 +1,71 @@
 <template>
   <nav class="menu">
     <div class="menu__cntr container mx-auto">
-      <a class="menu__link" href="#"
+      <router-link class="menu__link" href="#"
         @click.prevent
-        v-for="(item, key) in menuJsonData"
-        :key="key"
-        :class="{'divider': key !== (menuJsonData.length - 1)}"
+        :to="{name: 'BookList'}"
       >
-        {{ item.name }}
-        <nav class="submenu">
-          <!-- <router-link class="submenu__link" to="/booklist"
-            v-for="(subItem, subKey) in item.sub" :key="subKey"
-          >
-            {{ subItem.name }}
-          </router-link> -->
-          <a href="#"
+        {{ menuJsonData.name }}
+        <!-- <nav class="submenu">
+          <router-link href="#"
             class="submenu__link"
             @click.prevent
             v-for="(subItem, subKey) in item.sub" :key="subKey"
+            :to="{
+              name: 'BookList',
+              params: {
+                mainId: subItem.id,
+              }
+            }"
           >
             {{ subItem.name }}
             <nav class="medium-menu">
-              <router-link class="medium-menu__link" to="/booklist"
+              <router-link class="medium-menu__link"
+                :to="{
+                  name: 'BookList',
+                  params: {
+                    mainId: subItem.id,
+                    bigCategory: mediumItem
+                  }
+                }"
                 v-for="(mediumItem, mediumKey) in subItem.medium" :key="mediumKey"
               >
                 {{ mediumItem }}
               </router-link>
             </nav>
-          </a>
+          </router-link>
+        </nav> -->
+      </router-link>
+
+      <router-link class="menu__link" href="#"
+        @click.prevent
+        v-for="(item, key) in menuJsonData.sub"
+        :key="key"
+        :to="{
+          name: 'BookList',
+          params: {
+            mainId: item.id
+          }
+        }"
+      >
+        {{ item.name }}
+        <nav class="submenu">
+          <router-link href="#"
+            class="submenu__link"
+            @click.prevent
+            v-for="(subItem, subKey) in item.medium" :key="subKey"
+            :to="{
+              name: 'BookList',
+              params: {
+                mainId: item.id,
+                bigCategory: subItem
+              }
+            }"
+          >
+            {{ subItem }}
+          </router-link>
         </nav>
-      </a>
+      </router-link>
 
 
     </div>
@@ -38,54 +74,48 @@
 </template>
 
 <script>
+import { getCategory } from "@/request/api";
 export default {
   name: 'Menu',
   data() {
     return {
-      menuJsonData: [
-        {
-          name: '總分類',
-          sub: [
-            {
-              name: '中文書',
-              medium: [
-                "文學小說",
-                "輕小說",
-                "漫畫",
-                "商業理財",
-                "心靈勵志",
-                "人文",
-                "語言",
-                "藝術設計",
-                "教科書"
-              ]
-            },
-            {
-              name: '外文書',
-              medium: [
-                "文學小說",
-                "輕小說",
-                "漫畫",
-                "商業理財",
-                "心靈勵志",
-                "人文",
-              ]
-            },
-            {
-              name: '簡體書',
-              medium: [
-                "心靈勵志",
-                "人文",
-                "語言",
-                "藝術設計",
-                "教科書"
-              ]
-            },
-          ]
-        }
-      ]
+      menuJsonData: {
+        name: '總分類',
+        sub: [
+          {
+            name: '中文書',
+            id: 1,
+            medium: []
+          },
+          {
+            name: '簡體書',
+            id: 2,
+            medium: []
+          },
+          {
+            name: '外文書',
+            id: 3,
+            medium: []
+          },
+        ]
+      }
+
 
     }
+  },
+  created() {
+    this.menuJsonData.sub.forEach(item => {
+      getCategory({
+        mainId: item.id
+      })
+        .then(res => {
+          item.medium = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    })
+
   }
 }
 </script>
@@ -102,7 +132,7 @@ export default {
   &__link
     display block
     position relative
-    width 10%
+    width 8%
     color $text-secondary
     transition all .3s
     padding 6px 0
