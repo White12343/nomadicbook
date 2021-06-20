@@ -21,7 +21,7 @@
         }
       }">
       <figure class="card__inner">
-        <img :src="cardData.bookPhoto" :alt="cardData.name" class="card__img img-resp">
+        <img :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg` || defaultImg" :alt="cardData.name" class="card__img img-resp">
       </figure>
     </router-link>
   </article>
@@ -34,7 +34,12 @@ export default {
   props: ['cardData'],
   data() {
     return {
-
+      defaultImg: '/static/img/default-image.png',
+    }
+  },
+  computed: {
+    imgUrl() {
+      return `http://35.236.167.85/photo/${cardData.bookPhoto}.jpg`;
     }
   }
 }
@@ -49,6 +54,8 @@ export default {
   &__inner
     height 180px
     overflow hidden
+    display flex
+    align-items center
 
 
   &__img

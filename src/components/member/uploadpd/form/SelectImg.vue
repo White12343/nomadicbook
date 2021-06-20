@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       preview: [],
-      image: []
+      image: [],
     }
   },
   methods: {
@@ -65,7 +65,6 @@ export default {
       let f = files;
       // 如果他有值
       if (f) {
-        // 跑 loop，從 count 開始
         for(let i = 0; i < f.length; i++){
           // 建立一個讀檔器
           const reader = new FileReader();
@@ -76,13 +75,15 @@ export default {
           reader.readAsDataURL(f[i]);
         }
       }
-
+      this.$emit('getImgFiles', this.image);
     },
     // 刪除圖片
     removePic(index) {
       this.image.splice(index, 1);
       this.preview.splice(index, 1);
+      this.$emit('getImgFiles', this.image);
     },
+
 
   }
 }
@@ -90,12 +91,12 @@ export default {
 
 <style lang="stylus" scoped>
 .selectImg
-  cursor pointer
   margin-top 1em
   margin-bottom 2em
 
   &__choose
     border 2px solid $bg-dark
+    cursor pointer
     padding 1em
 
   &__icon

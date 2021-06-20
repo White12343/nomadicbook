@@ -16,7 +16,6 @@
         :key="index"
         :match-data="item"
         class="match-manage__item"
-        :class="{'mr-0': (index % 2) === 1}"
       />
     </div>
 
@@ -59,11 +58,11 @@ export default {
     display flex
     flex-wrap wrap
   &__item
-    width 49%
-    margin-right 2%
+    width 48%
+    margin-right 1%
+    margin-left 1%
     margin-top 2em
-    box-shadow 0 0 3px $gray
     transition all .3s
     &:hover
-      box-shadow 2px 2px 3px $gray
+      box-shadow 0px 0px 5px $shadow
 </style>

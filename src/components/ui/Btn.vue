@@ -20,7 +20,7 @@ export default {
 
 .btn
   display block
-  border 2px solid $bg-dark
+  border 2px solid $accent
   text-align center
   padding 3px 0
   border-radius 5px
@@ -29,13 +29,13 @@ export default {
   transition all .3s
 
 .dark
-  background-color $dark
+  background-color $accent
   color $headline-light
 .light
   background-color $light
-  color $headline-dark
+  color $text-primary
   &:hover
-    background-color $dark
+    background-color $accent
     color $headline-light
 
 </style>

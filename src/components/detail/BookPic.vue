@@ -2,7 +2,7 @@
   <div class="carousel">
     <div class="carousel__pics" :style="slide">
       <figure class="carousel__pic text-center" v-for="(item, index) in bookPhoto" :key="index">
-        <img :src="item" :alt="bookName" class="carousel__img img-reset" width="266" height="400">
+        <img :src="`http://35.236.167.85/photo/${item}.jpg`" :alt="bookName" class="carousel__img img-reset" width="266" height="400">
       </figure>
     </div>
     <div class="carousel__pagination">
@@ -83,7 +83,6 @@ export default {
 .carousel
   position relative
   overflow hidden
-  border 2px solid $bg-dark
   &__pics
     display flex
     flex-wrap nowrap

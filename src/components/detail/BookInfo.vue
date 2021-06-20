@@ -217,13 +217,14 @@ export default {
     border-radius 5px
 
     &--dark
-      background-color $bg-dark
+      background-color $accent
       color $headline-light
     &--light
       background-color $bg-light
       color $headline-dark
   &__trade-btn
     width 48%
+
 .seek-new
   padding 1em
   &__btn

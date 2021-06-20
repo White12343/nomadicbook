@@ -1,7 +1,7 @@
 <template>
   <div class="upload-form">
     <form class="upload-form__cntr">
-      <SelectImg class="upload-form__selectImg"/>
+      <SelectImg class="upload-form__selectImg" @getImgFiles="getImgs"/>
       <div class="upload-form__form-wrap">
         <!-- ISBN -->
         <div class="form__input-group">
@@ -121,22 +121,20 @@ export default {
         BookWidth: null,
         BookHigh: null,
         Introduction: "",
-        Condition: "",
+        Condition: "測試",
         StoreAddress: null,
         StoreName: null,
         MailBoxAddress: null,
         MailBoxName: null,
-        HomeAddress: "",
+        HomeAddress: "新北市蘆洲區長榮路",
         FaceTradeCity: "",
         FaceTradeArea: "",
         FaceTradeRoad: "",
         FaceTradePath: "",
         FaceTradeDetail: "",
-        TrueName: "",
-        CellphoneNumber: "",
-        BookPhoto:[
-
-        ]
+        TrueName: "李翊銘",
+        CellphoneNumber: "0983191227",
+        BookPhoto:[]
       }
     }
   },
@@ -152,23 +150,67 @@ export default {
     },
     getUserId() {
       return this.$store.state.user.id;
+    },
+    getFormData() {
+      let formData = new FormData()
+      formData.append('UserId', this.getUserId)
+      formData.append('PublishDate', this.getPublishDate)
+      formData.append('Isbn', this.uploadData.ISBN)
+      formData.append('BookName', this.uploadData.BookName)
+      formData.append('Author', this.uploadData.Author)
+      formData.append('PublishingHouse', this.uploadData.PublishingHouse)
+      formData.append('CategoryId', this.uploadData.CategoryId)
+      formData.append('BookLong', this.uploadData.BookLong)
+      formData.append('BookWidth', this.uploadData.BookWidth)
+      formData.append('BookHigh', this.uploadData.BookHigh)
+      formData.append('Introduction', this.uploadData.Introduction)
+      formData.append('Condition', this.uploadData.Condition)
+      formData.append('StoreAddress', this.uploadData.StoreAddress)
+      formData.append('StoreName', this.uploadData.StoreName)
+      formData.append('MailBoxAddress', this.uploadData.MailBoxAddress)
+      formData.append('MailBoxName', this.uploadData.MailBoxName)
+      formData.append('HomeAddress', this.uploadData.HomeAddress)
+      formData.append('FaceTradeCity', this.uploadData.FaceTradeCity)
+      formData.append('FaceTradeArea', this.uploadData.FaceTradeArea)
+      formData.append('FaceTradeRoad', this.uploadData.FaceTradeRoad)
+      formData.append('FaceTradePath', this.uploadData.FaceTradePath)
+      formData.append('FaceTradeDetail', this.uploadData.FaceTradeDetail)
+      formData.append('TrueName', this.uploadData.TrueName)
+      formData.append('CellphoneNumber', this.uploadData.CellphoneNumber)
+      formData.append('BookPhoto', this.uploadData.BookPhoto[0]);
+      this.uploadData.BookPhoto.forEach(el => {
+        formData.append("BookPhoto", el);
+      });
+
+
+      return formData;
     }
+
+
   },
   methods: {
     upLoadBook() {
-      this.uploadData.PublishDate = this.getPublishDate;
-      this.uploadData.UserId = this.getUserId;
-      console.log(this.uploadData);
-      uploadProduct(JSON.stringify(this.uploadData))
-        .then(res => {
-          console.log(res.data);
-          alert('上架成功');
-          this.$router.push('/member/booth');
-        })
-        .catch(error => {
-          alert('上架失敗');
-          console.log(error);
-        })
+      this.$http.post('/api/product/new', this.getFormData)
+      .then((res) => {
+        console.log(res);
+        alert('上架成功');
+        this.$router.push('/member/booth');
+      })
+      .catch(error => {
+        console.log(error);
+        alert('上架失敗');
+      })
+
+      // uploadProduct(JSON.stringify(this.uploadData))
+      //   .then(res => {
+      //     console.log(res.data);
+      //     alert('上架成功');
+      //     this.$router.push('/member/booth');
+      //   })
+      //   .catch(error => {
+      //     alert('上架失敗');
+      //     console.log(error);
+      //   })
     },
     updataBookData() {
       alert('上架頁：更新產品資料' + this.bookId);
@@ -214,7 +256,11 @@ export default {
           alert('取得失敗，請確認是否有輸入正確 ISBN');
           console.log(error);
         })
+    },
+    getImgs(val) {
+      this.uploadData.BookPhoto = val
     }
+
   },
   components: {
     SelectImg,

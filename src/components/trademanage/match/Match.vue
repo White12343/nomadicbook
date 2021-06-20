@@ -76,7 +76,8 @@ export default {
       background-color $light
       color $headline-dark
     &--dark
-      background-color $bg-dark
+      background-color $accent
+      border 2px solid $accent
       color $headline-light
 
 </style>

@@ -55,10 +55,11 @@ export default {
     display flex
     flex-wrap wrap
   &__item
-    width 20%
+    width 23%
     margin-top 1em
-    box-shadow 0 0 3px $gray
+    margin-left 1%
+    margin-right 1%
     transition all .3s
     &:hover
-      box-shadow 2px 2px 3px $gray
+      box-shadow 0px 0px 5px $shadow
 </style>

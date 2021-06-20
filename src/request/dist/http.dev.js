@@ -13,7 +13,7 @@ var API_PATH = 'http://35.236.167.85/';
 var LOACL_PATH = '/static/'; // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 
 var instance = _axios["default"].create({
-  baseURL: API_PATH,
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json'
   },

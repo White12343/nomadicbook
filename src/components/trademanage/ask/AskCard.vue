@@ -7,7 +7,7 @@
       class="ask-card__btn mx-auto"
       @click.native.stop="isOpenPopup = true"
     />
-    <Popup :visible="isOpenPopup" @hide="isOpenPopup = false">
+    <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" popupHeight="70vh">
 
       <AskStall :seek-user-id="askData.seekUserId" :seek-id="askData.seekId"/>
     </Popup>

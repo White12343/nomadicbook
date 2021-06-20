@@ -5,10 +5,12 @@ const LOACL_PATH = '/static/';
 
 // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 const instance = axios.create({
-  baseURL: API_PATH,
+  baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
   timeout: 20000
 });
+
+
 
 // request 的攔截器 (Request Interceptors)，放入兩個函式做為參數。
 instance.interceptors.request.use(
