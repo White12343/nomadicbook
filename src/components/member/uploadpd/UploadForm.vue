@@ -134,7 +134,9 @@ export default {
         FaceTradeDetail: "",
         TrueName: "",
         CellphoneNumber: "",
-        BookPhoto:[]
+        BookPhoto:[
+
+        ]
       }
     }
   },
