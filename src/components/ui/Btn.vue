@@ -22,18 +22,17 @@ export default {
   display block
   border 2px solid $accent
   text-align center
-  padding 3px 0
-  border-radius 5px
-  background-color $bg-dark
-  color $headline-light
+  padding .6em 0
+  margin 1em 0
+  border-radius 3px
   transition all .3s
 
 .dark
   background-color $accent
-  color $headline-light
+  color $light
 .light
-  background-color $light
-  color $text-primary
+  background-color $gray
+  color $text-secondary
   &:hover
     background-color $accent
     color $headline-light

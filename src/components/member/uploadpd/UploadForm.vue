@@ -177,7 +177,6 @@ export default {
       formData.append('FaceTradeDetail', this.uploadData.FaceTradeDetail)
       formData.append('TrueName', this.uploadData.TrueName)
       formData.append('CellphoneNumber', this.uploadData.CellphoneNumber)
-      formData.append('BookPhoto', this.uploadData.BookPhoto[0]);
       this.uploadData.BookPhoto.forEach(el => {
         formData.append("BookPhoto", el);
       });

@@ -3,8 +3,8 @@
     <header class="book-desc__header">
       <h2 class="book-desc__tit">{{ cntrTitle }}</h2>
     </header>
-    <p class="book-desc__cntr">
-      {{ cntr }}
+    <!-- 資安問題 -->
+    <p class="book-desc__cntr" v-html="cntr">
     </p>
   </article>
 

@@ -2,6 +2,7 @@
   <div class="popup">
     <div class="popup__bg" v-if="isOpen">
       <div class="popup__window" v-if="isOpen" ref="main" :style="{'width': popupWidth, 'height': popupHeight}">
+        <a href="#" class="close-btn" @click.prevent="hide">X</a>
         <slot></slot>
       </div>
     </div>
@@ -63,6 +64,7 @@ export default {
 
 <style lang="stylus" scoped>
 .popup
+  position relative
   &__bg
     position fixed
     top 0
@@ -78,5 +80,20 @@ export default {
     background-color #fff
     border-radius 5px
 
-
+.close-btn
+  position absolute
+  top -5px
+  right -5px
+  background-color $shadow
+  color $text-secondary
+  display block
+  font-size $font-sizes-xs
+  width 20px
+  height @width
+  line-height @width
+  text-align center
+  border-radius 50%
+  transition all .3s
+  &:hover
+    background-color #ccc
 </style>
