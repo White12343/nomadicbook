@@ -127,7 +127,6 @@ export default {
       })
         .then(res => {
           this.roadArr = res.data;
-          console.log(res.data);
         })
         .catch(error => {
           console.log(error);

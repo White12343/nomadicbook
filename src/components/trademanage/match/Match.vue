@@ -9,13 +9,19 @@
       </div>
     </div>
     <div class="match-card__btns">
-      <router-link class="match-card__btn match-card__btn--light" :to="{
+      <a href="#" @click.prevent class="match-card__btn match-card__btn--dark">寄出</a>
+      <!-- <router-link class="match-card__btn match-card__btn--dark mr-1" :to="{
           name: 'MatchDetail',
           params: {
             id: matchData.seekId,
           }
-        }">查看資訊</router-link>
-      <a href="#" @click.prevent class="match-card__btn match-card__btn--dark">交易確認</a>
+        }">收到</router-link> -->
+        <router-link class="match-card__btn match-card__btn--light mr-1" :to="{
+          name: 'MatchDetail',
+          params: {
+            id: matchData.seekId,
+          }
+        }">交易資訊</router-link>
     </div>
 
   </article>
@@ -62,22 +68,22 @@ export default {
   &__self
     margin-right 1em
   &__btns
-    margin-bottom 1em
-    margin-left 1em
+    margin-right 1em
     display flex
+    flex-direction row-reverse
   &__btn
     display block
-    border 2px solid $bg-dark
+    width 30%
     text-align center
-    padding 3px 6px
-    margin-right 6px
-    border-radius 5px
+    padding .6em 0
+    margin 1em 0
+    border-radius 3px
+    transition all .3s
     &--light
-      background-color $light
-      color $headline-dark
+      background-color $gray
+      color $text-secondary
     &--dark
       background-color $accent
-      border 2px solid $accent
       color $headline-light
 
 </style>

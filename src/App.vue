@@ -5,6 +5,7 @@
       <router-view/>
     </main>
     <!-- <div class="background"></div> -->
+    
   </div>
 </template>
 

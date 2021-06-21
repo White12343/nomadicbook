@@ -1,8 +1,8 @@
 <template>
   <section class="book-list mx-auto">
-    <header class="book-list__header">
+    <!-- <header class="book-list__header">
       <h2 class="book-list__tit">列表頁</h2>
-    </header>
+    </header> -->
     <div class="book-list__body">
       <aside class="book-list__aside aside-nav">
         <article class="aside-nav__cntr" v-for="item , index in menuJsonData.sub" :key="index">

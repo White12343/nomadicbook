@@ -132,7 +132,7 @@ export default {
   &__link
     display block
     position relative
-    width 8%
+    width 15%
     color $text-secondary
     transition all .3s
     padding 6px 0

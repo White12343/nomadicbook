@@ -26,7 +26,7 @@
         >
           交換
         </a>
-        <a href="#" class="detail-trade__btn detail-trade__btn--light">聊聊</a>
+        <!-- <a href="#" class="detail-trade__btn detail-trade__btn--light">聊聊</a> -->
       </div>
     </div>
     <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" v-if="popupOpen" class="exchange__popup" popupWidth="30%">

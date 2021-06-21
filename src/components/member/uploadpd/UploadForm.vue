@@ -191,7 +191,6 @@ export default {
     upLoadBook() {
       this.$http.post('/api/product/new', this.getFormData)
       .then((res) => {
-        console.log(res);
         alert('上架成功');
         this.$router.push('/member/booth');
       })
