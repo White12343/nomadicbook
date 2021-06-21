@@ -8,6 +8,7 @@ import App from './App'
 import router from './router'
 import VueCookies from 'vue-cookies'
 import store from './store';
+import vuetify from '@/plugins/vuetify' // path to vuetify export
 
 
 Vue.config.productionTip = false
@@ -20,5 +21,6 @@ new Vue({
   router,
   store,
   components: { App },
+  vuetify,
   template: '<App/>'
 })

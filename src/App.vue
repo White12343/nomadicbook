@@ -1,12 +1,14 @@
 <template>
-  <div id="app">
-    <Header />
-    <main class="main container mx-auto">
-      <router-view/>
-    </main>
-    <!-- <div class="background"></div> -->
-    
-  </div>
+  <v-app>
+    <div id="app">
+      <Header />
+      <main class="main container mx-auto">
+        <router-view/>
+      </main>
+      <!-- <div class="background"></div> -->
+
+    </div>
+  </v-app>
 </template>
 
 <script>

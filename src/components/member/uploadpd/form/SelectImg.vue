@@ -95,7 +95,7 @@ export default {
   margin-bottom 2em
 
   &__choose
-    border 2px solid $bg-dark
+    border 1px solid $bg-dark
     cursor pointer
     padding 1em
 

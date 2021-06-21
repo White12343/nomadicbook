@@ -1,103 +1,211 @@
 <template>
   <div class="upload-form">
-    <form class="upload-form__cntr">
+    <v-form class="upload-form__cntr"
+      ref="form"
+      v-model="valid"
+      lazy-validation
+    >
       <SelectImg class="upload-form__selectImg" @getImgFiles="getImgs"/>
-      <div class="upload-form__form-wrap">
-        <!-- ISBN -->
-        <div class="form__input-group">
-          <label class="form__label" for="Isbn">ISBN: </label>
-          <input type="text" class="form__input" id="Isbn" v-model="uploadData.ISBN">
-          <button class="form__btn" type="submit" @click.prevent="getDataByISBN">ISBN 代入資料</button>
-        </div>
-        <!-- 出版日 -->
+      <v-row justify="space-around">
+        <v-col cols="12" md="6">
+          <!-- ISBN -->
+          <v-text-field label="ISBN" id="Isbn" v-model="uploadData.ISBN"></v-text-field>
+          <v-btn
+            color="primary"
+            class="mr-4"
+            @click="getDataByISBN"
+          >
+            ISBN 自動帶入
+          </v-btn>
+          <!-- 出版日 -->
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="date"
+                label="出版日期"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                :rules="defaultRules"
+                required
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="date"
+              no-title
+              scrollable
+            >
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="menu = false"
+              >
+                取消
+              </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="$refs.menu.save(date)"
+              >
+                確認
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
 
-        <label class="form__label" for="PublishYear">出版日期：</label>
-        <date-pick
-          class="upload-form__date"
-          v-model="date"
-        ></date-pick>
-        <!-- <div class="form__input-wrap">
-          <label class="form__label mr-1" for="PublishYear">年:</label>
-          <input type="number" class="form__input" id="PublishYear" v-model="publish.year">
-          <label class="form__label ml-1 mr-1" for="PublishMonth">月: </label>
-          <input type="number" class="form__input" id="PublishMonth" v-model="publish.month">
-          <label class="form__label ml-1 mr-1" for="PublishDay">日: </label>
-          <input type="number" class="form__input" id="PublishDay" v-model="publish.day">
-        </div> -->
+          <!-- 書名 -->
+          <v-text-field
+            label="書名"
+            id="BookName"
+            v-model="uploadData.BookName"
+            :rules="defaultRules"
+            required
+          ></v-text-field>
+          <v-row align="center">
+            <v-col class="d-flex" cols="12" sm="6">
+              <!-- 作者 -->
+              <v-text-field
+                label="作者"
+                id="Author"
+                v-model="uploadData.Author"
+                :rules="defaultRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="6">
+              <!-- 出版社 -->
+              <v-text-field
+                label="出版社"
+                id="PublishingHouse"
+                v-model="uploadData.PublishingHouse"
+                :rules="defaultRules"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-        <!-- 書名 -->
-        <div class="form__input-group">
-          <label class="form__label" for="BookName">書名: </label>
-          <input type="text" class="form__input" id="BookName" v-model="uploadData.BookName">
-        </div>
-        <!-- 作者 -->
-        <div class="form__input-group">
-          <label class="form__label" for="Author">作者: </label>
-          <input type="text" class="form__input" id="Author" v-model="uploadData.Author">
-        </div>
-        <!-- 出版社 -->
-        <div class="form__input-group">
-          <label class="form__label" for="PublishingHouse">出版社: </label>
-          <input type="text" class="form__input" id="PublishingHouse" v-model="uploadData.PublishingHouse">
-        </div>
-        <!-- 分類 -->
-        <div class="form__input-group">
-          <label class="form__label" for="Catgory">分類: </label>
-          <select type="text" class="form__input" id="Catgory" v-model="uploadData.CategoryId">
-            <option value="" disabled>請選擇</option>
-            <option value="1">1</option>
-          </select>
-        </div>
-        <!-- 長寬高 -->
-        <div class="form__input-wrap">
-          <label class="form__label mr-1" for="BookLong">長: </label>
-          <input type="number" class="form__input" id="BookLong" v-model="uploadData.BookLong">
+          <v-row align="center">
+            <v-col class="d-flex" cols="12" sm="6">
+              <v-select
+                class="mr-1"
+                :items="categoryNameArr"
+                label="大分類"
+                v-model="category.top"
+                @change="getSubCategory"
+                :rules="defaultRules"
+                required
+              ></v-select>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="6">
+              <v-select
+                class="mr-1"
+                :items="subCategoryArr"
+                label="中分類"
+                v-model="category.mid"
+                :rules="defaultRules"
+                required
+              ></v-select>
+            </v-col>
+            <!-- <v-col class="d-flex" cols="12" sm="4">
+              <v-select
+                class="mr-1"
+                :items="categoryArr"
+                label="大分類"
+                v-model="category"
+              ></v-select>
+            </v-col> -->
+          </v-row>
 
-          <label class="form__label ml-1 mr-1" for="BookWidth">寬: </label>
-          <input type="number" class="form__input" id="BookWidth" v-model="uploadData.BookWidth">
 
-          <label class="form__label ml-1 mr-1" for="BookHigh">高: </label>
-          <input type="number" class="form__input" id="BookHigh" v-model="uploadData.BookHigh">
-        </div>
-        <!-- 簡介 -->
-        <div class="form__input-group">
-          <label class="form__label" for="Introduction">簡介: </label>
-          <textarea class="form__input" id="Introduction" v-model="uploadData.Introduction" rows="5" cols="100"></textarea>
-        </div>
-        <!-- 書況 -->
-        <div class="form__input-group">
-          <label class="form__label" for="Condition">書況: </label>
-          <textarea class="form__input" id="Condition" v-model="uploadData.Condition" rows="5" cols="100"></textarea>
-        </div>
-        <!-- 姓名 -->
-        <div class="form__input-group">
-          <label class="form__label" for="TrueName">姓名: </label>
-          <input type="text" class="form__input" id="TrueName" v-model="uploadData.TrueName">
-        </div>
-        <!-- 手機 -->
-        <div class="form__input-group">
-          <label class="form__label" for="CellphoneNumber">手機: </label>
-          <input type="text" class="form__input" id="CellphoneNumber" v-model="uploadData.CellphoneNumber">
-        </div>
-        <!-- 地址 -->
-        <h3 class="upload-form__tit">交易方式</h3>
-        <h4 class="upload-form__subtit">*請至少選擇一種交易方式</h4>
-        <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress"/>
-        <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress"/>
-        <!-- <AddressSelect title="店到店" nameId="Store"/> -->
-        <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress"/>
-        <div class="upload-form__btn-group text-right">
-          <router-link to="/member" class="form__btn form__btn--light">取消</router-link>
-          <button class="form__btn" type="submit" v-if="!bookId" @click.prevent="upLoadBook">上架</button>
-          <button class="form__btn" type="submit" v-else @click="updataBookData">更新</button>
-        </div>
-      </div>
-    </form>
+          <!-- 長寬高 -->
+          <v-row align="center">
+            <v-col class="d-flex" cols="12" sm="4">
+              <v-text-field
+                label="長(選填)"
+                id="BookLong"
+                v-model="uploadData.BookLong"
+              ></v-text-field>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="4">
+              <v-text-field
+                label="寬(選填)"
+                id="BookWidth"
+                v-model="uploadData.BookWidth"
+              ></v-text-field>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="4">
+              <v-text-field
+                label="高(選填)"
+                id="BookHigh"
+                v-model="uploadData.BookHigh"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <!-- 簡介 -->
+          <v-textarea
+            name="input-7-1"
+            id="Introduction"
+            label="簡介(選填)"
+            v-model="uploadData.Introduction"
+          ></v-textarea>
+          <!-- 書況 -->
+          <v-select
+            v-model="conditionValue"
+            :items="defaultCondition"
+            attach
+            chips
+            label="書況(選填)"
+            multiple
+          ></v-select>
+        </v-col>
+        <v-col cols="12" md="6">
+          <div class="upload-form__form-wrap">
+            <!-- 姓名 -->
+            <v-text-field
+              label="姓名"
+              id="TrueName"
+              v-model="uploadData.TrueName"
+              :rules="defaultRules"
+              required
+            ></v-text-field>
+            <!-- 手機 -->
+            <v-text-field
+              label="手機"
+              id="CellphoneNumber"
+              v-model="uploadData.CellphoneNumber"
+              :rules="phoneRules"
+              required
+            ></v-text-field>
+            <!-- 地址 -->
+            <h3 class="upload-form__tit">交易方式</h3>
+            <small class="red--text" v-if="this.isOpenTradeMode">請至少選擇一種交易方式</small>
+            <!-- <AddressSelect title="店到店" nameId="Store"/> -->
+            <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress" @isOpenTrade="isDeliveryOpen"/>
+            <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress" @isOpenTrade="isFaceOpen"/>
+            <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress" @isOpenTrade="isMailBoxOpen"/>
+            <div class="upload-form__btn-group text-right">
+              <v-btn class="mr-4" @click="$router.push('/member')">取消</v-btn>
+              <v-btn color="primary" class="mr-4" v-if="!bookId" @click="upLoadBook">上架</v-btn>
+              <v-btn color="primary" class="mr-4" v-else @click="updataBookData">更新</v-btn>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-form>
   </div>
 </template>
 
 <script>
-import { uploadProduct, getDataByISBNApi } from "@/request/api";
+import { getDataByISBNApi, getCategory } from "@/request/api";
 import SelectImg from './form/SelectImg';
 import FormInput from './form/FormInput';
 import FormTextarea from './form/FormTextarea';
@@ -111,12 +219,18 @@ export default {
   props: ['bookId'],
   data() {
     return {
-      date: '2019-01-01',
-      publish: {
-        year: '',
-        month: '',
-        day: '',
-      },
+      valid: true,
+      date: '',
+      menu: false,
+      defaultCondition: ['破損','有做筆記','包書套','九成新','泛黃'],
+      conditionValue: [],
+      defaultRules: [
+        v => !!v || '此為必填欄位',
+      ],
+      phoneRules: [
+        v => !!v || '此為必填欄位',
+        v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
+      ],
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -129,7 +243,7 @@ export default {
         BookWidth: null,
         BookHigh: null,
         Introduction: "",
-        Condition: "測試",
+        Condition: "",
         StoreAddress: null,
         StoreName: null,
         MailBoxAddress: null,
@@ -143,6 +257,22 @@ export default {
         TrueName: "李翊銘",
         CellphoneNumber: "0983191227",
         BookPhoto:[]
+      },
+      category: {
+        top: '',
+        mid: '',
+      },
+      categoryNameArr: [
+        '中文書',
+        '簡體書',
+        '外文書',
+      ],
+      subCategoryArr: [],
+      tradeModeOpen: {
+        delivery: false,
+        face: false,
+        stroe: false,
+        mailBox: false,
       }
     }
   },
@@ -153,16 +283,13 @@ export default {
 
   },
   computed: {
-    getPublishDate() {
-      return `${this.publish.year}-${this.publish.month}-${this.publish.day}`;
-    },
     getUserId() {
       return this.$store.state.user.id;
     },
     getFormData() {
       let formData = new FormData()
       formData.append('UserId', this.getUserId)
-      formData.append('PublishDate', this.getPublishDate)
+      formData.append('PublishDate', this.date)
       formData.append('Isbn', this.uploadData.ISBN)
       formData.append('BookName', this.uploadData.BookName)
       formData.append('Author', this.uploadData.Author)
@@ -172,31 +299,53 @@ export default {
       formData.append('BookWidth', this.uploadData.BookWidth)
       formData.append('BookHigh', this.uploadData.BookHigh)
       formData.append('Introduction', this.uploadData.Introduction)
-      formData.append('Condition', this.uploadData.Condition)
-      formData.append('StoreAddress', this.uploadData.StoreAddress)
-      formData.append('StoreName', this.uploadData.StoreName)
-      formData.append('MailBoxAddress', this.uploadData.MailBoxAddress)
-      formData.append('MailBoxName', this.uploadData.MailBoxName)
-      formData.append('HomeAddress', this.uploadData.HomeAddress)
-      formData.append('FaceTradeCity', this.uploadData.FaceTradeCity)
-      formData.append('FaceTradeArea', this.uploadData.FaceTradeArea)
-      formData.append('FaceTradeRoad', this.uploadData.FaceTradeRoad)
-      formData.append('FaceTradePath', this.uploadData.FaceTradePath)
-      formData.append('FaceTradeDetail', this.uploadData.FaceTradeDetail)
+      formData.append('Condition', this.conditionValue.join(','))
+      // 店到店開放
+      if(this.tradeModeOpen.stroe){
+        formData.append('StoreAddress', this.uploadData.StoreAddress)
+        formData.append('StoreName', this.uploadData.StoreName)
+      }
+      // i郵箱開放
+      if(this.tradeModeOpen.mailBox){
+        formData.append('MailBoxAddress', this.uploadData.MailBoxAddress)
+        formData.append('MailBoxName', this.uploadData.MailBoxName)
+      }
+      // 宅配開放
+      if(this.tradeModeOpen.delivery){
+        formData.append('HomeAddress', this.uploadData.HomeAddress)
+      }
+      // 面交開放
+      if(this.tradeModeOpen.face){
+        formData.append('FaceTradeCity', this.uploadData.FaceTradeCity)
+        formData.append('FaceTradeArea', this.uploadData.FaceTradeArea)
+        formData.append('FaceTradeRoad', this.uploadData.FaceTradeRoad)
+        formData.append('FaceTradePath', this.uploadData.FaceTradePath)
+        formData.append('FaceTradeDetail', this.uploadData.FaceTradeDetail)
+      }
       formData.append('TrueName', this.uploadData.TrueName)
       formData.append('CellphoneNumber', this.uploadData.CellphoneNumber)
       this.uploadData.BookPhoto.forEach(el => {
         formData.append("BookPhoto", el);
       });
-
-
       return formData;
+    },
+    isOpenTradeMode() {
+      return !this.tradeModeOpen.stroe &&
+        !this.tradeModeOpen.face &&
+        !this.tradeModeOpen.mailBox &&
+        !this.tradeModeOpen.delivery;
     }
 
 
   },
   methods: {
     upLoadBook() {
+      if(this.isOpenTradeMode){
+        return;
+      }
+      if(!this.$refs.form.validate()){
+        return;
+      }
       this.$http.post('/api/product/new', this.getFormData)
       .then((res) => {
         alert('上架成功');
@@ -206,17 +355,6 @@ export default {
         console.log(error);
         alert('上架失敗');
       })
-
-      // uploadProduct(JSON.stringify(this.uploadData))
-      //   .then(res => {
-      //     console.log(res.data);
-      //     alert('上架成功');
-      //     this.$router.push('/member/booth');
-      //   })
-      //   .catch(error => {
-      //     alert('上架失敗');
-      //     console.log(error);
-      //   })
     },
     updataBookData() {
       alert('上架頁：更新產品資料' + this.bookId);
@@ -253,9 +391,7 @@ export default {
           // vm.uploadData.CategoryName = res.data.categoryName;
           vm.uploadData.Introduction = res.data.introduction;
           let publishDate = res.data.publishDate.split('/');
-          vm.publish.year = publishDate[0];
-          vm.publish.month = publishDate[1];
-          vm.publish.day = publishDate[2];
+          vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
           vm.uploadData.PublishingHouse = res.data.publishingHouse;
         })
         .catch(error => {
@@ -265,7 +401,30 @@ export default {
     },
     getImgs(val) {
       this.uploadData.BookPhoto = val
+    },
+    getSubCategory(val) {
+      let vm = this;
+      vm.category.mid = '';
+      getCategory({
+        mainId: (this.categoryNameArr.indexOf(val) + 1),
+      })
+        .then(res => {
+          vm.subCategoryArr = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    isDeliveryOpen(val) {
+      this.tradeModeOpen.delivery = val;
+    },
+    isFaceOpen(val) {
+      this.tradeModeOpen.face = val;
+    },
+    isMailBoxOpen(val) {
+      this.tradeModeOpen.mailBox = val;
     }
+
 
   },
   components: {
@@ -287,14 +446,6 @@ export default {
     margin-bottom 6px
   &__subtit
     color $danger
-  &__cntr
-    display flex
-    justify-content space-between
-  &__selectImg
-    width 40%
-    margin-right 3%
-  &__form-wrap
-    width 57%
 
   &__date input
       font-size 1em !important

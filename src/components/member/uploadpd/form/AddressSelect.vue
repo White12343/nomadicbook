@@ -1,45 +1,88 @@
 <template>
-  <div class="form__input-group">
-    <input type="checkbox" :name="nameId" :id="nameId" v-model="isOpen" @change="openTrade" v-if="isOptional">
-    <label :for="nameId">{{ title }}: </label>
-    <div class="select__group">
-      <select
-        class="select__input"
-        :name="nameId + 'City'"
-        :id="(nameId + 'City')"
-        v-model="address.city"
-        :disabled="!isOpen"
-        @change="getAreaArr"
-      >
-        <option value="" disabled>請選擇</option>
-        <option v-for="value, index in cityArr" :value="value" :key="index">{{ value }}</option>
-      </select>
-      <select
-        class="select__input ml-1"
-        :name="nameId + 'Area'"
-        :id="(nameId + 'Area')"
-        v-model="address.area"
-        :disabled="!isOpen"
-        @change="getRoadArr"
-      >
-        <option value="" disabled>請選擇</option>
-        <option v-for="value, index in areaArr" :key="index" :value="value">{{ value }}</option>
-      </select>
-      <select
-        class="select__input ml-1"
-        :name="nameId + 'Road'"
-        :id="(nameId + 'Road')"
-        v-model="address.road"
-        :disabled="!isOpen"
-        @change="sentData"
-      >
-        <option value="" disabled>請選擇</option>
-        <option v-for="value, index in roadArr" :key="index" :value="value">{{ value }}</option>
-      </select>
-    </div>
+  <div class="form__input-group" data-app>
+
+
+    <v-switch
+      v-model="isOpen"
+      :label="title"
+      :id="nameId"
+      @change="openTrade"
+      v-if="isOptional"
+    ></v-switch>
+
+    <v-row align="center">
+      <v-col class="d-flex" cols="12" sm="4">
+        <v-select
+          class="mr-1"
+          :items="cityArr"
+          label="城市"
+          v-model="address.city"
+          :id="(nameId + 'City')"
+          :disabled="!isOpen"
+          @change="getAreaArr"
+        ></v-select>
+      </v-col>
+      <v-col class="d-flex" cols="12" sm="4">
+        <v-select
+          class="mr-1"
+          :items="areaArr"
+          label="地區"
+          v-model="address.area"
+          :id="(nameId + 'Area')"
+          :disabled="!isOpen"
+          @change="getRoadArr"
+        ></v-select>
+      </v-col>
+      <v-col class="d-flex" cols="12" sm="4">
+        <v-select
+          :items="roadArr"
+          label="地址"
+          v-model="address.road"
+          :id="(nameId + 'Road')"
+          :disabled="!isOpen"
+          @change="sentData"
+        ></v-select>
+      </v-col>
+    </v-row>
+
+    <!-- <v-row align="center">
+      <v-col class="d-flex" cols="12" sm="6">
+        <v-text-field
+          label="地址"
+          v-model="address.path"
+          :disabled="!isOpen"
+          v-if="openInput"
+          @change="sentData"
+        ></v-text-field>
+      </v-col>
+      <v-col class="d-flex" cols="12" sm="6">
+        <v-text-field
+          class="ml-1"
+          label="備註"
+          v-model="address.detail"
+          :disabled="!isOpen"
+          v-if="openRemark"
+          @change="sentData"
+        ></v-text-field>
+      </v-col>
+    </v-row> -->
+
     <div class="form__input-wrap">
-      <input class="form__input" type="text" v-if="openInput" v-model="address.path" :disabled="!isOpen" placeholder="地址" @change="sentData">
-      <input class="form__input ml-1" type="text" v-if="openRemark" v-model="address.detail" :disabled="!isOpen" placeholder="備註" @change="sentData">
+      <v-text-field
+        label="地址"
+        v-model="address.path"
+        :disabled="!isOpen"
+        v-if="openInput"
+        @change="sentData"
+      ></v-text-field>
+      <v-text-field
+        class="ml-1"
+        label="備註"
+        v-model="address.detail"
+        :disabled="!isOpen"
+        v-if="openRemark"
+        @change="sentData"
+      ></v-text-field>
     </div>
   </div>
 </template>
@@ -78,6 +121,7 @@ export default {
   },
   data() {
     return {
+      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       isOpen: false,
       cityArr: [],
       areaArr: [],
@@ -99,6 +143,7 @@ export default {
   },
   methods: {
     openTrade() {
+      this.$emit('isOpenTrade', this.isOpen);
       getCity()
         .then(res => {
           this.cityArr = res.data;
@@ -162,12 +207,4 @@ export default {
     padding 6px
     color $light
     cursor pointer
-.select
-  &__group
-    display flex
-    width 100%
-  &__input
-    display block
-    width 100%
-    padding 6px 0
 </style>
