@@ -12,14 +12,19 @@
         <!-- 出版日 -->
 
         <label class="form__label" for="PublishYear">出版日期：</label>
-        <div class="form__input-wrap">
+        <date-pick
+          class="upload-form__date"
+          v-model="date"
+        ></date-pick>
+        <!-- <div class="form__input-wrap">
           <label class="form__label mr-1" for="PublishYear">年:</label>
           <input type="number" class="form__input" id="PublishYear" v-model="publish.year">
           <label class="form__label ml-1 mr-1" for="PublishMonth">月: </label>
           <input type="number" class="form__input" id="PublishMonth" v-model="publish.month">
           <label class="form__label ml-1 mr-1" for="PublishDay">日: </label>
           <input type="number" class="form__input" id="PublishDay" v-model="publish.day">
-        </div>
+        </div> -->
+
         <!-- 書名 -->
         <div class="form__input-group">
           <label class="form__label" for="BookName">書名: </label>
@@ -98,12 +103,15 @@ import FormInput from './form/FormInput';
 import FormTextarea from './form/FormTextarea';
 import AddressSelect from './form/AddressSelect';
 import IMailBoxSelect from './form/IMailBoxSelect';
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
   name: 'UploadFrom',
   props: ['bookId'],
   data() {
     return {
+      date: '2019-01-01',
       publish: {
         year: '',
         month: '',
@@ -266,11 +274,13 @@ export default {
     FormTextarea,
     AddressSelect,
     IMailBoxSelect,
+    DatePick,
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+
 .upload-form
 
   &__tit, &__subtit
@@ -285,6 +295,10 @@ export default {
     margin-right 3%
   &__form-wrap
     width 57%
+
+  &__date input
+      font-size 1em !important
+
 
 .form
   &__input-wrap
