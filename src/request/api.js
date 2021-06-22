@@ -15,6 +15,7 @@ export const checkMail = (mail) => req("get", "/user/mail", mail);
 
 // 取得分類
 export const getCategory = (id) => req("get", "/Product/category", id);
+export const getCategoryDetail = (data) => req("get", "/Product/category/detail", data);
 
 
 
@@ -28,7 +29,13 @@ export const getBookDetail = (id) => req("get", "/product/" + id);
 
 // 管理
 // Booth
-export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
+// export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
+export const getBoothBookList = (id) => req("get", "/Stall/" + id);
+// 下架
+export const setOffShelf = (id) => req("put", `/Stall/bookoff/${id}`);
+// 上架
+export const setOnShelf = (id) => req("put", `/Stall/bookon/${id}`);
+
 // 邀約方書本資料
 export const getAskBoothBookList = (id, mode) => req("get", `/seek/otherpeople/books/${id}/${mode}`);
 // 確認回應邀約方資料
@@ -65,9 +72,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getBigCategory } from "@/request/api";
+import { setOnShelf } from "@/request/api";
 
-getBigCategory()
+setOnShelf()
   .then(res => {
     console.log(res);
   })

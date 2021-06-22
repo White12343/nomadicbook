@@ -1,122 +1,92 @@
 [
   {
-    "id": 32429,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9747/9781974714810.jpg",
-    "name": "Althea Santos",
-    "author": "Massey Griffin"
+    "bookId": 3,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062014143430",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 3,
+    "bookStatus": true
   },
   {
-    "id": 29388,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9747/9781974710041.jpg",
-    "name": "Inez Perkins",
-    "author": "Avila Navarro"
+    "bookId": 4,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062014145640",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 2,
+    "bookStatus": true
   },
   {
-    "id": 52062,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9783/7704/9783770428472.jpg",
-    "name": "Keith Tyler",
-    "author": "Maria Kane"
+    "bookId": 5,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062014153250",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 0,
+    "bookStatus": true
   },
   {
-    "id": 28614,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9821/9781982147662.jpg",
-    "name": "Crane Webb",
-    "author": "Ronda Knox"
+    "bookId": 6,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062015020260",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 1,
+    "bookStatus": true
   },
   {
-    "id": 47393,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/2502/9781250244499.jpg",
-    "name": "Minerva Mcintyre",
-    "author": "Priscilla Stokes"
+    "bookId": 7,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062015060270",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 0,
+    "bookStatus": true
   },
   {
-    "id": 25707,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9747/9781974714803.jpg",
-    "name": "Marsha Yang",
-    "author": "Laurie Swanson"
+    "bookId": 8,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062016123680",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 0,
+    "bookStatus": true
   },
   {
-    "id": 13058,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0084/9780008472344.jpg",
-    "name": "Denise Kelly",
-    "author": "Santiago Hogan"
+    "bookId": 9,
+    "bookName": "其實你很好：停止自我苛責，擁抱內在小孩，和死纏爛打的焦慮Say Goodbye！",
+    "author": "考拉小巫",
+    "bookPhoto": "2021062016130790",
+    "condition": null,
+    "conditionNum": 6,
+    "seekNum": 0,
+    "bookStatus": true
   },
   {
-    "id": 19906,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9747/9781974719228.jpg",
-    "name": "Salinas Velez",
-    "author": "Ursula Moon"
+    "bookId": 22,
+    "bookName": "漫步華爾街",
+    "author": "莫基爾",
+    "bookPhoto": "20210622023210220",
+    "condition": "二手書，九成新",
+    "conditionNum": 6,
+    "seekNum": 4,
+    "bookStatus": true
   },
   {
-    "id": 30594,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0629/9780062961389.jpg",
-    "name": "Cabrera James",
-    "author": "Janell Lancaster"
-  },
-  {
-    "id": 77490,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/5101/9781510106284.jpg",
-    "name": "Gillespie Conner",
-    "author": "Beverly Frazier"
-  },
-  {
-    "id": 73283,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9848/9781984826961.jpg",
-    "name": "Erma Woodard",
-    "author": "Snyder Hopkins"
-  },
-  {
-    "id": 22461,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/8578/9780857839633.jpg",
-    "name": "Pacheco Blanchard",
-    "author": "Raquel Foley"
-  },
-  {
-    "id": 42683,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9788/4679/9788467941920.jpg",
-    "name": "Merle Dean",
-    "author": "Cornelia Wilkerson"
-  },
-  {
-    "id": 59296,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9788/4844/9788484458876.jpg",
-    "name": "Cobb Dillon",
-    "author": "Baxter Townsend"
-  },
-  {
-    "id": 91297,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/7608/9781760890049.jpg",
-    "name": "Mcdonald Puckett",
-    "author": "Cardenas Olson"
-  },
-  {
-    "id": 56370,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/5101/9781510107038.jpg",
-    "name": "Adele Mejia",
-    "author": "Knox Tyson"
-  },
-  {
-    "id": 23245,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0629/9780062961389.jpg",
-    "name": "Ingram Bush",
-    "author": "Effie Rojas"
-  },
-  {
-    "id": 91264,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/5525/9780552565974.jpg",
-    "name": "Tate Barnes",
-    "author": "Obrien Moreno"
-  },
-  {
-    "id": 11676,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/4449/9781444951387.jpg",
-    "name": "Jennifer Klein",
-    "author": "Trina Whitney"
-  },
-  {
-    "id": 51088,
-    "imgUrl": "https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0075/9780007513765.jpg",
-    "name": "Arline Larsen",
-    "author": "Clemons Head"
+    "bookId": 23,
+    "bookName": "漫步華爾街",
+    "author": "莫基爾",
+    "bookPhoto": "20210622053218230",
+    "condition": "二手書，九成新",
+    "conditionNum": 6,
+    "seekNum": 0,
+    "bookStatus": true
   }
 ]

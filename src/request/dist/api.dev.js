@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getCategory = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -41,11 +41,17 @@ exports.checkMail = checkMail;
 
 var getCategory = function getCategory(id) {
   return (0, _http["default"])("get", "/Product/category", id);
+};
+
+exports.getCategory = getCategory;
+
+var getCategoryDetail = function getCategoryDetail(data) {
+  return (0, _http["default"])("get", "/Product/category/detail", data);
 }; // 取得產品列表
 // export const getBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
-exports.getCategory = getCategory;
+exports.getCategoryDetail = getCategoryDetail;
 
 var getBookList = function getBookList(data) {
   return (0, _http["default"])("get", "/product/list", data);
@@ -59,17 +65,31 @@ var getBookDetail = function getBookDetail(id) {
   return (0, _http["default"])("get", "/product/" + id);
 }; // 管理
 // Booth
+// export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
 exports.getBookDetail = getBookDetail;
 
-var getBoothBookList = function getBoothBookList() {
-  return (0, _http["default"])("get", "/json/pd.json");
-}; // 測試用
-// 邀約方書本資料
+var getBoothBookList = function getBoothBookList(id) {
+  return (0, _http["default"])("get", "/Stall/" + id);
+}; // 下架
 
 
 exports.getBoothBookList = getBoothBookList;
+
+var setOffShelf = function setOffShelf(id) {
+  return (0, _http["default"])("put", "/Stall/bookoff/".concat(id));
+}; // 上架
+
+
+exports.setOffShelf = setOffShelf;
+
+var setOnShelf = function setOnShelf(id) {
+  return (0, _http["default"])("put", "/Stall/bookon/".concat(id));
+}; // 邀約方書本資料
+
+
+exports.setOnShelf = setOnShelf;
 
 var getAskBoothBookList = function getAskBoothBookList(id, mode) {
   return (0, _http["default"])("get", "/seek/otherpeople/books/".concat(id, "/").concat(mode));
@@ -159,9 +179,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { getBigCategory } from "@/request/api";
+import { setOnShelf } from "@/request/api";
 
-getBigCategory()
+setOnShelf()
   .then(res => {
     console.log(res);
   })

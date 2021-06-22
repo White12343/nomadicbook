@@ -1,11 +1,11 @@
 import axios from "axios";
-const API_PATH = 'http://35.236.167.85/';
+const API_PATH = '/api';
 const LOACL_PATH = '/static/';
 
 
 // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: API_PATH,
   headers: { 'Content-Type': 'application/json' },
   timeout: 20000
 });

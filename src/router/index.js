@@ -7,8 +7,11 @@ import Login from '@/views/Login'
 import SignIn from '@/views/login/SignIn'
 import SignUp from '@/views/login/SignUp'
 import Member from '@/views/Member'
+import Profile from '@/views/Profile'
+import Manage from '@/views/Manage'
 import UploadPd from '@/views/mamber/UploadPd'
 import Booth from '@/views/mamber/Booth'
+import OffShelf from '@/views/mamber/OffShelf'
 import SeekManage from '@/views/trademanage/SeekManage'
 import AskManage from '@/views/trademanage/AskManage'
 import MatchManage from '@/views/trademanage/MatchManage'
@@ -75,10 +78,10 @@ const router = new Router({
     },
     // 管理
     {
-      path: '/member',
-      name: 'Member',
-      redirect: 'member/booth',
-      component: Member,
+      path: '/manage',
+      name: 'Manage',
+      redirect: 'manage/seek',
+      component: Manage,
       beforeEnter: (to, from, next) => {
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
           next();
@@ -88,11 +91,6 @@ const router = new Router({
         }
       },
       children: [
-        {
-          path: 'booth',
-          name: 'Booth',
-          component: Booth,
-        },
         {
           path: 'seek',
           name: 'Seek',
@@ -114,6 +112,54 @@ const router = new Router({
           name: 'MatchDetail',
           component: TradeMatch,
         },
+      ]
+    },
+    // 會員資料、攤位頁
+    {
+      path: '/member',
+      name: 'Member',
+      redirect: 'member/booth',
+      component: Member,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      },
+      children: [
+        {
+          path: 'booth',
+          name: 'Booth',
+          component: Booth,
+        },
+        {
+          path: 'offshelf',
+          name: 'OffShelf',
+          component: OffShelf,
+        }
+      ]
+    },
+    // 設定、修改個人資料
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      },
+      children: [
+        // {
+        //   path: 'booth',
+        //   name: 'Booth',
+        //   component: Booth,
+        // },
       ]
     },
 

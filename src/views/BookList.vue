@@ -135,10 +135,7 @@ export default {
   &__aside
     min-width 20%
     margin-right 1em
-    background-color $light
   &__cntr
-    box-shadow 0px 0px 5px $shadow
-    background-color $light
     padding 1em
     display flex
     flex-wrap wrap

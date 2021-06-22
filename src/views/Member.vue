@@ -1,23 +1,87 @@
 <template>
   <div class="member">
-    <nav class="member__nav">
-      <router-link class="member__link"
-        :class="{'member__link--active': item.path === nowPath}"
-        v-for="item, index in mamberNav"
-        :key="index"
-        :to="item.path"
-        @click.native="changePath(item.path)"
+    <v-row>
+      <v-col
+        cols="12"
+        sm="12"
+        md="12"
+        lg="3"
       >
-        {{ item.title }}
-      </router-link>
-    </nav>
-    <div class="member__cntr">
-      <router-view></router-view>
-    </div>
+      <nav class="member__nav">
+        <v-avatar
+          color="grey lighten-2"
+          size="160"
+          class="mx-auto d-block mb-6"
+        >
+          <img
+            src="https://cdn.vuetifyjs.com/images/john.jpg"
+            alt="John"
+          >
+        </v-avatar>
+        <h3 class="mb-6 fs-4 text-center">{{user.nickName}} 的書攤</h3>
+        <router-link class="member__link"
+          to="/profile"
+        >
+          <v-btn block>
+            修改個人資料
+          </v-btn>
+        </router-link>
+
+      </nav>
+
+      </v-col>
+      <v-col
+        cols="12"
+        sm="12"
+        md="12"
+        lg="9"
+      >
+        <div class="member__cntr">
+          <v-row justify="space-between">
+            <v-col
+              cols="12"
+              xs="3"
+              sm="3"
+              md="3"
+              lg="3"
+            >
+              <v-tabs>
+                <v-tab to="booth">
+                    我的攤位
+                </v-tab>
+                <v-tab to="offshelf">
+                    下架書籍
+                </v-tab>
+              </v-tabs>
+            </v-col>
+            <v-col
+              cols="12"
+              xs="1"
+              sm="1"
+              md="1"
+              lg="1"
+            >
+              <router-link
+                to="/uploadpd"
+              >
+                <v-btn color="primary">
+                  上架
+                </v-btn>
+              </router-link>
+            </v-col>
+          </v-row>
+          <router-view></router-view>
+        </div>
+      </v-col>
+
+    </v-row>
+
+
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: 'Member',
   data() {
@@ -25,24 +89,8 @@ export default {
       mamberNav: [
         {
           path: '/member/booth',
-          title: '我的攤位',
+          title: '修改個人資料',
         },
-        {
-          path: '/member/seek',
-          title: '我的徵求',
-        },
-        {
-          path: '/member/ask',
-          title: '請求交換',
-        },
-        {
-          path: '/member/match',
-          title: '交易媒合',
-        },
-        {
-          path: '/uploadpd',
-          title: '上架新書',
-        }
       ],
       nowPath: '/member/booth',
     }
@@ -51,34 +99,21 @@ export default {
     changePath(path) {
       this.nowPath = path;
     }
-  }
+  },
+  computed: {
+    ...mapState([
+      'isLogin',
+      'user',
+    ]),
+  },
 }
 </script>
 
 <style lang="stylus">
 .member
-  display flex
   &__nav
-    min-width 20%
     background-color $light
-    margin-right 1em
     padding 1em
-    box-shadow 0 0 5px $gray
   &__link
-    display block
-    background-color $light
-    color $dark
-    text-align center
-    margin-bottom 1em
-    padding 3px
-    transition all .3s
-    &:hover, &--active
-      background-color $accent
-      color $light
-
-
-  &__cntr
-    flex-grow 2
-    box-shadow 0 0 5px $gray
-    background-color $light
+    color $dark !important
 </style>

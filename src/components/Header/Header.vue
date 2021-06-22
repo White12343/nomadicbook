@@ -3,9 +3,14 @@
     <header class="header__main">
       <v-container>
         <v-row justify="space-between" align="center">
-          <v-col col="12" lg="2">
+          <v-col col="12" lg="3">
             <h1 class="header__tit fs-1">
-              <router-link class="header__link" to="/">遊牧書籍</router-link>
+              <router-link class="header__link" to="/">
+                <v-icon large dark>
+                  mdi-book-open-page-variant
+                </v-icon>
+               遊牧書籍
+              </router-link>
             </h1>
           </v-col>
           <v-col col="12" lg="6">
@@ -22,18 +27,60 @@
           </v-col>
           <v-col col="12" lg="2">
             <nav class="header__nav">
-              <div class="header__signin-btn" v-if="isLogin === '1'">
-                <v-icon color="white" dense >mdi-account</v-icon>
-                <router-link class="header__link header__nav-item nav__link" to="/member">
+              <div class="header__signin-btn d-flex align-center justify-end" v-if="isLogin === '1'">
+                <h4 class="header__nav-item mr-2">
                   {{user.nickName}}
-                </router-link>
-                <a
-                  href="#"
-                  class="header__link header__nav-item nav__link"
-                  @click.prevent="signOut"
+                </h4>
+                <!-- Dropdown -->
+                <v-menu
+                  offset-y
+                  open-on-hover
+                  nudge-left="60"
                 >
-                  登出
-                </a>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="mx-2"
+                      fab
+                      dark
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                      color="primary"
+                    >
+                      <v-icon dark>
+                        mdi-account
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <!-- <v-list-item>
+                      <v-list-item-title>
+                        {{user.nickName}}
+                      </v-list-item-title>
+                    </v-list-item> -->
+                    <v-list-item
+                      v-for="(item, index) in items"
+                      :key="index"
+                    >
+                      <v-list-item-title>
+                        <router-link :to="item.path">
+                          {{ item.title }}
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <!-- 登出 -->
+                    <v-list-item>
+                      <v-list-item-title>
+                        <a
+                          href="#"
+                          @click.prevent="signOut"
+                        >
+                          登出
+                        </a>
+                      </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </div>
               <div class="header__signin-btn" v-else>
                 <router-link class="header__link header__nav-item nav__link" to="/login/signin">登入</router-link>
@@ -89,6 +136,25 @@ export default {
   name: 'Header',
   data () {
     return {
+
+      items: [
+        {
+          title: '攤位頁',
+          path: '/member/booth',
+        },
+        {
+          title: '我的徵求',
+          path: '/manage/seek',
+        },
+        {
+          title: '別人徵求',
+          path: '/manage/ask',
+        },
+        {
+          title: '交易媒合',
+          path: '/manage/match',
+        },
+      ],
     }
   },
   computed: {
@@ -127,7 +193,7 @@ export default {
 
   &__nav
     &-item
-      margin-left 1em
+      color $light
   &__signin-btn
     display flex
     justify-content space-between
@@ -135,10 +201,6 @@ export default {
   &__link
     color $light
 
-.nav
-  &__link
-    &:hover
-      text-decoration underline
 .search
   &__query
     width 600px

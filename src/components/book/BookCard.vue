@@ -15,6 +15,7 @@
         </h3>
       </router-link>
       <h4 class="card__author" v-if="cardData.author">{{ cardData.author }}</h4>
+      <h4 class="card__desc" v-if="cardData.condition">{{ cardData.conditionNum }} 成新,{{ cardData.condition }}</h4>
     </header>
     <router-link class="card__link" :to="{
         name: 'Detail',
@@ -60,22 +61,31 @@ export default {
 
   &__cntr
     padding 0 1em
+
   &__img
     display block
     margin-left auto
     margin-right auto
 
   &__header
-    padding 1em
+    margin-top 1em
 
   &__tit
     textHiding(2)
     color $text-primary
     font-size 1em
-    height 48px
+    margin-bottom .6em
+    line-height 1.3
+    font-weight bold
     &:hover
       text-decoration underline
+  &__author,&__desc
+    font-size .9em
+    margin-bottom .6em
   &__author
     color $text-secondary
-    font-size .9em
+
+  &__desc
+    color $text-primary
+
 </style>

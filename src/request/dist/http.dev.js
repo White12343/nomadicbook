@@ -9,11 +9,11 @@ var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var API_PATH = 'http://35.236.167.85/';
+var API_PATH = '/api';
 var LOACL_PATH = '/static/'; // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 
 var instance = _axios["default"].create({
-  baseURL: '/api',
+  baseURL: API_PATH,
   headers: {
     'Content-Type': 'application/json'
   },
