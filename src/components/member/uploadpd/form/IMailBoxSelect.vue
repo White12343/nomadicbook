@@ -140,7 +140,6 @@ export default {
         Area: this.address.area
       })
         .then(res => {
-          console.log(res);
           this.roadArr = res.data;
         })
         .catch(error => {
@@ -148,7 +147,13 @@ export default {
         })
     },
     sentData() {
-      this.$emit('getVal', this.address);
+      let arr = this.address.detail.split('(');
+      let mailBoxDetail = {
+        Name: arr[0],
+        Address: arr[1].split(")")[0],
+      }
+      console.log(mailBoxDetail);
+      this.$emit('getVal', mailBoxDetail);
     }
   }
 

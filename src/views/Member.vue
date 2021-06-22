@@ -1,6 +1,7 @@
 <template>
   <div class="member">
     <v-row>
+      <!-- nav -->
       <v-col
         cols="12"
         sm="12"
@@ -20,7 +21,7 @@
         </v-avatar>
         <h3 class="mb-6 fs-4 text-center">{{user.nickName}} 的書攤</h3>
         <router-link class="member__link"
-          to="/profile"
+          to="/setting"
         >
           <v-btn block>
             修改個人資料
@@ -28,8 +29,8 @@
         </router-link>
 
       </nav>
-
       </v-col>
+      <!-- 個人攤位 -->
       <v-col
         cols="12"
         sm="12"
@@ -73,10 +74,7 @@
           <router-view></router-view>
         </div>
       </v-col>
-
     </v-row>
-
-
   </div>
 </template>
 

@@ -1,0 +1,94 @@
+<template>
+  <article class="password">
+    <header class="password__header">
+      <h2 class="password__tit">更改密碼</h2>
+    </header>
+    <v-form
+      ref="form"
+      v-model="valid"
+      lazy-validation
+    >
+      <v-text-field
+        v-model="oldPassword"
+        :counter="18"
+        :rules="rules"
+        label="目前密碼"
+        required
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="show1 ? 'text' : 'password'"
+        @click:append="show1 = !show1"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="newPassword"
+        :rules="rules"
+        :counter="18"
+        label="新密碼"
+        required
+        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="show2 ? 'text' : 'password'"
+        @click:append="show2 = !show2"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="passwordCheck"
+        :rules="checkRules"
+        :counter="18"
+        label="確認新密碼"
+        required
+        :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="show3 ? 'text' : 'password'"
+        @click:append="show3 = !show3"
+      ></v-text-field>
+
+      <div class="d-flex justify-end">
+        <v-btn
+          :disabled="!valid"
+          color="primary"
+          @click="updateProfile"
+        >
+          保存
+        </v-btn>
+      </div>
+    </v-form>
+  </article>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      show1: false,
+      show2: false,
+      show3: false,
+      valid: true,
+      oldPassword: '',
+      newPassword: '',
+      passwordCheck: '',
+      rules: [
+        v => !!v || '此為必填欄位',
+        v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(v) || '密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符',
+      ],
+      checkRules: [
+        v => !!v || '此為必填欄位',
+        v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(v) || '密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符',
+        v => v === this.newPassword || '必須與新密碼相同'
+      ],
+    }
+  },
+  methods: {
+    updateProfile () {
+      if(!this.$refs.form.validate()){
+        return;
+      }
+      if(this.newPassword !== this.passwordCheck){
+        return;
+      }
+    },
+  }
+}
+</script>
+
+<style>
+
+</style>

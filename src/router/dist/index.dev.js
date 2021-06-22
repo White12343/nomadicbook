@@ -23,7 +23,11 @@ var _SignUp = _interopRequireDefault(require("@/views/login/SignUp"));
 
 var _Member = _interopRequireDefault(require("@/views/Member"));
 
-var _Profile = _interopRequireDefault(require("@/views/Profile"));
+var _Setting = _interopRequireDefault(require("@/views/Setting"));
+
+var _Profile = _interopRequireDefault(require("@/views/profile/Profile"));
+
+var _Password = _interopRequireDefault(require("@/views/profile/Password"));
 
 var _Manage = _interopRequireDefault(require("@/views/Manage"));
 
@@ -149,9 +153,10 @@ var router = new _vueRouter["default"]({
     }]
   }, // 設定、修改個人資料
   {
-    path: '/profile',
-    name: 'Profile',
-    component: _Profile["default"],
+    path: '/setting',
+    name: 'Setting',
+    redirect: '/setting/profile',
+    component: _Setting["default"],
     beforeEnter: function beforeEnter(to, from, next) {
       if ($cookies.get('isLogin') && $cookies.get('isLogin') === '1') {
         next();
@@ -160,12 +165,15 @@ var router = new _vueRouter["default"]({
         next('/signin');
       }
     },
-    children: [// {
-      //   path: 'booth',
-      //   name: 'Booth',
-      //   component: Booth,
-      // },
-    ]
+    children: [{
+      path: 'profile',
+      name: 'Profile',
+      component: _Profile["default"]
+    }, {
+      path: 'password',
+      name: 'Password',
+      component: _Password["default"]
+    }]
   }]
 });
 var _default = router;

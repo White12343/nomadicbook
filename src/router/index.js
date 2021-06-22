@@ -7,7 +7,9 @@ import Login from '@/views/Login'
 import SignIn from '@/views/login/SignIn'
 import SignUp from '@/views/login/SignUp'
 import Member from '@/views/Member'
-import Profile from '@/views/Profile'
+import Setting from '@/views/Setting'
+import Profile from '@/views/profile/Profile'
+import Password from '@/views/profile/Password'
 import Manage from '@/views/Manage'
 import UploadPd from '@/views/mamber/UploadPd'
 import Booth from '@/views/mamber/Booth'
@@ -143,9 +145,10 @@ const router = new Router({
     },
     // 設定、修改個人資料
     {
-      path: '/profile',
-      name: 'Profile',
-      component: Profile,
+      path: '/setting',
+      name: 'Setting',
+      redirect: '/setting/profile',
+      component: Setting,
       beforeEnter: (to, from, next) => {
         if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
           next();
@@ -155,11 +158,16 @@ const router = new Router({
         }
       },
       children: [
-        // {
-        //   path: 'booth',
-        //   name: 'Booth',
-        //   component: Booth,
-        // },
+        {
+          path: 'profile',
+          name: 'Profile',
+          component: Profile,
+        },
+        {
+          path: 'password',
+          name: 'Password',
+          component: Password,
+        },
       ]
     },
 

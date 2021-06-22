@@ -240,11 +240,11 @@
 
 <script>
 import { getDataByISBNApi, getCategory, getCategoryDetail } from "@/request/api";
-import SelectImg from './form/SelectImg';
-import FormInput from './form/FormInput';
-import FormTextarea from './form/FormTextarea';
-import AddressSelect from './form/AddressSelect';
-import IMailBoxSelect from './form/IMailBoxSelect';
+import SelectImg from '@/components/member/uploadpd/form/SelectImg';
+import FormInput from '@/components/member/uploadpd/form/FormInput';
+import FormTextarea from '@/components/member/uploadpd/form/FormTextarea';
+import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
+import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
 import DatePick from 'vue-date-pick';
 import 'vue-date-pick/dist/vueDatePick.css';
 
@@ -424,8 +424,8 @@ export default {
       this.uploadData.HomeAddress = val.city + val.area + val.road + val.path;
     },
     getIMailAddress(val) {
-      this.uploadData.MailBoxAddress = val.detail.mailboxAddress;
-      this.uploadData.MailBoxName = val.detail.mailboxName;
+      this.uploadData.MailBoxAddress = val.Address;
+      this.uploadData.MailBoxName = val.Name;
 
     },
     getDataByISBN() {
