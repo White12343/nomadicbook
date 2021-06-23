@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -61,11 +61,24 @@ exports.getCategory = getCategory;
 
 var getCategoryDetail = function getCategoryDetail(data) {
   return (0, _http["default"])("get", "/Product/category/detail", data);
+}; // 取得通知
+
+
+exports.getCategoryDetail = getCategoryDetail;
+
+var getNotify = function getNotify(id) {
+  return (0, _http["default"])("get", "/HomePage/notify/" + id);
+};
+
+exports.getNotify = getNotify;
+
+var getNotifyNum = function getNotifyNum(id) {
+  return (0, _http["default"])("get", "HomePage/notifynum/" + id);
 }; // 取得產品列表
 // export const getBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
-exports.getCategoryDetail = getCategoryDetail;
+exports.getNotifyNum = getNotifyNum;
 
 var getBookList = function getBookList(data) {
   return (0, _http["default"])("get", "/product/list", data);
@@ -193,9 +206,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { getBookDetail } from "@/request/api";
+import { getNotifyNum } from "@/request/api";
 
-getBookDetail()
+getNotifyNum()
   .then(res => {
     console.log(res);
   })

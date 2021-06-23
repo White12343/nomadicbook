@@ -7,6 +7,7 @@ import Login from '@/views/Login'
 import SignIn from '@/views/login/SignIn'
 import SignUp from '@/views/login/SignUp'
 import Member from '@/views/Member'
+import Notifications from '@/views/Notifications'
 import Setting from '@/views/Setting'
 import Profile from '@/views/profile/Profile'
 import Password from '@/views/profile/Password'
@@ -169,6 +170,20 @@ const router = new Router({
           component: Password,
         },
       ]
+    },
+    // 通知
+    {
+      path: '/notifications',
+      name: 'Notifications',
+      component: Notifications,
+      beforeEnter: (to, from, next) => {
+        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+          next();
+        }else{
+          alert('請先登入');
+          next('/signin');
+        }
+      },
     },
 
   ]

@@ -23,6 +23,8 @@ var _SignUp = _interopRequireDefault(require("@/views/login/SignUp"));
 
 var _Member = _interopRequireDefault(require("@/views/Member"));
 
+var _Notifications = _interopRequireDefault(require("@/views/Notifications"));
+
 var _Setting = _interopRequireDefault(require("@/views/Setting"));
 
 var _Profile = _interopRequireDefault(require("@/views/profile/Profile"));
@@ -174,6 +176,19 @@ var router = new _vueRouter["default"]({
       name: 'Password',
       component: _Password["default"]
     }]
+  }, // 通知
+  {
+    path: '/notifications',
+    name: 'Notifications',
+    component: _Notifications["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if ($cookies.get('isLogin') && $cookies.get('isLogin') === '1') {
+        next();
+      } else {
+        alert('請先登入');
+        next('/signin');
+      }
+    }
   }]
 });
 var _default = router;

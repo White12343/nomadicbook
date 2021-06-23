@@ -110,7 +110,6 @@ export default {
     }
     getUserDetail(this.$route.params.id)
       .then(res => {
-        console.log(res);
         this.userData = res.data;
       })
       .catch(error => {

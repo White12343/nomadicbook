@@ -23,6 +23,10 @@ export const checkMail = (mail) => req("get", "/user/mail", mail);
 export const getCategory = (id) => req("get", "/Product/category", id);
 export const getCategoryDetail = (data) => req("get", "/Product/category/detail", data);
 
+// 取得通知
+export const getNotify = (id) => req("get", "/HomePage/notify/" + id);
+export const getNotifyNum = (id) => req("get", "HomePage/notifynum/" + id);
+
 
 
 // 取得產品列表
@@ -78,9 +82,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getBookDetail } from "@/request/api";
+import { getNotifyNum } from "@/request/api";
 
-getBookDetail()
+getNotifyNum()
   .then(res => {
     console.log(res);
   })
