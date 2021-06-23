@@ -239,7 +239,7 @@
 </template>
 
 <script>
-import { getDataByISBNApi, getCategory, getCategoryDetail } from "@/request/api";
+import { getDataByISBNApi, getCategory, getCategoryDetail, getBookDetail } from "@/request/api";
 import SelectImg from '@/components/member/uploadpd/form/SelectImg';
 import FormInput from '@/components/member/uploadpd/form/FormInput';
 import FormTextarea from '@/components/member/uploadpd/form/FormTextarea';
@@ -284,14 +284,14 @@ export default {
         StoreName: null,
         MailBoxAddress: null,
         MailBoxName: null,
-        HomeAddress: "新北市蘆洲區長榮路",
+        HomeAddress: "",
         FaceTradeCity: "",
         FaceTradeArea: "",
         FaceTradeRoad: "",
         FaceTradePath: "",
         FaceTradeDetail: "",
-        TrueName: "李翊銘",
-        CellphoneNumber: "0983191227",
+        TrueName: "",
+        CellphoneNumber: "",
         BookPhoto:[]
       },
       category: {
@@ -320,7 +320,57 @@ export default {
   created() {
     if(this.bookId) {
       console.log('上架頁：帶入' + this.bookId + '資料');
+      getBookDetail(this.bookId)
+        .then(res => {
+          console.log(res);
+          this.uploadData.BookName = res.data.bookName;
+          this.uploadData.Author = res.data.author;
+          this.uploadData.BookHigh = res.data.bookHigh;
+          this.uploadData.BookId = res.data.bookId;
+          this.uploadData.BookLong = res.data.bookLong;
+          this.uploadData.BookWidth = res.data.bookWidth;
+          this.uploadData.CategoryId = res.data.categoryDetail;
+          this.condition = res.data.conditionNum;
+          this.experience = res.data.experience;
+          this.uploadData.Introduction = res.data.introduction;
+          this.uploadData.Isbn = res.data.isbn;
+          this.uploadData.PublishingHouse = res.data.publishingHouse;
+
+          // this.date = res.data.publishDate;
+          // this.conditionValue = res.data.condition;
+
+          // 面交
+          this.uploadData.FaceTradeArea = res.data.faceTradeArea;
+          this.uploadData.FaceTradeCity = res.data.faceTradeCity;
+          this.uploadData.FaceTradeDetail = res.data.faceTradeDetail;
+          this.uploadData.FaceTradePath = res.data.faceTradePath;
+          this.uploadData.FaceTradeRoad = res.data.faceTradeRoad;
+
+          // 7-11
+          this.uploadData.StoreAddress = res.data.storeAddress;
+          this.uploadData.StoreName = res.data.storeName;
+
+          // mail
+          this.uploadData.MailBoxAddress = res.data.mailBoxAddress;
+          this.uploadData.MailBoxName = res.data.mailBoxName;
+
+          // 宅配
+          this.uploadData.HomeAddress = res.data.homeAddress;
+
+          // 缺手機和真實姓名 可以用另一隻去要
+          // bookPhotos: []
+          // bookStatus: true
+          // publishDate: "03/02/2021 00:00:00"
+          // releaseDate: "06/22/2021 00:00:00"
+          // userId: 7
+          // userName: "lee0709
+        })
+        .catch(error => {
+          console.log(error);
+        })
+
     }
+
 
   },
   computed: {
@@ -400,14 +450,14 @@ export default {
         return;
       }
       this.$http.post('/api/product/new', this.getFormData)
-      .then((res) => {
-        alert('上架成功');
-        this.$router.push('/member/booth');
-      })
-      .catch(error => {
-        console.log(error);
-        alert('上架失敗');
-      })
+        .then((res) => {
+          alert('上架成功');
+          this.$router.push('/member/booth');
+        })
+        .catch(error => {
+          console.log(error);
+          alert('上架失敗');
+        })
     },
     updataBookData() {
       alert('上架頁：更新產品資料' + this.bookId);

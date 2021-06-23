@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -20,10 +20,24 @@ exports.userSignUp = userSignUp;
 var userSignin = function userSignin(logInData) {
   return (0, _http["default"])("post", "/user/signin", logInData);
 }; // export const userLogOut = () => req("get", "/user/logout");
-// 檢查
+// 會員資料
 
 
 exports.userSignin = userSignin;
+
+var getUserDetail = function getUserDetail(id) {
+  return (0, _http["default"])("get", "/User/detaildata/" + id);
+}; // 修改密碼
+
+
+exports.getUserDetail = getUserDetail;
+
+var setNewPassword = function setNewPassword(id, data) {
+  return (0, _http["default"])("put", "/User/password/" + id, data);
+}; // 檢查
+
+
+exports.setNewPassword = setNewPassword;
 
 var checkNickName = function checkNickName(nickName) {
   return (0, _http["default"])("get", "/user/name", nickName);
@@ -179,9 +193,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { setOnShelf } from "@/request/api";
+import { getBookDetail } from "@/request/api";
 
-setOnShelf()
+getBookDetail()
   .then(res => {
     console.log(res);
   })

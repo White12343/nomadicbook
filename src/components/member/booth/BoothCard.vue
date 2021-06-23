@@ -7,43 +7,43 @@
     >
       <BookCard :card-data="BoothData"/>
     </v-badge>
-    <router-link
-      :to="{ path: '/uploadpd', query: {id: BoothData.bookId}}"
-    >
+    <div v-if="isSelf">
+      <router-link
+        :to="{ path: '/uploadpd', query: {id: BoothData.bookId}}"
+      >
+        <v-btn
+          fab
+          dark
+          small
+          class="booth-card__btn booth-card__edit"
+          color="primary"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+      </router-link>
       <v-btn
         fab
         dark
         small
-        class="booth-card__btn booth-card__edit"
-        color="primary"
+        class="booth-card__btn booth-card__off-shelf"
+        color="red"
+        v-if="!isOff"
+        @click="offShelf"
       >
-        <v-icon>mdi-pencil</v-icon>
+        <v-icon>mdi-archive-arrow-down</v-icon>
       </v-btn>
-    </router-link>
-
-
-    <v-btn
-      fab
-      dark
-      small
-      class="booth-card__btn booth-card__off-shelf"
-      color="red"
-      v-if="!isOff"
-      @click="offShelf"
-    >
-      <v-icon>mdi-archive-arrow-down</v-icon>
-    </v-btn>
-    <v-btn
-      fab
-      dark
-      small
-      class="booth-card__btn booth-card__off-shelf"
-      color="light-green"
-      v-else
-      @click="onShelf"
-    >
-      <v-icon>mdi-archive-arrow-up</v-icon>
-    </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        class="booth-card__btn booth-card__off-shelf"
+        color="light-green"
+        v-else
+        @click="onShelf"
+      >
+        <v-icon>mdi-archive-arrow-up</v-icon>
+      </v-btn>
+    </div>
 
 
   </article>
@@ -60,6 +60,11 @@ export default {
       type: Boolean,
       default: false,
       require: false,
+    },
+    isSelf: {
+      type: Boolean,
+      default: false,
+      require: true,
     }
   },
   data() {

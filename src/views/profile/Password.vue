@@ -12,33 +12,39 @@
         v-model="oldPassword"
         :counter="18"
         :rules="rules"
+        validate-on-blur
         label="目前密碼"
         required
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :type="show1 ? 'text' : 'password'"
         @click:append="show1 = !show1"
+        autocomplete
       ></v-text-field>
 
       <v-text-field
-        v-model="newPassword"
+        v-model.lazy="newPassword"
         :rules="rules"
         :counter="18"
         label="新密碼"
+        validate-on-blur
         required
         :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
         :type="show2 ? 'text' : 'password'"
         @click:append="show2 = !show2"
+        autocomplete
       ></v-text-field>
 
       <v-text-field
-        v-model="passwordCheck"
+        v-model.lazy="passwordCheck"
         :rules="checkRules"
         :counter="18"
         label="確認新密碼"
+        validate-on-blur
         required
         :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
         :type="show3 ? 'text' : 'password'"
         @click:append="show3 = !show3"
+        autocomplete
       ></v-text-field>
 
       <div class="d-flex justify-end">
@@ -51,13 +57,34 @@
         </v-btn>
       </div>
     </v-form>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          關閉
+        </v-btn>
+      </template>
+    </v-snackbar>
   </article>
 </template>
 
 <script>
+import { setNewPassword } from "@/request/api";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      snackbar: false,
+      text: '',
+      timeout: 2000,
       show1: false,
       show2: false,
       show3: false,
@@ -76,6 +103,12 @@ export default {
       ],
     }
   },
+  computed: {
+    ...mapState([
+      'isLogin',
+      'user',
+    ]),
+  },
   methods: {
     updateProfile () {
       if(!this.$refs.form.validate()){
@@ -84,6 +117,27 @@ export default {
       if(this.newPassword !== this.passwordCheck){
         return;
       }
+      setNewPassword(this.user.id, {
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword,
+      })
+        .then(res => {
+          console.log(res);
+          this.resetPassword();
+          this.$refs.form.resetValidation();
+          this.snackbar = true;
+          this.text = res.data;
+        })
+        .catch(error => {
+          this.snackbar = true;
+          this.text = '失敗，請確認密碼是否正確';
+          console.log(error);
+        })
+    },
+    resetPassword() {
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.passwordCheck = '';
     },
   }
 }

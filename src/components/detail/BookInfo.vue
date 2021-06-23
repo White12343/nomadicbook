@@ -4,8 +4,17 @@
       <h2 class="book-info__tit fs-4">{{ bookDesc.bookName }}</h2>
     </header>
     <div class="book-info__user">
-      <a href="#" class="book-info__user-name">{{ bookDesc.userName }}</a>
-      <a href="#" class="book-info__stall-btn">查看攤位</a>
+      <h4 class="book-info__user-name">{{ bookDesc.userName }}</h4>
+      <router-link
+        class="book-info__stall-btn"
+        :to="{
+          name: 'Booth',
+          params: {
+            id: bookDesc.userId,
+          }
+        }"
+
+      >查看攤位</router-link>
     </div>
     <div class="book-info__cntr">
       <ul class="book-info__list">

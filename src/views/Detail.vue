@@ -44,7 +44,6 @@ export default {
     let vm = this;
     getBookDetail(this.$route.params.id)
       .then(res => {
-        console.log(res);
         vm.bookDesc = res.data;
       })
       .catch(error => {

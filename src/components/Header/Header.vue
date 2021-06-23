@@ -53,11 +53,6 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <!-- <v-list-item>
-                      <v-list-item-title>
-                        {{user.nickName}}
-                      </v-list-item-title>
-                    </v-list-item> -->
                     <v-list-item
                       v-for="(item, index) in items"
                       :key="index"
@@ -140,7 +135,12 @@ export default {
       items: [
         {
           title: '攤位頁',
-          path: '/member/booth',
+          path: {
+            name: 'Booth',
+            params: {
+              id: '',
+            }
+          },
         },
         {
           title: '我的徵求',
@@ -156,6 +156,9 @@ export default {
         },
       ],
     }
+  },
+  created() {
+    this.items[0].path.params.id = this.user.id;
   },
   computed: {
     ...mapState([

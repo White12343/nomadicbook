@@ -15,12 +15,15 @@
           class="mx-auto d-block mb-6"
         >
           <img
-            src="https://cdn.vuetifyjs.com/images/john.jpg"
+            :src="`http://35.236.167.85/photo/${userData.userPhoto}.jpg`"
             alt="John"
           >
         </v-avatar>
-        <h3 class="mb-6 fs-4 text-center">{{user.nickName}} 的書攤</h3>
-        <router-link class="member__link"
+        <h3 class="mb-6 fs-4 text-center">{{userData.nickName}} 的書攤</h3>
+        <h4 class="mb-6 fs-5 text-center">{{userData.email}}</h4>
+        <router-link
+          v-if="isSelf"
+          class="member__link"
           to="/setting"
         >
           <v-btn block>
@@ -47,10 +50,14 @@
               lg="3"
             >
               <v-tabs>
-                <v-tab to="booth">
+                <v-tab :to="{
+                  path: 'booth',
+                }">
                     我的攤位
                 </v-tab>
-                <v-tab to="offshelf">
+                <v-tab :to="{
+                  path: 'offshelf',
+                }">
                     下架書籍
                 </v-tab>
               </v-tabs>
@@ -64,6 +71,7 @@
             >
               <router-link
                 to="/uploadpd"
+                v-if="isSelf"
               >
                 <v-btn color="primary">
                   上架
@@ -80,10 +88,13 @@
 
 <script>
 import { mapState } from "vuex";
+import { getUserDetail } from "@/request/api";
 export default {
   name: 'Member',
   data() {
     return {
+      isSelf: false,
+      userData: {},
       mamberNav: [
         {
           path: '/member/booth',
@@ -92,6 +103,19 @@ export default {
       ],
       nowPath: '/member/booth',
     }
+  },
+  created() {
+    if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
+      this.isSelf = true;
+    }
+    getUserDetail(this.$route.params.id)
+      .then(res => {
+        console.log(res);
+        this.userData = res.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
   },
   methods: {
     changePath(path) {

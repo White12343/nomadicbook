@@ -118,26 +118,26 @@ const router = new Router({
     },
     // 會員資料、攤位頁
     {
-      path: '/member',
+      path: '/member/:id?',
       name: 'Member',
       redirect: 'member/booth',
       component: Member,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      },
+      // beforeEnter: (to, from, next) => {
+      //   if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+      //     next();
+      //   }else{
+      //     alert('請先登入');
+      //     next('/signin');
+      //   }
+      // },
       children: [
         {
-          path: 'booth',
+          path: 'booth/',
           name: 'Booth',
           component: Booth,
         },
         {
-          path: 'offshelf',
+          path: 'offshelf/',
           name: 'OffShelf',
           component: OffShelf,
         }

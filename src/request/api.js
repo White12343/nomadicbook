@@ -7,6 +7,12 @@ export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData
 export const userSignin = (logInData) => req("post", "/user/signin", logInData);
 // export const userLogOut = () => req("get", "/user/logout");
 
+// 會員資料
+export const getUserDetail = (id) => req("get", "/User/detaildata/" + id);
+// 修改密碼
+export const setNewPassword = (id, data) => req("put", "/User/password/" + id, data);
+
+
 
 // 檢查
 export const checkNickName = (nickName) => req("get", "/user/name", nickName);
@@ -72,9 +78,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { setOnShelf } from "@/request/api";
+import { getBookDetail } from "@/request/api";
 
-setOnShelf()
+getBookDetail()
   .then(res => {
     console.log(res);
   })

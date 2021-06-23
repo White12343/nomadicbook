@@ -9,6 +9,7 @@
       @change="openTrade"
       v-if="isOptional"
     ></v-switch>
+    <h4 v-if="addressValue">{{addressValue}}</h4>
 
     <v-row align="center">
       <v-col class="d-flex" cols="12" sm="4">
@@ -98,6 +99,11 @@ export default {
       // 是否必填
       required: true
     },
+    addressValue: {
+      type: String,
+      default: "",
+      required: false
+    },
     nameId: {
       type: String,
       default: "0",
@@ -140,21 +146,30 @@ export default {
       this.isOpen = true;
       this.openTrade();
     }
+    if(this.addressValue) {
+      this.isOpen = true;
+    }
+    getCity()
+      .then(res => {
+        this.cityArr = res.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  },
+  updated() {
+    if(this.addressValue) {
+      this.isOpen = true;
+    }
   },
   methods: {
     openTrade() {
       this.$emit('isOpenTrade', this.isOpen);
-      getCity()
-        .then(res => {
-          this.cityArr = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        })
     },
     getAreaArr() {
-      this.address.area = '',
-      this.address.road = '',
+      this.address.area = '';
+      this.address.road = '';
+      this.addressValue = '';
       getArea({
         City: this.address.city
       })

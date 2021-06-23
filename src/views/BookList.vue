@@ -4,46 +4,66 @@
       <h2 class="book-list__tit">列表頁</h2>
     </header> -->
     <div class="book-list__body">
-      <aside class="book-list__aside aside-nav">
-        <article class="aside-nav__cntr" v-for="item , index in menuJsonData.sub" :key="index">
-          <header class="aside-nav__header">
-            <h3 class="aside-nav__tit fs-5">
-              <router-link
-                class="aside-nav__tit-link"
+      <v-row>
+        <v-col
+          cols="12"
+          lg="3"
+        >
+          <!-- 列表 -->
+          <v-list>
+            <v-list-group
+              v-for="item in manu"
+              :key="item.title"
+            >
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title" class="font-bold"></v-list-item-title>
+                </v-list-item-content>
+              </template>
+
+              <v-list-item
+                v-for="child in item.items"
+                :key="child"
                 :to="{
                   name: 'BookList',
                   params: {
                     mainId: item.id,
+                    bigCategory: child
                   }
                 }"
-              >{{item.name}}</router-link>
-            </h3>
-          </header>
-          <nav class="aside-nav__desc">
-            <router-link class="aside-nav__link"
-              :to="{
-                name: 'BookList',
-                params: {
-                  mainId: item.id,
-                  bigCategory: subItem
-                }
-              }"
-              v-for="subItem, subIndex in item.medium"
-              :key="subIndex"
-            >
-              {{subItem}}
-            </router-link>
-          </nav>
-        </article>
-      </aside>
-      <div class="book-list__cntr" v-if="pdData[0]">
-        <BookCard
-          v-for="(item, key) in pdData"
-          :key="key"
-          :card-data="item"
-          class="book-list__item"
-        />
-      </div>
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="child"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-group>
+          </v-list>
+          <!-- 篩選 -->
+          <div class="filter p-1">
+            <v-checkbox
+              v-for="item, index in condition"
+              :key="index"
+              v-model="filter"
+              :label="item"
+              :value="item"
+              hide-details
+            ></v-checkbox>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          lg="9"
+        >
+          <div class="book-list__cntr" v-if="pdData[0]">
+            <BookCard
+              v-for="(item, key) in filterList"
+              :key="key"
+              :card-data="item"
+              class="book-list__item"
+            />
+          </div>
+        </v-col>
+      </v-row>
     </div>
   </section>
 </template>
@@ -55,28 +75,31 @@ export default {
   name: 'BookList',
   data() {
     return {
+      manu: [
+        {
+          items: [],
+          title: '中文書',
+          id: 1,
+        },
+        {
+          items: [],
+          title: '簡體書',
+          id: 2,
+        },
+        {
+          items: [],
+          title: '外文書',
+          id: 3,
+        },
+      ],
       pdData: [],
-      menuJsonData: {
-        name: '總分類',
-        sub: [
-          {
-            name: '中文書',
-            id: 1,
-            medium: []
-          },
-          {
-            name: '簡體書',
-            id: 2,
-            medium: []
-          },
-          {
-            name: '外文書',
-            id: 3,
-            medium: []
-          },
-        ]
-      }
-
+      filter: [],
+      condition: [
+        '破損',
+        '包書套',
+        '泛黃',
+        '有做筆記',
+      ],
     }
   },
   computed: {
@@ -86,6 +109,21 @@ export default {
         bigCategory: this.$route.params.bigCategory
       }
     },
+    filterList() {
+      if(!this.filter.length){
+        return this.pdData;
+      }
+      let arr = [];
+      this.pdData.forEach(item => {
+        if(item.condition) {
+          arr.push(item);
+        }
+      })
+      this.filter.forEach(key => {
+        arr = arr.filter(item => item.condition.includes(key));
+      })
+      return arr;
+    }
   },
   watch: {
     "category": {
@@ -97,12 +135,12 @@ export default {
   },
   created() {
     this.getBookListData(this.category);
-    this.menuJsonData.sub.forEach(item => {
+    this.manu.forEach(item => {
       getCategory({
         mainId: item.id
       })
         .then(res => {
-          item.medium = res.data;
+          item.items = res.data;
         })
         .catch(error => {
           console.log(error);
@@ -130,16 +168,14 @@ export default {
 
 <style lang="stylus" scoped>
 .book-list
-  &__body
-    display flex
   &__aside
     min-width 20%
     margin-right 1em
   &__cntr
-    padding 1em
+    // padding 1em
     display flex
     flex-wrap wrap
-    height 100%
+    // height 100%
   &__item
     width 23%
     margin-right 1%
@@ -159,4 +195,7 @@ export default {
     margin-bottom 1em
   &__link
     display block
+
+.font-bold
+  font-weight bold
 </style>

@@ -130,24 +130,24 @@ var router = new _vueRouter["default"]({
     }]
   }, // 會員資料、攤位頁
   {
-    path: '/member',
+    path: '/member/:id?',
     name: 'Member',
     redirect: 'member/booth',
     component: _Member["default"],
-    beforeEnter: function beforeEnter(to, from, next) {
-      if ($cookies.get('isLogin') && $cookies.get('isLogin') === '1') {
-        next();
-      } else {
-        alert('請先登入');
-        next('/signin');
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+    //     next();
+    //   }else{
+    //     alert('請先登入');
+    //     next('/signin');
+    //   }
+    // },
     children: [{
-      path: 'booth',
+      path: 'booth/',
       name: 'Booth',
       component: _Booth["default"]
     }, {
-      path: 'offshelf',
+      path: 'offshelf/',
       name: 'OffShelf',
       component: _OffShelf["default"]
     }]
