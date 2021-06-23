@@ -1,18 +1,19 @@
 <template>
   <article class="seek-card">
     <BookCard :card-data="bookData"/>
-    <div class="seek-card__cntr">
-      <router-link
-        class="seek-card__btn"
-        :to="{
-          name: 'Detail',
-          params: {
-            id: bookData.bookId,
-          }
-        }">
-        產品細節
-      </router-link>
-    </div>
+    <v-btn
+      block
+      outlined
+      class="seek-card__btn"
+      :to="{
+        name: 'Detail',
+        params: {
+          id: bookData.bookId,
+        }
+      }"
+    >
+      產品細節
+    </v-btn>
   </article>
 
 </template>
@@ -35,6 +36,8 @@ export default {
         bookId: this.seekData.seekBookId,
         bookName: this.seekData.seekBookName,
         bookPhoto: this.seekData.seekBookPhoto,
+        conditionNum: this.seekData.conditionNum,
+        condition: this.seekData.condition,
       }
     }
   },
@@ -46,16 +49,5 @@ export default {
 
 <style lang="stylus">
 .seek-card
-  &__cntr
-    padding 0 1em
-  &__btn
-    display block
-    text-align center
-    padding .6em 0
-    margin 1em 0
-    border-radius 3px
-    transition all .3s
-    background-color $gray
-    color $text-secondary
-
+  min-height 100%
 </style>

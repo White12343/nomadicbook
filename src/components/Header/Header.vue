@@ -107,7 +107,13 @@
                   </template>
                   <template>
                     <v-list width="500">
+
+                      <v-list-item-title class="ml-3 text-h6">
+                        通知
+                      </v-list-item-title>
+                      <v-divider></v-divider>
                       <template v-for="(item, index) in notifications">
+
                         <v-list-item
                           :key="index"
                         >

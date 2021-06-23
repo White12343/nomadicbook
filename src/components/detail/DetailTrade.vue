@@ -1,64 +1,105 @@
 <template>
   <aside class="detail-trade">
     <header class="detail-trade__header">
-      <h3 class="detail-trade__tit">交換方式</h3>
+      <h3 class="detail-trade__tit">
+
+        <v-icon>mdi-handshake</v-icon>
+        交換方式
+      </h3>
     </header>
     <div class="detail-trade__cntr">
       <ul class="detail-trade__list">
-        <li class="detail-trade__item" v-if="bookDesc.storeAddress">7-11</li>
-        <li class="detail-trade__item" v-if="bookDesc.homeAddress">宅配 ( 郵寄、黑貓 )</li>
-        <li class="detail-trade__item" v-if="bookDesc.mailBoxAddress">i郵箱</li>
-        <li class="detail-trade__item" v-if="bookDesc.faceTradeArea">面交</li>
+        <li class="detail-trade__item" v-if="bookDesc.storeAddress">
+          <v-icon>mdi-check-bold</v-icon>
+          7-11
+        </li>
+        <li class="detail-trade__item" v-if="bookDesc.homeAddress">
+          <v-icon>mdi-check-bold</v-icon>
+          宅配 ( 郵寄、黑貓 )
+        </li>
+        <li class="detail-trade__item" v-if="bookDesc.mailBoxAddress">
+          <v-icon>mdi-check-bold</v-icon>
+          i郵箱
+        </li>
+        <li class="detail-trade__item" v-if="bookDesc.faceTradeArea">
+          <v-icon>mdi-check-bold</v-icon>
+          面交
+        </li>
       </ul>
       <div class="detail-trade__btn-group">
-        <Btn
-          desc="我要交換"
-          class="detail-trade__btn"
-          btnStyle="dark"
-          @click.native.stop="openPopup"
+        <v-btn
+          color="primary"
+          block
+          @click.stop="openPopup"
           v-if="popupOpen"
-        />
-        <a
-          href="#"
-          class="detail-trade__btn detail-trade__btn--dark"
+        >
+          我要交換
+        </v-btn>
+        <v-btn
+          color="primary"
+          block
           @click.prevent="requestExchange"
           v-else
         >
           交換
-        </a>
+        </v-btn>
         <!-- <a href="#" class="detail-trade__btn detail-trade__btn--light">聊聊</a> -->
       </div>
     </div>
-    <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" v-if="popupOpen" class="exchange__popup" popupWidth="30%">
-      <article class="seek-new">
-        <header class="seek-new__header">
-          <h2 class="seek-new__tit fs-4">我要交換</h2>
-        </header>
-        <form class="seek-new__form">
-          <h3 class="seek-new__form__tit">選擇交換方式：</h3>
-          <div class="seek-new__input-group" v-if="bookDesc.storeAddress">
-            <input type="radio" class="seek-new__input" id="StoreTrade" v-model="tradeMode" :value="1">
-            <label for="StoreTrade">7-11</label>
-          </div>
-          <div class="seek-new__input-group" v-if="bookDesc.homeAddress">
-            <input type="radio" class="seek-new__input" id="Delivery" v-model="tradeMode" :value="2">
-            <label for="Delivery">宅配 ( 郵寄、黑貓 )</label>
-          </div>
-          <div class="seek-new__input-group" v-if="bookDesc.mailBoxAddress">
-            <input type="radio" class="seek-new__input" id="MailBoxTrade" v-model="tradeMode" :value="3">
-            <label for="MailBoxTrade">i郵箱</label>
-          </div>
-          <div class="seek-new__input-group" v-if="bookDesc.faceTradeArea">
-            <input type="radio" class="seek-new__input" id="FaceTrade" v-model="tradeMode" :value="4">
-            <label for="FaceTrade">面交</label>
-          </div>
-          <div class="seek-new__btn-group text-right">
-            <a class="seek-new__btn seek-new__btn--light" href="#" @click.prevent="isOpenPopup = false">取消</a>
-            <a class="seek-new__btn seek-new__btn--dark" href="#" @click.prevent="seek">交換</a>
-          </div>
-        </form>
-      </article>
-    </Popup>
+    <v-dialog
+      v-model="dialog"
+      max-width="350"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          我要交換
+        </v-card-title>
+
+        <v-card-text>
+          <v-radio-group v-model="tradeMode">
+            <v-radio
+              v-if="bookDesc.storeAddress"
+              label="7-11"
+              :value="1"
+            ></v-radio>
+            <v-radio
+              v-if="bookDesc.homeAddress"
+              label="宅配 ( 郵寄、黑貓 )"
+              :value="2"
+            ></v-radio>
+            <v-radio
+              v-if="bookDesc.mailBoxAddress"
+              label="i郵箱"
+              :value="3"
+            ></v-radio>
+            <v-radio
+              v-if="bookDesc.faceTradeArea"
+              label="面交"
+              :value="4"
+            ></v-radio>
+          </v-radio-group>
+
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            outlined
+            @click="dialog = false"
+          >
+            取消
+          </v-btn>
+
+          <v-btn
+            color="primary"
+            @click.prevent="seek"
+          >
+            交換
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </aside>
 
 </template>
@@ -81,6 +122,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       isOpenPopup: false,
       tradeMode: 0,
     }
@@ -135,22 +177,23 @@ export default {
     // 開啟 popup window
     openPopup() {
       this.checkLogin();
-      this.isOpenPopup = true;
+      this.dialog = true;
     },
     // 提出交換
     seek() {
-      const seekData = JSON.stringify({
+      this.dialog = false;
+      const seekData = {
         SeekUserId: parseInt(this.$cookies.get('user').id),
         SeekBookId: this.bookId,
         Trademode: this.tradeMode,
         SeekToAddress: this.getAddress.address,
         SeekToName: this.getAddress.name,
         SeekedUserId: this.bookDesc.userId,
-      })
+      }
+      console.log(seekData);
       seekNew(seekData)
         .then(res => {
           console.log(res);
-          this.isOpenPopup = false;
         })
         .catch(error => {
           console.log(error);

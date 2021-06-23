@@ -1,10 +1,19 @@
 <template>
-  <section class="ask-manage">
-    <header class="ask-manage__header">
-      <h2 class="ask-manage__tit">請求交換</h2>
-    </header>
+  <section class="ask-manage mt-6">
     <div class="ask-manage__cntr">
-      <AskCard class="ask-manage__item" v-for="(item, index) in askData" :key="index" :ask-data="item" />
+      <v-row>
+        <v-col
+          v-for="(item, index) in askData"
+          :key="index"
+          cols="12"
+          sm="12"
+          md="6"
+          lg="3"
+        >
+          <AskCard class="ask-manage__item" :ask-data="item" />
+        </v-col>
+      </v-row>
+
     </div>
 
 
@@ -43,18 +52,4 @@ export default {
 </script>
 
 <style lang="stylus">
-.ask-manage
-  background-color $light
-  padding 1em
-  &__cntr
-    display flex
-    flex-wrap wrap
-  &__item
-    width 23%
-    margin-top 1em
-    margin-left 1%
-    margin-right 1%
-    transition all .3s
-    &:hover
-      box-shadow 0px 0px 5px $shadow
 </style>

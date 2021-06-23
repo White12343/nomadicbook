@@ -7,6 +7,8 @@
       <v-row>
         <v-col
           cols="12"
+          sm="12"
+          md="3"
           lg="3"
         >
           <!-- 列表 -->
@@ -52,15 +54,26 @@
         </v-col>
         <v-col
           cols="12"
+          sm="12"
+          md="9"
           lg="9"
         >
           <div class="book-list__cntr" v-if="pdData[0]">
-            <BookCard
-              v-for="(item, key) in filterList"
-              :key="key"
-              :card-data="item"
-              class="book-list__item"
-            />
+            <v-row>
+              <v-col
+                cols="12"
+                sm="12"
+                md="4"
+                lg="3"
+                v-for="(item, key) in filterList"
+                :key="key"
+              >
+                <BookCard
+                  :card-data="item"
+                  class="book-list__item"
+                />
+              </v-col>
+            </v-row>
           </div>
         </v-col>
       </v-row>
@@ -168,22 +181,15 @@ export default {
 
 <style lang="stylus" scoped>
 .book-list
-  &__aside
-    min-width 20%
-    margin-right 1em
   &__cntr
-    // padding 1em
     display flex
     flex-wrap wrap
-    // height 100%
-  &__item
-    width 23%
-    margin-right 1%
-    margin-left 1%
-    margin-bottom 1em
-    transition all .3s
-    &:hover
-      box-shadow 0px 0px 5px $shadow
+  // &__item
+  //   width 23%
+  //   margin-right 1%
+  //   margin-left 1%
+  //   margin-bottom 1em
+  //   transition all .3s
 .aside-nav
   &__tit
     font-weight bold

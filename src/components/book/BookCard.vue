@@ -77,6 +77,7 @@ export default {
     margin-bottom .6em
     line-height 1.3
     font-weight bold
+    height 40px
     &:hover
       text-decoration underline
   &__author,&__desc

@@ -1,11 +1,20 @@
 <template>
-  <section class="seek-manage">
+  <section class="seek-manage mt-6">
     <!-- 顯示自己對對方要求交換的書，連結到對方產品頁 -->
-    <header class="seek-manage__header">
-      <h2 class="seek-manage__tit">我的徵求</h2>
-    </header>
     <div class="seek-manage__cntr">
-      <SeekCard class="seek-manage__item" v-for="(item, key) in pdData" :key="key" :seekData="item" />
+      <v-row>
+        <v-col
+          v-for="(item, key) in pdData"
+          :key="key"
+          cols="12"
+          sm="12"
+          md="6"
+          lg="3"
+        >
+          <SeekCard class="seek-manage__item" :seekData="item" />
+        </v-col>
+      </v-row>
+
     </div>
 
   </section>
@@ -30,6 +39,7 @@ export default {
     getSeekBookList(this.$cookies.get('user').id)
       .then(res => {
         vm.pdData = res.data;
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error);
@@ -39,18 +49,4 @@ export default {
 </script>
 
 <style lang="stylus">
-.seek-manage
-  background-color $light
-  padding 1em
-  &__cntr
-    display flex
-    flex-wrap wrap
-  &__item
-    width 23%
-    margin-left 1%
-    margin-right 1%
-    margin-top 1em
-    transition all .3s
-    &:hover
-      box-shadow 0px 0px 5px $shadow
 </style>

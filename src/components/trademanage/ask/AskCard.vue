@@ -2,38 +2,147 @@
   <article class="ask-card">
     <BookCard :card-data="bookData"/>
     <div class="ask-card__cntr">
-      <Btn
-        desc="查看攤位"
-        btnStyle="light"
-        class="ask-card__btn"
-        @click.native.stop="isOpenPopup = true"
-      />
-      <Popup :visible="isOpenPopup" @hide="isOpenPopup = false" popupHeight="70vh">
-        <AskStall :seek-user-id="askData.seekUserId" :seek-id="askData.seekId"/>
-      </Popup>
+      <template>
+        <div class="text-center">
+          <v-dialog
+            v-model="dialog"
+            width="1200"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                block
+                outlined
+                class="ask-card__btn"
+                v-bind="attrs"
+                v-on="on"
+              >
+                去對方攤位選書
+              </v-btn>
+            </template>
+
+            <v-card
+              class="overflow-hidden"
+            >
+              <v-card-title class="text-h5 grey lighten-2">
+                <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+                對方攤位
+              </v-card-title>
+
+              <v-card-text>
+                <v-navigation-drawer
+                  v-model="drawer"
+                  absolute
+                  bottom
+                  temporary
+                >
+                  <v-list
+                    nav
+                    dense
+                  >
+                    <v-list-item-group
+                      color="primary"
+                    >
+                      <v-list-item-title class="ml-2 black--text text-h6">
+                        書攤列表
+                      </v-list-item-title>
+                      <v-divider class="mb-3"></v-divider>
+                      <v-list-item
+                        v-for="(item, i) in pdData"
+                        :key="i"
+                        @click.prevent="bookDetail(item.bookId)"
+                      >
+                        <v-list-item-content>
+                          <v-list-item-title v-text="item.bookName"></v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list-item-group>
+                  </v-list>
+                </v-navigation-drawer>
+                <BookPic :book-photo="pdDetail.bookPhotos" :book-name="pdDetail.bookName"/>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                    md="9"
+                    lg="9"
+                  >
+                    <BookInfo
+                      :bookDesc="pdDetail"
+                      :popupOpen="false"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                    md="3"
+                    lg="3"
+                  >
+                    <DetailTrade
+                      :book-id="parseInt(pdDetail.bookId)"
+                      :bookDesc="pdDetail"
+                      :popupOpen="false"
+                      class="ask-detail__trade"
+                      @exchange="requestExchange"
+                    />
+
+                  </v-col>
+                </v-row>
+                <BookCntr cntr-title="書況" :cntr="pdDetail.condition" />
+                <BookCntr cntr-title="簡介" :cntr="pdDetail.introduction" />
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </div>
+      </template>
     </div>
   </article>
 
 </template>
 
 <script>
+import { getBookDetail, getAskBoothBookList, selectedBook } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 import AskStall from '@/components/trademanage/ask/AskStall';
-import Btn from '@/components/ui/Btn';
-import Popup from '@/components/ui/Popup';
+import BookPic from '@/components/detail/BookPic';
+import BookInfo from '@/components/detail/BookInfo';
+import BookCntr from '@/components/detail/BookCntr';
+import DetailTrade from '@/components/detail/DetailTrade';
 
 export default {
   props: ['askData'],
   data() {
     return {
       isOpenPopup: false,
+      dialog: false,
+      pdData: [],
+      pdDetail: {},
+      drawer: false,
     }
+  },
+  watch: {
+    group () {
+      this.drawer = false
+    },
   },
   components: {
     BookCard,
     AskStall,
-    Btn,
-    Popup,
+
+    BookPic,
+    BookInfo,
+    BookCntr,
+    DetailTrade,
+  },
+  created() {
+    let vm = this;
+    getAskBoothBookList(this.askData.seekUserId, this.askData.tradeMode)
+      .then(res => {
+        vm.pdData = res.data;
+        vm.bookDetail(vm.pdData[0].bookId)
+      })
+      .catch(error => {
+        console.log(error);
+      })
   },
   computed: {
     bookData() {
@@ -41,19 +150,40 @@ export default {
         bookId: this.askData.seekBookId,
         bookName: this.askData.seekBookName,
         bookPhoto: this.askData.seekBookPhoto,
+        conditionNum: this.askData.conditionNum,
+        condition: this.askData.condition,
       }
     }
   },
   methods: {
-
+    bookDetail(id) {
+      let vm = this;
+      getBookDetail(id)
+        .then(res => {
+          vm.pdDetail = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    requestExchange(id) {
+      const exchangeData = {
+        bookId: id,
+        tradeMode: 4
+      }
+      selectedBook(this.askData.seekId, exchangeData)
+        .then(res => {
+          alert(res.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 }
 </script>
 
 <style lang="stylus">
-.ask-card
-  &__cntr
-    padding 0 1em
 
 
 </style>
