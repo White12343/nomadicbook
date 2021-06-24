@@ -41,6 +41,9 @@ export const getBookList = (data) => req("get", "/product/list", data);
 // 取得產品 detail
 // export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
 export const getBookDetail = (id) => req("get", "/product/" + id);
+// 是否交換過
+export const chosen = (data) => req("get", "/Product/book/chosen", data);
+
 
 
 // 管理
@@ -95,9 +98,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { search } from "@/request/api";
+import { chosen } from "@/request/api";
 
-search()
+chosen()
   .then(res => {
     console.log(res);
   })

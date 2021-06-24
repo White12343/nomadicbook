@@ -4,7 +4,7 @@
       <Header />
       <main class="main">
         <v-container>
-          <router-view/>
+          <router-view v-if="isRouterAlive"/>
         </v-container>
       </main>
       <!-- <div class="background"></div> -->
@@ -19,12 +19,28 @@ import Header from './components/header/Header';
 
 export default {
   name: 'App',
+  provide(){
+    return {
+      reload: this.reload
+    }
+  },
   data() {
-    return { }
+    return {
+      isRouterAlive: true,
+    }
   },
   components: {
     Header,
-  }
+  },
+  methods: {
+    reload () {
+      console.log('reload occure')
+      this.isRouterAlive = false;
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      });
+    },
+  },
 }
 </script>
 

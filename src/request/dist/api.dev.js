@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -115,12 +115,19 @@ exports.getBookList = getBookList;
 
 var getBookDetail = function getBookDetail(id) {
   return (0, _http["default"])("get", "/product/" + id);
+}; // 是否交換過
+
+
+exports.getBookDetail = getBookDetail;
+
+var chosen = function chosen(data) {
+  return (0, _http["default"])("get", "/Product/book/chosen", data);
 }; // 管理
 // Booth
 // export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
-exports.getBookDetail = getBookDetail;
+exports.chosen = chosen;
 
 var getBoothBookList = function getBoothBookList(id) {
   return (0, _http["default"])("get", "/Stall/" + id);
@@ -240,9 +247,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { search } from "@/request/api";
+import { chosen } from "@/request/api";
 
-search()
+chosen()
   .then(res => {
     console.log(res);
   })

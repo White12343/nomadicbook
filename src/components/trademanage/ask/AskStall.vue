@@ -45,6 +45,7 @@ import BookCntr from '@/components/detail/BookCntr';
 import DetailTrade from '@/components/detail/DetailTrade';
 export default {
   name: 'AskList',
+  inject: ['reload'],
   props: ['seekUserId', 'seekId'],
   data() {
     return {
@@ -84,8 +85,8 @@ export default {
       })
       selectedBook(this.seekId, exchangeData)
         .then(res => {
-          alert(res.data);
-
+          console.log(res.data);
+          this.reload();
         })
         .catch(error => {
           console.log(error);

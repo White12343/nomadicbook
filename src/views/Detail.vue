@@ -16,9 +16,8 @@
       />
     </div>
     <div class="detail__cntr">
-      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
       <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.condition" />
-      <BookCntr class="detail__desc" cntr-title="心得" :cntr="bookDesc.condition" />
+      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
     </div>
   </section>
 </template>

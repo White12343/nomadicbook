@@ -1,7 +1,7 @@
 <template>
   <article class="booth-card">
     <v-badge
-      color="light-green"
+      color="red"
       :content="BoothData.seekNum"
       :value="BoothData.seekNum"
     >

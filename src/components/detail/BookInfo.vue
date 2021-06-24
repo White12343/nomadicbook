@@ -23,8 +23,8 @@
         <li class="book-info__list-item">出版日：{{ publishDate }}</li>
       </ul>
 
-      <p class="book-info__desc">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum tenetur corrupti harum nesciunt consequatur alias dolorem mollitia quisquam voluptates, quam molestiae deleniti consectetur dolores. Officia facere modi dolorum nulla voluptate!
+      <p class="book-info__desc mt-3">
+        {{ bookDesc.experience }}
       </p>
     </div>
   </article>

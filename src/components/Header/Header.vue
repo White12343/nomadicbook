@@ -174,7 +174,7 @@ export default {
     }
   },
   created() {
-    this.items[0].path.params.id = this.user.id;
+    this.items[0].path.params.id = this.$cookies.get('user').id;
     getNotifyNum(this.user.id)
       .then(res => {
         this.notifyNum = parseInt(res.data);
@@ -182,7 +182,6 @@ export default {
       .catch(error => {
         console.log(error);
       })
-
   },
   computed: {
     ...mapState([
@@ -197,8 +196,10 @@ export default {
       this.$store.commit("changeLoginState");
     },
     getNotifications() {
+
       getNotify(this.user.id)
         .then(res => {
+          this.notifyNum = 0;
           this.notifications = res.data;
         })
         .catch(error => {

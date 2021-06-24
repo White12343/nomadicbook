@@ -42,6 +42,7 @@ import { mapState } from "vuex";
 import { getBoothBookList } from "@/request/api";
 import BoothCard from '@/components/member/booth/BoothCard'
 export default {
+  inject: ['reload'],
   name: 'Booth',
   data() {
     return {
@@ -72,6 +73,11 @@ export default {
 
       return arr;
     },
+  },
+  watch: {
+    '$route': function() {
+      this.reload();
+    }
   },
   created() {
     if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {

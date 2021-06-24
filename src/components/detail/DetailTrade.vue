@@ -41,6 +41,7 @@
           block
           @click.prevent="requestExchange"
           v-else
+          :disabled="isSelf"
         >
           交換
         </v-btn>
@@ -106,11 +107,12 @@
 </template>
 
 <script>
-import { seekNew } from "@/request/api";
+import { seekNew, chosen } from "@/request/api";
 import Popup from '@/components/ui/Popup';
 import Btn from '@/components/ui/Btn';
 export default {
   name: 'DetailTrade',
+  inject: ['reload'],
   props: {
     bookId: Number,
     bookDesc: Object,
@@ -129,15 +131,16 @@ export default {
       isSelf: true,
     }
   },
+  created() {
+  },
   updated() {
     if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-      console.log('登入狀態');
-      console.log(this.bookDesc);
       if(this.$cookies.get('user').id == this.bookDesc.userId){
         this.isSelf = true;
       }else {
-        this.isSelf = false;
+        this.checkChosen();
       }
+
     }
   },
   computed: {
@@ -203,10 +206,10 @@ export default {
         SeekToName: this.getAddress.name,
         SeekedUserId: this.bookDesc.userId,
       }
-      console.log(seekData);
       seekNew(seekData)
         .then(res => {
           console.log(res);
+          this.reload();
         })
         .catch(error => {
           console.log(error);
@@ -215,6 +218,18 @@ export default {
     // 直接交換 for 交易請求
     requestExchange() {
       this.$emit('exchange', this.bookDesc.bookId)
+    },
+    checkChosen() {
+      chosen({
+        userId: this.$cookies.get('user').id,
+        bookId: this.bookId
+      })
+        .then(res => {
+          this.isSelf = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
     }
   }
 }

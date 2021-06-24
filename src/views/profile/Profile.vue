@@ -209,6 +209,7 @@ import { getUserDetail } from "@/request/api";
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
 export default {
+  inject: ['reload'],
   data: () => ({
     snackbar: false,
     text: '',
@@ -273,6 +274,7 @@ export default {
         .then((res) => {
           this.snackbar = true;
           this.text = res.data;
+          this.reload();
         })
         .catch(error => {
           this.snackbar = true;
