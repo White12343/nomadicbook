@@ -35,6 +35,7 @@
       </v-row>
       <v-row justify="space-around">
         <v-col cols="12" md="6">
+          <!-- ISBN -->
           <v-row align="center">
             <v-col
               cols="12"
@@ -42,7 +43,6 @@
               md="8"
               lg="8"
             >
-              <!-- ISBN -->
               <v-text-field label="ISBN" id="Isbn" v-model="uploadData.ISBN"></v-text-field>
             </v-col>
             <v-col
@@ -145,7 +145,6 @@
               </v-btn>
             </v-date-picker>
           </v-menu>
-
           <!-- 書名 -->
           <v-text-field
             label="書名"
@@ -176,8 +175,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-
-
+          <!-- 分類 -->
           <h3 class="upload-form__tit">分類</h3>
           <h4 v-if="defaultCategory">{{ defaultCategory }}</h4>
           <v-row align="center">
@@ -288,7 +286,7 @@
             v-model="experience"
           ></v-textarea>
           <div class="upload-form__btn-group text-right">
-            <v-btn class="mr-4" @click="$router.push('/member')">取消</v-btn>
+            <v-btn class="mr-4" @click="$router.push(`/member/${$cookies.get('user').id}/booth`)">取消</v-btn>
             <v-btn color="primary" class="mr-4" v-if="!bookId" @click="upLoadBook">上架</v-btn>
             <v-btn color="primary" class="mr-4" v-else @click="updataBookData">更新</v-btn>
           </div>
@@ -312,7 +310,6 @@ import FormInput from '@/components/member/uploadpd/form/FormInput';
 import FormTextarea from '@/components/member/uploadpd/form/FormTextarea';
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
-import DatePick from 'vue-date-pick';
 import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
@@ -388,75 +385,74 @@ export default {
     }
   },
   created() {
+    getUserDetail($cookies.get('user').id)
+      .then(res => {
+        this.uploadData.TrueName = res.data.trueName;
+        this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
+        if(res.data.homeAddress){
+          this.hasDefaultAddress = true;
+          this.tradeModeOpen.delivery = true;
+          // 宅配
+          this.uploadData.HomeAddress = res.data.homeAddress;
+        }
+        if(res.data.mailBoxAddress){
+          this.hasDefaultAddress = true;
+          this.tradeModeOpen.mailBox = true;
+          // mail
+          this.uploadData.MailBoxAddress = res.data.mailBoxAddress;
+          this.uploadData.MailBoxName = res.data.mailBoxName;
+        }
+        if(res.data.storeAddress){
+          this.hasDefaultAddress = true;
+          this.tradeModeOpen.stroe = true;
+          // 7-11
+          this.uploadData.StoreAddress = res.data.storeAddress;
+          this.uploadData.StoreName = res.data.storeName;
+        }
+        if(res.data.faceTradeRoad){
+          this.hasDefaultAddress = true;
+          this.tradeModeOpen.face = true;
+          // 面交
+          this.uploadData.FaceTradeArea = res.data.faceTradeArea;
+          this.uploadData.FaceTradeCity = res.data.faceTradeCity;
+          this.uploadData.FaceTradeDetail = res.data.faceTradeDetail;
+          this.uploadData.FaceTradePath = res.data.faceTradePath;
+          this.uploadData.FaceTradeRoad = res.data.faceTradeRoad;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     if(this.bookId) {
       getBookDetail(this.bookId)
         .then(res => {
-          console.log(res);
           this.uploadData.BookName = res.data.bookName;
           this.uploadData.Author = res.data.author;
           this.uploadData.BookHigh = res.data.bookHigh;
           this.uploadData.BookId = res.data.bookId;
           this.uploadData.BookLong = res.data.bookLong;
           this.uploadData.BookWidth = res.data.bookWidth;
-          this.uploadData.CategoryId = res.data.categoryDetail;
+          this.category.bottom = res.data.categoryId;
           this.condition = res.data.conditionNum;
           this.experience = res.data.experience;
           this.uploadData.Introduction = res.data.introduction;
           this.uploadData.ISBN = res.data.isbn;
           this.uploadData.PublishingHouse = res.data.publishingHouse;
           this.conditionValue = res.data.condition.split(',');
-          if(res.data.homeAddress){
-            this.hasDefaultAddress = true;
-            this.tradeModeOpen.delivery = true;
-            // 宅配
-            this.uploadData.HomeAddress = res.data.homeAddress;
-          }
-          if(res.data.mailBoxAddress){
-            this.hasDefaultAddress = true;
-            this.tradeModeOpen.mailBox = true;
-            // mail
-            this.uploadData.MailBoxAddress = res.data.mailBoxAddress;
-            this.uploadData.MailBoxName = res.data.mailBoxName;
-          }
-          if(res.data.storeAddress){
-            this.hasDefaultAddress = true;
-            this.tradeModeOpen.stroe = true;
-            // 7-11
-            this.uploadData.StoreAddress = res.data.storeAddress;
-            this.uploadData.StoreName = res.data.storeName;
-          }
-          if(res.data.faceTradeRoad){
-            this.hasDefaultAddress = true;
-            this.tradeModeOpen.face = true;
-            // 面交
-            this.uploadData.FaceTradeArea = res.data.faceTradeArea;
-            this.uploadData.FaceTradeCity = res.data.faceTradeCity;
-            this.uploadData.FaceTradeDetail = res.data.faceTradeDetail;
-            this.uploadData.FaceTradePath = res.data.faceTradePath;
-            this.uploadData.FaceTradeRoad = res.data.faceTradeRoad;
-          }
-          getUserDetail(res.data.userId)
-            .then(res => {
-              this.uploadData.TrueName = res.data.trueName;
-              this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
-            })
-            .catch(error => {
-              console.log(error);
-            })
+
           this.defaultCategory = res.data.categoryDetail;
 
           let dateStr = res.data.publishDate.split(' ')[0];
           let dateArr = dateStr.split('/');
-          this.date = `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
+          this.date = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`;
 
           this.defaultPhoto = res.data.bookPhotos;
-          // bookStatus: true
         })
         .catch(error => {
           console.log(error);
         })
-
     }
+
 
 
   },
@@ -526,14 +522,14 @@ export default {
       return arr;
     },
     getHomeAddress() {
-      return this.uploadData.faceTradeArea +
-        this.uploadData.faceTradeCity +
-        this.uploadData.faceTradeRoad +
-        this.uploadData.faceTradePath +
-        this.uploadData.faceTradeDetail;
+      return this.uploadData.FaceTradeArea +
+        this.uploadData.FaceTradeCity +
+        this.uploadData.FaceTradeRoad +
+        this.uploadData.FaceTradePath +
+        this.uploadData.FaceTradeDetail;
     },
     getIMailAddressAll() {
-      return this.uploadData.mailBoxName + this.uploadData.mailBoxAddress;
+      return this.uploadData.MailBoxName + this.uploadData.MailBoxAddress;
     },
 
 
@@ -567,11 +563,9 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
-      // this.$router.push('/member/booth');
       this.$http.put('/api/Stall/bookupdate/'+ this.bookId, this.getFormData)
         .then((res) => {
-          console.log(res);
-          alert('上架成功');
+          alert(res.data);
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
         .catch(error => {
@@ -678,7 +672,6 @@ export default {
     FormTextarea,
     AddressSelect,
     IMailBoxSelect,
-    DatePick,
   }
 }
 </script>
@@ -696,33 +689,6 @@ export default {
       font-size 1em !important
 
 
-.form
-  &__input-wrap
-    display flex
-    align-items center
-
-  &__input-group
-    margin-bottom 1em
-
-  &__label
-    display block
-  &__input
-    display block
-    width 100%
-    border 1px solid $dark
-    padding 6px
-    margin-top .6em
-    margin-bottom 1em
-
-  &__btn
-    display inline-block
-    background-color $accent
-    padding 6px 2em
-    color $light
-    cursor pointer
-    &--light
-      background-color $light
-      color $text-primary
 .photo
   position relative
   &__remove-btn

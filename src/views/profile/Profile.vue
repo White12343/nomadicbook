@@ -268,9 +268,9 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
+      console.log(this.getFormData.get('HomeAddress'));
       this.$http.put('/api/User/' + this.user.id, this.getFormData)
         .then((res) => {
-          console.log(res);
           this.snackbar = true;
           this.text = res.data;
         })
@@ -363,24 +363,16 @@ export default {
       formData.append('NickName', this.name)
       formData.append('Email', this.email)
       // 交易方式
-      if(this.tradeModeOpen.delivery){
-        formData.append('HomeAddress', this.homeAddress)
-      }
-      if(this.tradeModeOpen.mailBox){
-        formData.append('MailBoxName', this.mailBox.name)
-        formData.append('MailBoxAddress', this.mailBox.address)
-      }
-      if(this.tradeModeOpen.store){
-        formData.append('StoreName', this.store.name)
-        formData.append('StoreAddress', this.store.address)
-      }
-      if(this.tradeModeOpen.face){
-        formData.append('FaceTradeCity', this.faceTrade.City)
-        formData.append('FaceTradeArea', this.faceTrade.Area)
-        formData.append('FaceTradeRoad', this.faceTrade.Road)
-        formData.append('FaceTradePath', this.faceTrade.Path)
-        formData.append('FaceTradeDetail', this.faceTrade.Detail)
-      }
+      formData.append('HomeAddress', this.homeAddress)
+      formData.append('MailBoxName', this.mailBox.Name)
+      formData.append('MailBoxAddress', this.mailBox.Address)
+      formData.append('StoreName', this.store.Name)
+      formData.append('StoreAddress', this.store.Address)
+      formData.append('FaceTradeCity', this.faceTrade.City)
+      formData.append('FaceTradeArea', this.faceTrade.Area)
+      formData.append('FaceTradeRoad', this.faceTrade.Road)
+      formData.append('FaceTradePath', this.faceTrade.Path)
+      formData.append('FaceTradeDetail', this.faceTrade.Detail)
       return formData;
     }
   },
@@ -388,7 +380,6 @@ export default {
     this.name = this.user.nickName;
     getUserDetail(this.user.id)
       .then(res => {
-        console.log(res);
         this.userData = res.data;
         this.name = this.userData.nickName;
         this.email = this.userData.email;
@@ -396,24 +387,20 @@ export default {
         this.phone = this.userData.cellphoneNumber;
 
         if(this.userData.homeAddress){
-          // this.tradeModeOpen.delivery = true;
           this.hasDefaultAddress = true;
           this.homeAddress = this.userData.homeAddress;
         }
         if(this.userData.mailBoxAddress){
-          // this.tradeModeOpen.mailBox = true;
           this.hasDefaultAddress = true;
-          this.mailBox.name = this.userData.mailBoxName;
-          this.mailBox.address = this.userData.mailBoxAddress;
+          this.mailBox.Name = this.userData.mailBoxName;
+          this.mailBox.Address = this.userData.mailBoxAddress;
         }
         if(this.userData.storeAddress){
-          // this.tradeModeOpen.store = true;
           this.hasDefaultAddress = true;
           this.store.name = this.userData.storeName;
           this.stort.address = this.userData.storeAddress;
         }
         if(this.userData.faceTradeRoad){
-          // this.tradeModeOpen.face = true;
           this.hasDefaultAddress = true;
           this.faceTrade.City = this.userData.faceTradeCity;
           this.faceTrade.Area = this.userData.faceTradeArea;
