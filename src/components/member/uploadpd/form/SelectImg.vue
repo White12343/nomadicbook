@@ -6,10 +6,24 @@
       </figure>
       <div class="selectImg__preview preview" v-else>
         <div class="preview__cntr" v-for="(item, index) in preview" :key="index">
-          <a href="#" @click.prevent.stop="removePic(index)" class="preview__removebtn">X</a>
+          <v-btn
+            color="red"
+            fab
+            x-small
+            class="preview__removebtn white--text"
+            @click.prevent.stop="removePic(index)"
+          >
+            <v-icon>mdi-trash-can-outline</v-icon>
+          </v-btn>
           <figure class="preview__inner">
             <img class="preview__img img-resp" :src="item" :alt="index">
           </figure>
+          <!-- <v-img
+            max-height="150"
+            max-width="250"
+            :src="item"
+            :alt="index"
+          ></v-img> -->
         </div>
       </div>
       <input class="selectImg__btn"
@@ -122,17 +136,8 @@ export default {
     &:last-child
       margin-right 0
   &__removebtn
-    display block
-    font-size $font-sizes-xs
-    width 20px
-    height @width
-    line-height @width
-    background-color $danger
-    text-align center
-    color $light
-    border-radius 50%
     position absolute
-    top -6px
-    right -6px
+    top -12px
+    right -12px
 
 </style>

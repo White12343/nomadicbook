@@ -257,6 +257,7 @@ export default {
       Address: '',
       Name: '',
     },
+    hasDefaultAddress: false,
   }),
 
   methods: {
@@ -395,21 +396,25 @@ export default {
         this.phone = this.userData.cellphoneNumber;
 
         if(this.userData.homeAddress){
-          this.tradeModeOpen.delivery = true;
+          // this.tradeModeOpen.delivery = true;
+          this.hasDefaultAddress = true;
           this.homeAddress = this.userData.homeAddress;
         }
         if(this.userData.mailBoxAddress){
-          this.tradeModeOpen.mailBox = true;
+          // this.tradeModeOpen.mailBox = true;
+          this.hasDefaultAddress = true;
           this.mailBox.name = this.userData.mailBoxName;
           this.mailBox.address = this.userData.mailBoxAddress;
         }
         if(this.userData.storeAddress){
-          this.tradeModeOpen.store = true;
+          // this.tradeModeOpen.store = true;
+          this.hasDefaultAddress = true;
           this.store.name = this.userData.storeName;
           this.stort.address = this.userData.storeAddress;
         }
         if(this.userData.faceTradeRoad){
-          this.tradeModeOpen.face = true;
+          // this.tradeModeOpen.face = true;
+          this.hasDefaultAddress = true;
           this.faceTrade.City = this.userData.faceTradeCity;
           this.faceTrade.Area = this.userData.faceTradeArea;
           this.faceTrade.Road = this.userData.faceTradeRoad;

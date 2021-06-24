@@ -3,14 +3,39 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // user.js
-// user
+// 首頁
+var getExperienceList = function getExperienceList(num) {
+  return (0, _http["default"])("get", "/HomePage/experiencelist", num);
+};
+
+exports.getExperienceList = getExperienceList;
+
+var getNewBookList = function getNewBookList(num) {
+  return (0, _http["default"])("get", "/HomePage/newbooklist", num);
+};
+
+exports.getNewBookList = getNewBookList;
+
+var getPublishDayList = function getPublishDayList(num) {
+  return (0, _http["default"])("get", "/HomePage/publishdaylist", num);
+};
+
+exports.getPublishDayList = getPublishDayList;
+
+var search = function search(keyword) {
+  return (0, _http["default"])("get", "/HomePage", keyword);
+}; // user
+
+
+exports.search = search;
+
 var userSignUp = function userSignUp(signUpData) {
   return (0, _http["default"])("post", "/user/signup", signUpData);
 };
@@ -162,18 +187,27 @@ exports.getSeekBookList = getSeekBookList;
 
 var uploadProduct = function uploadProduct(data) {
   return (0, _http["default"])("post", "/product/new", data);
-}; // isbn
+}; // 更新
+// export const putProduct = (id) => req("put", "/Stall/bookupdate/" + id);
+// isbn
 
 
 exports.uploadProduct = uploadProduct;
 
 var getDataByISBNApi = function getDataByISBNApi(isbn) {
   return (0, _http["default"])("get", "/Product", isbn);
+}; // 刪除圖片
+
+
+exports.getDataByISBNApi = getDataByISBNApi;
+
+var deletePhotoByApi = function deletePhotoByApi(id) {
+  return (0, _http["default"])("delete", "/Stall/" + id);
 }; // 地址
 // city
 
 
-exports.getDataByISBNApi = getDataByISBNApi;
+exports.deletePhotoByApi = deletePhotoByApi;
 
 var getCity = function getCity() {
   return (0, _http["default"])("get", "/Trade/address/city");
@@ -206,9 +240,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { getNotifyNum } from "@/request/api";
+import { search } from "@/request/api";
 
-getNotifyNum()
+search()
   .then(res => {
     console.log(res);
   })

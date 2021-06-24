@@ -6,17 +6,60 @@
       lazy-validation
     >
       <SelectImg class="upload-form__selectImg" @getImgFiles="getImgs"/>
+      <!-- 預設圖片 -->
+      <v-row>
+        <v-col
+          class="photo"
+          v-for="item, index in defaultPhoto"
+          :key="index"
+          cols="12"
+          sm="6"
+          md="2"
+          lg="2"
+        >
+          <v-img
+            max-height="150"
+            max-width="250"
+            :src="`http://35.236.167.85/photo/${item.bookPhoto}.jpg`"
+          ></v-img>
+          <v-btn
+            color="red"
+            fab
+            x-small
+            class="white--text photo__remove-btn"
+            @click="deletePhoto(item.bookPhotoId, index)"
+          >
+            <v-icon>mdi-trash-can-outline</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-row justify="space-around">
         <v-col cols="12" md="6">
-          <!-- ISBN -->
-          <v-text-field label="ISBN" id="Isbn" v-model="uploadData.ISBN"></v-text-field>
-          <v-btn
-            color="primary"
-            class="mr-4"
-            @click="getDataByISBN"
-          >
-            ISBN 自動帶入
-          </v-btn>
+          <v-row align="center">
+            <v-col
+              cols="12"
+              sm="9"
+              md="8"
+              lg="8"
+            >
+              <!-- ISBN -->
+              <v-text-field label="ISBN" id="Isbn" v-model="uploadData.ISBN"></v-text-field>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="3"
+              md="3"
+              lg="3"
+            >
+              <v-btn
+                color="primary"
+                class="mr-4"
+                @click="getDataByISBN"
+              >
+                ISBN 自動帶入
+              </v-btn>
+            </v-col>
+          </v-row>
           <div class="upload-form__form-wrap">
             <!-- 姓名 -->
             <v-text-field
@@ -34,9 +77,23 @@
               :rules="phoneRules"
               required
             ></v-text-field>
+            <!-- 預設交易資料 -->
+            <h3 class="upload-form__tit">預設交易方式</h3>
+            <div class="defaultTradeMode">
+              <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
+              <p class="defaultTradeMode__desc">{{uploadData.HomeAddress}}</p>
+            </div>
+            <div class="defaultTradeMode" v-if="getHomeAddress">
+              <h4 class="defaultTradeMode__tit">面交</h4>
+              <p class="defaultTradeMode__desc">{{getHomeAddress}}</p>
+            </div>
+            <div class="defaultTradeMode" v-if="getIMailAddressAll">
+              <h4 class="defaultTradeMode__tit">i 郵箱</h4>
+              <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
+            </div>
             <!-- 地址 -->
             <h3 class="upload-form__tit">交易方式</h3>
-            <small class="red--text" v-if="this.isOpenTradeMode">請至少選擇一種交易方式</small>
+            <small class="red--text" v-if="!hasDefaultAddress && isOpenTradeMode">請至少選擇一種交易方式</small>
             <!-- <AddressSelect title="店到店" nameId="Store"/> -->
             <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress" @isOpenTrade="isDeliveryOpen"/>
             <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress" @isOpenTrade="isFaceOpen"/>
@@ -120,6 +177,9 @@
             </v-col>
           </v-row>
 
+
+          <h3 class="upload-form__tit">分類</h3>
+          <h4 v-if="defaultCategory">{{ defaultCategory }}</h4>
           <v-row align="center">
             <v-col class="d-flex" cols="12" sm="4">
               <v-select
@@ -239,7 +299,14 @@
 </template>
 
 <script>
-import { getDataByISBNApi, getCategory, getCategoryDetail, getBookDetail } from "@/request/api";
+import {
+  getDataByISBNApi,
+  getCategory,
+  getCategoryDetail,
+  getBookDetail,
+  getUserDetail,
+  deletePhotoByApi,
+} from "@/request/api";
 import SelectImg from '@/components/member/uploadpd/form/SelectImg';
 import FormInput from '@/components/member/uploadpd/form/FormInput';
 import FormTextarea from '@/components/member/uploadpd/form/FormTextarea';
@@ -267,6 +334,7 @@ export default {
         v => !!v || '此為必填欄位',
         v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
       ],
+      defaultCategory: '',
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -314,12 +382,13 @@ export default {
         face: false,
         stroe: false,
         mailBox: false,
-      }
+      },
+      hasDefaultAddress: false,
+      defaultPhoto: [],
     }
   },
   created() {
     if(this.bookId) {
-      console.log('上架頁：帶入' + this.bookId + '資料');
       getBookDetail(this.bookId)
         .then(res => {
           console.log(res);
@@ -333,37 +402,55 @@ export default {
           this.condition = res.data.conditionNum;
           this.experience = res.data.experience;
           this.uploadData.Introduction = res.data.introduction;
-          this.uploadData.Isbn = res.data.isbn;
+          this.uploadData.ISBN = res.data.isbn;
           this.uploadData.PublishingHouse = res.data.publishingHouse;
+          this.conditionValue = res.data.condition.split(',');
+          if(res.data.homeAddress){
+            this.hasDefaultAddress = true;
+            this.tradeModeOpen.delivery = true;
+            // 宅配
+            this.uploadData.HomeAddress = res.data.homeAddress;
+          }
+          if(res.data.mailBoxAddress){
+            this.hasDefaultAddress = true;
+            this.tradeModeOpen.mailBox = true;
+            // mail
+            this.uploadData.MailBoxAddress = res.data.mailBoxAddress;
+            this.uploadData.MailBoxName = res.data.mailBoxName;
+          }
+          if(res.data.storeAddress){
+            this.hasDefaultAddress = true;
+            this.tradeModeOpen.stroe = true;
+            // 7-11
+            this.uploadData.StoreAddress = res.data.storeAddress;
+            this.uploadData.StoreName = res.data.storeName;
+          }
+          if(res.data.faceTradeRoad){
+            this.hasDefaultAddress = true;
+            this.tradeModeOpen.face = true;
+            // 面交
+            this.uploadData.FaceTradeArea = res.data.faceTradeArea;
+            this.uploadData.FaceTradeCity = res.data.faceTradeCity;
+            this.uploadData.FaceTradeDetail = res.data.faceTradeDetail;
+            this.uploadData.FaceTradePath = res.data.faceTradePath;
+            this.uploadData.FaceTradeRoad = res.data.faceTradeRoad;
+          }
+          getUserDetail(res.data.userId)
+            .then(res => {
+              this.uploadData.TrueName = res.data.trueName;
+              this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+          this.defaultCategory = res.data.categoryDetail;
 
-          // this.date = res.data.publishDate;
-          // this.conditionValue = res.data.condition;
+          let dateStr = res.data.publishDate.split(' ')[0];
+          let dateArr = dateStr.split('/');
+          this.date = `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`;
 
-          // 面交
-          this.uploadData.FaceTradeArea = res.data.faceTradeArea;
-          this.uploadData.FaceTradeCity = res.data.faceTradeCity;
-          this.uploadData.FaceTradeDetail = res.data.faceTradeDetail;
-          this.uploadData.FaceTradePath = res.data.faceTradePath;
-          this.uploadData.FaceTradeRoad = res.data.faceTradeRoad;
-
-          // 7-11
-          this.uploadData.StoreAddress = res.data.storeAddress;
-          this.uploadData.StoreName = res.data.storeName;
-
-          // mail
-          this.uploadData.MailBoxAddress = res.data.mailBoxAddress;
-          this.uploadData.MailBoxName = res.data.mailBoxName;
-
-          // 宅配
-          this.uploadData.HomeAddress = res.data.homeAddress;
-
-          // 缺手機和真實姓名 可以用另一隻去要
-          // bookPhotos: []
+          this.defaultPhoto = res.data.bookPhotos;
           // bookStatus: true
-          // publishDate: "03/02/2021 00:00:00"
-          // releaseDate: "06/22/2021 00:00:00"
-          // userId: 7
-          // userName: "lee0709
         })
         .catch(error => {
           console.log(error);
@@ -437,14 +524,26 @@ export default {
         })
       }
       return arr;
-    }
+    },
+    getHomeAddress() {
+      return this.uploadData.faceTradeArea +
+        this.uploadData.faceTradeCity +
+        this.uploadData.faceTradeRoad +
+        this.uploadData.faceTradePath +
+        this.uploadData.faceTradeDetail;
+    },
+    getIMailAddressAll() {
+      return this.uploadData.mailBoxName + this.uploadData.mailBoxAddress;
+    },
 
 
   },
   methods: {
     upLoadBook() {
-      if(this.isOpenTradeMode){
-        return;
+      if(!this.hasDefaultAddress){
+        if(this.isOpenTradeMode){
+          return;
+        }
       }
       if(!this.$refs.form.validate()){
         return;
@@ -460,8 +559,24 @@ export default {
         })
     },
     updataBookData() {
-      alert('上架頁：更新產品資料' + this.bookId);
-      this.$router.push('/member/booth');
+      if(!this.hasDefaultAddress){
+        if(this.isOpenTradeMode){
+          return;
+        }
+      }
+      if(!this.$refs.form.validate()){
+        return;
+      }
+      // this.$router.push('/member/booth');
+      this.$http.put('/api/Stall/bookupdate/'+ this.bookId, this.getFormData)
+        .then((res) => {
+          console.log(res);
+          // alert('上架成功');
+          // this.$router.push('/member/booth');
+        })
+        .catch(error => {
+          console.log(error);
+        })
     },
     getTradeAddress(val) {
       this.uploadData.FaceTradeCity = val.city;
@@ -543,6 +658,16 @@ export default {
     },
     isMailBoxOpen(val) {
       this.tradeModeOpen.mailBox = val;
+    },
+    deletePhoto(id, index) {
+      deletePhotoByApi(id)
+        .then(res => {
+          console.log(res);
+          this.defaultPhoto.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error);
+        })
     }
 
 
@@ -598,4 +723,10 @@ export default {
     &--light
       background-color $light
       color $text-primary
+.photo
+  position relative
+  &__remove-btn
+    position absolute
+    top -12px
+    right -6px
 </style>

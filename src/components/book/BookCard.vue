@@ -59,8 +59,6 @@ export default {
     display flex
     align-items center
 
-  &__cntr
-    padding 0 1em
 
   &__img
     display block

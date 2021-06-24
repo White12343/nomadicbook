@@ -1,6 +1,12 @@
 // user.js
 import req from "./http";
 
+// 首頁
+export const getExperienceList = (num) => req("get", "/HomePage/experiencelist", num);
+export const getNewBookList = (num) => req("get", "/HomePage/newbooklist", num);
+export const getPublishDayList = (num) => req("get", "/HomePage/publishdaylist", num);
+export const search = (keyword) => req("get", "/HomePage", keyword);
+
 
 // user
 export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
@@ -46,6 +52,9 @@ export const setOffShelf = (id) => req("put", `/Stall/bookoff/${id}`);
 // 上架
 export const setOnShelf = (id) => req("put", `/Stall/bookon/${id}`);
 
+
+
+
 // 邀約方書本資料
 export const getAskBoothBookList = (id, mode) => req("get", `/seek/otherpeople/books/${id}/${mode}`);
 // 確認回應邀約方資料
@@ -62,8 +71,12 @@ export const getSeekBookList = (id) => req("get", "/seek/myself/" + id);
 
 // 上架
 export const uploadProduct = (data) => req("post", "/product/new", data);
+// 更新
+// export const putProduct = (id) => req("put", "/Stall/bookupdate/" + id);
 // isbn
 export const getDataByISBNApi = (isbn) => req("get", "/Product", isbn);
+// 刪除圖片
+export const deletePhotoByApi = (id) => req("delete", "/Stall/" + id);
 
 
 // 地址
@@ -82,9 +95,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getNotifyNum } from "@/request/api";
+import { search } from "@/request/api";
 
-getNotifyNum()
+search()
   .then(res => {
     console.log(res);
   })

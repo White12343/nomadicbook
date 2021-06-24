@@ -2,8 +2,10 @@
   <v-app>
     <div id="app">
       <Header />
-      <main class="main container mx-auto">
-        <router-view/>
+      <main class="main">
+        <v-container>
+          <router-view/>
+        </v-container>
       </main>
       <!-- <div class="background"></div> -->
 
