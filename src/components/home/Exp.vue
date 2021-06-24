@@ -44,8 +44,10 @@
               >
                 <h3 class="exp__book-name text-h5">{{item.bookName}}</h3>
                 <h4 class="exp__book-name fs-6 mt-1">{{item.experienceDay}}</h4>
-                <p class="exp__desc fs-5 mt-6">
+                <p class="exp__desc fs-5 mt-6 mr-3">
                   {{item.experience}}
+                  <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae amet placeat laborum! Qui minima alias excepturi odit, officia tenetur ea doloremque ratione nulla saepe incidunt repellendus nesciunt, omnis aut ipsa.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio tenetur nihil architecto! Provident, fugit asperiores labore dolorum sint quia earum amet saepe id aliquam rem dignissimos architecto sequi placeat ad. -->
                 </p>
               </v-col>
             </v-row>
@@ -70,18 +72,7 @@ export default {
         'Fourth',
         'Fifth',
       ],
-      expData: [
-        {
-          author: "傑夫．貝佐斯",
-          bookId: 30,
-          bookName: "創造與漫想：亞馬遜創辦人貝佐斯親述，從成長到網路巨擘的選擇、經營與夢想【《賈伯斯傳》作者艾薩克森 Walter Isaacson 導讀】",
-          bookPhoto: "20210624025323300",
-          condition: "破損,泛黃",
-          conditionNum: 9,
-          experience: "很好看，值得多看",
-          experienceDay: "2021-04-30",
-        }
-      ],
+      expData: [],
     }
   },
   components: {

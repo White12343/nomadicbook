@@ -49,7 +49,16 @@ var _TradeMatch = _interopRequireDefault(require("@/views/trademanage/TradeMatch
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-_vue["default"].use(_vueRouter["default"]);
+_vue["default"].use(_vueRouter["default"]); // 解決重複點擊路由報錯的 BUG
+
+
+var originalPush = _vueRouter["default"].prototype.push;
+
+_vueRouter["default"].prototype.push = function push(location) {
+  return originalPush.call(this, location)["catch"](function (err) {
+    return err;
+  });
+};
 
 var router = new _vueRouter["default"]({
   mode: 'history',
@@ -58,7 +67,7 @@ var router = new _vueRouter["default"]({
     name: 'Home',
     component: _Home["default"]
   }, {
-    path: '/booklist/:mainId?/:bigCategory?',
+    path: '/booklist/:mainId?/:bigCategory?/:keyword?',
     name: 'BookList',
     component: _BookList["default"]
   }, {

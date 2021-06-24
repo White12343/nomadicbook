@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { getBookList, getCategory } from "@/request/api";
+import { getBookList, getCategory, search } from "@/request/api";
 import BookCard from '../components/book/BookCard';
 export default {
   name: 'BookList',
@@ -147,7 +147,19 @@ export default {
     },
   },
   created() {
-    this.getBookListData(this.category);
+    if(this.$route.query.keyword){
+      search({
+        keyWord: this.$route.query.keyword
+      })
+        .then(res => {
+          this.pdData = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }else {
+      this.getBookListData(this.category);
+    }
     this.manu.forEach(item => {
       getCategory({
         mainId: item.id
@@ -159,6 +171,21 @@ export default {
           console.log(error);
         })
     })
+  },
+  updated() {
+    if(this.$route.query.keyword){
+      search({
+        keyWord: this.$route.query.keyword
+      })
+        .then(res => {
+          this.pdData = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }else {
+      this.getBookListData(this.category);
+    }
   },
   components: {
     BookCard,

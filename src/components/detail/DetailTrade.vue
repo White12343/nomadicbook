@@ -32,6 +32,7 @@
           block
           @click.stop="openPopup"
           v-if="popupOpen"
+          :disabled="isSelf"
         >
           我要交換
         </v-btn>
@@ -125,6 +126,18 @@ export default {
       dialog: false,
       isOpenPopup: false,
       tradeMode: 0,
+      isSelf: true,
+    }
+  },
+  updated() {
+    if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+      console.log('登入狀態');
+      console.log(this.bookDesc);
+      if(this.$cookies.get('user').id == this.bookDesc.userId){
+        this.isSelf = true;
+      }else {
+        this.isSelf = false;
+      }
     }
   },
   computed: {

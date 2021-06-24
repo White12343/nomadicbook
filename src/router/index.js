@@ -22,6 +22,12 @@ import TradeMatch from '@/views/trademanage/TradeMatch'
 
 Vue.use(Router)
 
+// 解決重複點擊路由報錯的 BUG
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err)
+}
+
 const router = new Router({
   mode: 'history',
   routes: [
@@ -31,7 +37,7 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/booklist/:mainId?/:bigCategory?',
+      path: '/booklist/:mainId?/:bigCategory?/:keyword?',
       name: 'BookList',
       component: BookList
     },
@@ -188,5 +194,6 @@ const router = new Router({
 
   ]
 })
+
 
 export default router;

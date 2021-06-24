@@ -79,7 +79,7 @@
             ></v-text-field>
             <!-- 預設交易資料 -->
             <h3 class="upload-form__tit">預設交易方式</h3>
-            <div class="defaultTradeMode">
+            <div class="defaultTradeMode" v-if="uploadData.HomeAddress">
               <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
               <p class="defaultTradeMode__desc">{{uploadData.HomeAddress}}</p>
             </div>
@@ -551,7 +551,7 @@ export default {
       this.$http.post('/api/product/new', this.getFormData)
         .then((res) => {
           alert('上架成功');
-          this.$router.push('/member/booth');
+          this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
         .catch(error => {
           console.log(error);
@@ -571,8 +571,8 @@ export default {
       this.$http.put('/api/Stall/bookupdate/'+ this.bookId, this.getFormData)
         .then((res) => {
           console.log(res);
-          // alert('上架成功');
-          // this.$router.push('/member/booth');
+          alert('上架成功');
+          this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
         .catch(error => {
           console.log(error);

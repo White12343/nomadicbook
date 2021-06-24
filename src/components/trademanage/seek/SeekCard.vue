@@ -3,7 +3,7 @@
     <BookCard :card-data="bookData"/>
     <v-btn
       block
-      outlined
+      color="primary"
       class="seek-card__btn"
       :to="{
         name: 'Detail',

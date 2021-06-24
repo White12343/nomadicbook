@@ -15,14 +15,15 @@
           </v-col>
           <v-col col="12" lg="6">
             <div class="header__search">
-              <form class="search__form">
                 <v-text-field
                   solo
                   hide-details
                   label="搜尋"
                   prepend-inner-icon="mdi-magnify"
+                  v-model="keyWord"
+                  @change="searchBook"
+                  prevent
                 ></v-text-field>
-              </form>
             </div>
           </v-col>
           <v-col col="12" lg="2">
@@ -163,20 +164,13 @@ export default {
           },
         },
         {
-          title: '我的徵求',
+          title: '交易管理',
           path: '/manage/seek',
-        },
-        {
-          title: '別人徵求',
-          path: '/manage/ask',
-        },
-        {
-          title: '交易媒合',
-          path: '/manage/match',
         },
       ],
       notifications: [],
       notifyNum: 0,
+      keyWord: '',
     }
   },
   created() {
@@ -215,6 +209,14 @@ export default {
           ]
           console.log(error);
         })
+    },
+    searchBook() {
+      this.$router.push({
+        name: 'BookList',
+        query: {
+          keyword: this.keyWord,
+        }
+      })
     }
   },
   components: {
