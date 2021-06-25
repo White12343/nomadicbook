@@ -19,6 +19,7 @@ import SeekManage from '@/views/trademanage/SeekManage'
 import AskManage from '@/views/trademanage/AskManage'
 import MatchManage from '@/views/trademanage/MatchManage'
 import TradeMatch from '@/views/trademanage/TradeMatch'
+import Record from '@/views/trademanage/Record'
 
 Vue.use(Router)
 
@@ -117,9 +118,9 @@ const router = new Router({
 
         },
         {
-          path: 'matchdetail/:id',
-          name: 'MatchDetail',
-          component: TradeMatch,
+          path: 'record',
+          name: 'Record',
+          component: Record,
         },
       ]
     },

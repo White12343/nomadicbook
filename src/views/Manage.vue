@@ -18,6 +18,11 @@
           path: 'match',
         }"
       >交易媒合</v-tab>
+      <v-tab
+        :to="{
+          path: 'record',
+        }"
+      >歷史交易</v-tab>
     </v-tabs>
     <div class="manage__cntr">
       <router-view></router-view>

@@ -3,17 +3,19 @@
     <div id="app">
       <Header />
         <v-container>
-      <main class="main">
-          <router-view v-if="isRouterAlive"/>
-      </main>
+          <main class="main">
+              <router-view v-if="isRouterAlive"/>
+          </main>
         </v-container>
-
+      <Footer />
     </div>
   </v-app>
 </template>
 
 <script>
-import Header from './components/header/Header';
+import Header from '@/components/header/Header';
+import Footer from '@/components/footer/Footer';
+
 
 
 export default {
@@ -30,6 +32,7 @@ export default {
   },
   components: {
     Header,
+    Footer,
   },
   methods: {
     reload () {
@@ -47,7 +50,8 @@ export default {
 #app
   position relative
   background-image url('/static/img/bg.png')
-  // background-color #f0f0f0
+.main
+  min-height calc(100vh - 144px - 112px)
 .background
   width 100%
   height 160px

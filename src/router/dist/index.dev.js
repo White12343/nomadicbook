@@ -47,6 +47,8 @@ var _MatchManage = _interopRequireDefault(require("@/views/trademanage/MatchMana
 
 var _TradeMatch = _interopRequireDefault(require("@/views/trademanage/TradeMatch"));
 
+var _Record = _interopRequireDefault(require("@/views/trademanage/Record"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _vue["default"].use(_vueRouter["default"]); // 解決重複點擊路由報錯的 BUG
@@ -135,9 +137,9 @@ var router = new _vueRouter["default"]({
       name: 'Match',
       component: _MatchManage["default"]
     }, {
-      path: 'matchdetail/:id',
-      name: 'MatchDetail',
-      component: _TradeMatch["default"]
+      path: 'record',
+      name: 'Record',
+      component: _Record["default"]
     }]
   }, // 會員資料、攤位頁
   {

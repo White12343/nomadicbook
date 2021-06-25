@@ -1,10 +1,11 @@
 <template>
-  <aside class="side-list">
+  <aside class="side-list modify">
     <!-- 列表 -->
     <v-list>
       <v-list-group
         v-for="item in manu"
         :key="item.title"
+        v-model="item.active"
       >
         <template v-slot:activator>
           <v-list-item-content>
@@ -60,6 +61,7 @@ export default {
         {
           items: [],
           title: '中文書',
+          active: true,
           id: 1,
         },
         {
@@ -133,4 +135,7 @@ export default {
 <style lang="stylus">
 .font-bold
   font-weight bold
+.modify
+  margin-left -16px
+  margin-right 16px
 </style>

@@ -1,5 +1,15 @@
 <template>
   <section class="book-list mx-auto">
+    <!-- <v-breadcrumbs :items="breadcrumbs" class="mb-6">
+      <template v-slot:item="{ item }">
+        <v-breadcrumbs-item
+          :href="item.href"
+          :disabled="item.disabled"
+        >
+          {{ item.text.toUpperCase() }}
+        </v-breadcrumbs-item>
+      </template>
+    </v-breadcrumbs> -->
     <div class="book-list__body">
       <v-row>
         <v-col
@@ -7,6 +17,7 @@
           sm="12"
           md="3"
           lg="3"
+          class="modify"
         >
           <!-- <SideList/> -->
           <v-list>
@@ -61,15 +72,22 @@
                 sm="12"
                 md="4"
                 lg="3"
-                v-for="(item, key) in filterList"
+                v-for="(item, key) in getPageBook(page)"
                 :key="key"
               >
                 <BookCard
                   :card-data="item"
                   class="book-list__item"
                 />
+
               </v-col>
             </v-row>
+          </div>
+          <div class="text-center mt-6" v-if="getPage">
+            <v-pagination
+              v-model="page"
+              :length="getPage"
+            ></v-pagination>
           </div>
         </v-col>
       </v-row>
@@ -83,8 +101,11 @@ import SideList from '@/components/home/SideList';
 import BookCard from '../components/book/BookCard';
 export default {
   name: 'BookList',
+  inject: ['reload'],
   data() {
     return {
+      page: 1,
+      each: 16,
       manu: [
         {
           items: [],
@@ -109,6 +130,24 @@ export default {
         '包書套',
         '泛黃',
         '有做筆記',
+        '九成新',
+      ],
+      breadcrumbs: [
+        {
+          text: '全部',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+        {
+          text: '中文書',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: '心靈勵志',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
       ],
     }
   },
@@ -133,6 +172,15 @@ export default {
         arr = arr.filter(item => item.condition.includes(key));
       })
       return arr;
+    },
+    total() {
+      if(!this.filterList){
+        return 0;
+      }
+      return this.filterList.length;
+    },
+    getPage() {
+      return Math.ceil(this.total / this.each);
     }
   },
   watch: {
@@ -142,6 +190,9 @@ export default {
       },
       deep: true,
     },
+    $route() {
+      this.reload();
+    }
   },
   created() {
     if(this.$route.query.keyword){
@@ -169,21 +220,6 @@ export default {
         })
     })
   },
-  updated() {
-    if(this.$route.query.keyword){
-      search({
-        keyWord: this.$route.query.keyword
-      })
-        .then(res => {
-          this.pdData = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }else {
-      this.getBookListData(this.category);
-    }
-  },
   components: {
     SideList,
     BookCard,
@@ -199,34 +235,28 @@ export default {
           vm.pdData = [];
           console.log(error);
         })
+    },
+    getPageBook(page) {
+      if(page <= 0 || page > this.page){
+        return;
+      }
+      let index = page - 1;
+      let min = index * this.each;
+      let max = min + (this.each - 1);
+      if(max >= this.total) {
+        max = this.total;
+      }
+      return this.filterList.filter((item, i) => i >= min && i <= max);
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.book-list
-  &__cntr
-    display flex
-    flex-wrap wrap
-  // &__item
-  //   width 23%
-  //   margin-right 1%
-  //   margin-left 1%
-  //   margin-bottom 1em
-  //   transition all .3s
-.aside-nav
-  &__tit
-    font-weight bold
-    border-bottom 2px solid $shadow
-    margin-bottom .6em
-    &-link
-      color $text-primary
-  &__cntr
-    margin-bottom 1em
-  &__link
-    display block
 
 .font-bold
   font-weight bold
+.modify
+  margin-left -16px
+  margin-right 16px
 </style>
