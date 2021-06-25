@@ -68,6 +68,14 @@ export const getAskBookList = (id) => req("get", "/seek/otherpeople/" + id);
 export const getMatchList = (id) => req("get", "/seek/match/" + id);
 // Match Detail
 export const getMatchDetail = (id) => req("get", "/seek/match/detail/" + id);
+// 書已寄出
+export const putConsignment = (id, user) => req("put", `/Seek/match/consignment/${id}`, user);
+// 書已收到
+export const putReceipt = (id, user) => req("put", `/Seek/match/receipt/${id}`, user);
+// 拒絕
+export const putRefusal = (id) => req("put", `/seek/otherpeople/refusal/${id}`);
+
+
 // Seek Manage
 export const getSeekBookList = (id) => req("get", "/seek/myself/" + id);
 
@@ -98,9 +106,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { chosen } from "@/request/api";
+import { putRefusal } from "@/request/api";
 
-chosen()
+putReceipt()
   .then(res => {
     console.log(res);
   })

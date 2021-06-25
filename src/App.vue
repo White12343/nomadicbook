@@ -2,12 +2,11 @@
   <v-app>
     <div id="app">
       <Header />
-      <main class="main">
         <v-container>
+      <main class="main">
           <router-view v-if="isRouterAlive"/>
-        </v-container>
       </main>
-      <!-- <div class="background"></div> -->
+        </v-container>
 
     </div>
   </v-app>
@@ -48,6 +47,7 @@ export default {
 #app
   position relative
   background-image url('/static/img/bg.png')
+  // background-color #f0f0f0
 .background
   width 100%
   height 160px

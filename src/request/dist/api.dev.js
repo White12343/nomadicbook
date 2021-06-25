@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -180,10 +180,31 @@ exports.getMatchList = getMatchList;
 
 var getMatchDetail = function getMatchDetail(id) {
   return (0, _http["default"])("get", "/seek/match/detail/" + id);
-}; // Seek Manage
+}; // 書已寄出
 
 
 exports.getMatchDetail = getMatchDetail;
+
+var putConsignment = function putConsignment(id, user) {
+  return (0, _http["default"])("put", "/Seek/match/consignment/".concat(id), user);
+}; // 書已收到
+
+
+exports.putConsignment = putConsignment;
+
+var putReceipt = function putReceipt(id, user) {
+  return (0, _http["default"])("put", "/Seek/match/receipt/".concat(id), user);
+}; // 拒絕
+
+
+exports.putReceipt = putReceipt;
+
+var putRefusal = function putRefusal(id) {
+  return (0, _http["default"])("put", "/seek/otherpeople/refusal/".concat(id));
+}; // Seek Manage
+
+
+exports.putRefusal = putRefusal;
 
 var getSeekBookList = function getSeekBookList(id) {
   return (0, _http["default"])("get", "/seek/myself/" + id);
@@ -247,9 +268,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { chosen } from "@/request/api";
+import { putRefusal } from "@/request/api";
 
-chosen()
+putReceipt()
   .then(res => {
     console.log(res);
   })

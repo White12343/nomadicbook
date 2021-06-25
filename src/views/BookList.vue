@@ -1,8 +1,5 @@
 <template>
   <section class="book-list mx-auto">
-    <!-- <header class="book-list__header">
-      <h2 class="book-list__tit">列表頁</h2>
-    </header> -->
     <div class="book-list__body">
       <v-row>
         <v-col
@@ -11,7 +8,7 @@
           md="3"
           lg="3"
         >
-          <!-- 列表 -->
+          <!-- <SideList/> -->
           <v-list>
             <v-list-group
               v-for="item in manu"
@@ -40,7 +37,6 @@
               </v-list-item>
             </v-list-group>
           </v-list>
-          <!-- 篩選 -->
           <div class="filter p-1">
             <v-checkbox
               v-for="item, index in condition"
@@ -83,6 +79,7 @@
 
 <script>
 import { getBookList, getCategory, search } from "@/request/api";
+import SideList from '@/components/home/SideList';
 import BookCard from '../components/book/BookCard';
 export default {
   name: 'BookList',
@@ -188,6 +185,7 @@ export default {
     }
   },
   components: {
+    SideList,
     BookCard,
   },
   methods: {

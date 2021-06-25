@@ -1,89 +1,263 @@
 <template>
   <article class="match-card">
-    <div class="match-card__cntr">
-      <div class="match-card__item match-card__self">
-        <BookCard :card-data="selfBook"/>
-      </div>
-      <div class="match-card__item match-card__other-side">
-        <BookCard :card-data="otherSideBook"/>
-      </div>
-    </div>
-    <div class="match-card__btns">
-      <a href="#" @click.prevent class="match-card__btn match-card__btn--dark">寄出</a>
-      <!-- <router-link class="match-card__btn match-card__btn--dark mr-1" :to="{
-          name: 'MatchDetail',
-          params: {
-            id: matchData.seekId,
-          }
-        }">收到</router-link> -->
-        <router-link class="match-card__btn match-card__btn--light mr-1" :to="{
-          name: 'MatchDetail',
-          params: {
-            id: matchData.seekId,
-          }
-        }">交易資訊</router-link>
-    </div>
+    <v-row
+      justify="space-between"
+    >
+      <v-col
+        cols="12"
+        sm="12"
+        md="6"
+        lg="6"
+      >
+        <h3>自己的書</h3>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            sm="12"
+            md="4"
+            lg="4"
+          >
+            <BookCard :card-data="selfBook"/>
+            <v-btn
+              block
+              color="primary"
+              @click="consignment"
+            >
+              寄出
+            </v-btn>
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+            md="8"
+            lg="8"
+          >
+            <v-list
+            >
+              <v-list-item
+                v-for="(item, i) in selfInfo"
+                :key="i"
+                three-line
+                dense
+              >
+                <v-list-item-icon>
+                  <v-icon v-text="item.icon"></v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
+                  <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
+
+      </v-col>
+
+      <v-col
+        cols="12"
+        sm="12"
+        md="6"
+        lg="6"
+      >
+
+        <h3>對方的書</h3>
+        <v-row align="center">
+          <v-col
+            cols="12"
+            sm="12"
+            md="4"
+            lg="4"
+          >
+            <BookCard :card-data="otherSideBook"/>
+
+            <v-btn
+              block
+              color="primary"
+              @click="receipt"
+            >
+              收到
+            </v-btn>
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+            md="8"
+            lg="8"
+          >
+            <v-list
+            >
+              <v-list-item
+                v-for="(item, i) in otherInfo"
+                :key="i"
+                three-line
+                dense
+              >
+                <v-list-item-icon>
+                  <v-icon v-text="item.icon"></v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
+                  <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
 
   </article>
 
 </template>
 
 <script>
+import { putConsignment, putReceipt } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 export default {
   name: 'Match',
+  inject: ['reload'],
   props: ['matchData'],
+  data() {
+    return {
+
+    }
+  },
   components: {
     BookCard,
+  },
+  created() {
+
   },
   computed: {
     selfBook() {
       return {
-        bookId: this.matchData.seekBookId,
-        bookName: this.matchData.seekBookName,
-        bookPhoto: this.matchData.seekBookPhoto,
+        bookId: this.matchData.seek.seekBookId,
+        bookName: this.matchData.seek.seekBookName,
+        bookPhoto: this.matchData.seek.seekBookPhoto,
+        conditionNum: this.matchData.seek.seekConditionNum,
+        condition: this.matchData.seek.seekCondition,
       }
     },
     otherSideBook() {
       return {
-        bookId: this.matchData.seekedBookId,
-        bookName: this.matchData.seekedBookName,
-        bookPhoto: this.matchData.seekedBookPhoto,
+        bookId: this.matchData.seeked.seekBookId,
+        bookName: this.matchData.seeked.seekBookName,
+        bookPhoto: this.matchData.seeked.seekBookPhoto,
+        conditionNum: this.matchData.seeked.seekConditionNum,
+        condition: this.matchData.seeked.seekCondition,
       }
+    },
+    tradeMode() {
+      let mode = '';
+      switch(this.matchData.tradeMode) {
+        case 1:
+          mode = '7-11'
+          break;
+        case 2:
+          mode = '宅配 ( 郵寄、黑貓 )'
+          break;
+        case 3:
+          mode = 'i 郵箱'
+          break;
+        case 4:
+          mode = '面交'
+          break;
+      }
+      return mode;
+    },
+    selfInfo() {
+      return [
+        {
+          title: '日期',
+          text: this.matchData.seek.seekDate,
+          icon: 'mdi-clock'
+        },
+        {
+          title: '交易方式',
+          text: this.tradeMode,
+          icon: 'mdi-clock'
+        },
+        {
+          title: '交易資訊',
+          text: this.matchData.seek.seekToAddress
+          + this.matchData.seek.seekToName,
+          icon: 'mdi-account'
+        },
+        {
+          title: '名字',
+          text: this.matchData.seek.seekName,
+          icon: 'mdi-account'
+        },
+        {
+          title: '手機',
+          text: this.matchData.seek.seekCellphone,
+          icon: 'mdi-flag'
+        },
+      ]
+    },
+    otherInfo() {
+      return [
+        {
+          title: '日期',
+          text: this.matchData.seeked.seekDate,
+          icon: 'mdi-clock'
+        },
+        {
+          title: '交易方式',
+          text: this.tradeMode,
+          icon: 'mdi-clock'
+        },
+        {
+          title: '交易資訊',
+          text: this.matchData.seeked.seekToAddress
+          + this.matchData.seeked.seekToName,
+          icon: 'mdi-account'
+        },
+        {
+          title: '名字',
+          text: this.matchData.seeked.seekName,
+          icon: 'mdi-account'
+        },
+        {
+          title: '手機',
+          text: this.matchData.seeked.seekCellphone,
+          icon: 'mdi-flag'
+        },
+      ]
     }
+
+  },
+  methods: {
+    consignment() {
+      putConsignment(this.matchData.seekId, this.$cookies.get('user').id)
+        .then(res => {
+          console.log(res);
+          alert('已寄出');
+          this.reload();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+
+    },
+    receipt() {
+      putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
+        .then(res => {
+          console.log(res);
+          alert('已收到');
+          this.reload();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
   }
 }
 </script>
 
 <style lang="stylus">
 .match-card
-  min-width 25%
   background-color #fff
-  &__cntr
-    display flex
-    justify-content space-between
-  &__item
-    width 48%
-
-  &__self
-    margin-right 1em
-  &__btns
-    margin-right 1em
-    display flex
-    flex-direction row-reverse
-  &__btn
-    display block
-    width 30%
-    text-align center
-    padding .6em 0
-    margin 1em 0
-    border-radius 3px
-    transition all .3s
-    &--light
-      background-color $gray
-      color $text-secondary
-    &--dark
-      background-color $accent
-      color $headline-light
-
+  padding 1em
 </style>

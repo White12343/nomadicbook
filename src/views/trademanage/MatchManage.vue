@@ -1,12 +1,6 @@
 <template>
 
   <section class="match-manage mt-6">
-    <!--
-      ## 交易媒合連結
-      1. 左邊出現我方要交換的書，右邊出現對方要交換的書，中間用箭頭指示
-      2. 底下直接有交易確認和交易資訊的按鈕
-      3. 點交易資訊會進到交易媒合頁面
-    -->
     <div class="match-manage__cntr">
       <v-row>
         <v-col
@@ -15,12 +9,15 @@
           cols="12"
           sm="12"
           md="12"
-          lg="6"
+          lg="12"
         >
           <Match
             :match-data="item"
             class="match-manage__item"
           />
+          <v-divider
+            v-if="index < matchData.length - 1"
+            class="match-manage__divider mt-6 mb-6"></v-divider>
         </v-col>
       </v-row>
     </div>
@@ -44,7 +41,6 @@ export default {
     getMatchList(this.$cookies.get('user').id)
       .then(res => {
         vm.matchData = res.data;
-        console.log(res.data);
       })
       .catch(error => {
         console.log(error);
@@ -57,4 +53,11 @@ export default {
 </script>
 
 <style lang="stylus">
+// .match-manage
+//   background-color #fff
+//   padding 1em
+.match-manage
+  &__divider
+    border-color rgba(0,0,0,.5) !important
+    border-style dashed !important
 </style>
