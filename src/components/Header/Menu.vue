@@ -6,35 +6,6 @@
         :to="{name: 'BookList'}"
       >
         {{ menuJsonData.name }}
-        <!-- <nav class="submenu">
-          <router-link href="#"
-            class="submenu__link"
-            @click.prevent
-            v-for="(subItem, subKey) in item.sub" :key="subKey"
-            :to="{
-              name: 'BookList',
-              params: {
-                mainId: subItem.id,
-              }
-            }"
-          >
-            {{ subItem.name }}
-            <nav class="medium-menu">
-              <router-link class="medium-menu__link"
-                :to="{
-                  name: 'BookList',
-                  params: {
-                    mainId: subItem.id,
-                    bigCategory: mediumItem
-                  }
-                }"
-                v-for="(mediumItem, mediumKey) in subItem.medium" :key="mediumKey"
-              >
-                {{ mediumItem }}
-              </router-link>
-            </nav>
-          </router-link>
-        </nav> -->
       </router-link>
 
       <router-link class="menu__link" href="#"
@@ -80,7 +51,7 @@ export default {
   data() {
     return {
       menuJsonData: {
-        name: '總分類',
+        name: '全部',
         sub: [
           {
             name: '中文書',
