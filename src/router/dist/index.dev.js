@@ -45,8 +45,6 @@ var _AskManage = _interopRequireDefault(require("@/views/trademanage/AskManage")
 
 var _MatchManage = _interopRequireDefault(require("@/views/trademanage/MatchManage"));
 
-var _TradeMatch = _interopRequireDefault(require("@/views/trademanage/TradeMatch"));
-
 var _Record = _interopRequireDefault(require("@/views/trademanage/Record"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

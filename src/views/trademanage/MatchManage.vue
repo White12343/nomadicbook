@@ -41,6 +41,7 @@ export default {
     getMatchList(this.$cookies.get('user').id)
       .then(res => {
         vm.matchData = res.data;
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error);
@@ -53,9 +54,6 @@ export default {
 </script>
 
 <style lang="stylus">
-// .match-manage
-//   background-color #fff
-//   padding 1em
 .match-manage
   &__divider
     border-color rgba(0,0,0,.5) !important

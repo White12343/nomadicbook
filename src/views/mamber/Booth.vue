@@ -92,7 +92,8 @@ export default {
     }
   },
   watch: {
-    $route() {
+    $route(to) {
+      console.log(to);
       this.reload();
     }
   },

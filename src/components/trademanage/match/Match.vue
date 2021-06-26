@@ -22,6 +22,7 @@
               block
               color="primary"
               @click="consignment"
+              v-if="!record"
             >
               寄出
             </v-btn>
@@ -75,6 +76,7 @@
               block
               color="primary"
               @click="receipt"
+              v-if="!record"
             >
               收到
             </v-btn>
@@ -117,7 +119,14 @@ import BookCard from '@/components/book/BookCard';
 export default {
   name: 'Match',
   inject: ['reload'],
-  props: ['matchData'],
+  props: {
+    matchData: Object,
+    record: {
+      type: Boolean,
+      default: false,
+      require: false,
+    }
+  },
   data() {
     return {
 
@@ -171,18 +180,18 @@ export default {
         {
           title: '日期',
           text: this.matchData.seek.seekDate,
-          icon: 'mdi-clock'
+          icon: 'mdi-calendar-range'
         },
         {
           title: '交易方式',
           text: this.tradeMode,
-          icon: 'mdi-clock'
+          icon: 'mdi-handshake'
         },
         {
           title: '交易資訊',
           text: this.matchData.seek.seekToAddress
           + this.matchData.seek.seekToName,
-          icon: 'mdi-account'
+          icon: 'mdi-information'
         },
         {
           title: '名字',
@@ -192,7 +201,7 @@ export default {
         {
           title: '手機',
           text: this.matchData.seek.seekCellphone,
-          icon: 'mdi-flag'
+          icon: 'mdi-cellphone'
         },
       ]
     },
@@ -201,18 +210,18 @@ export default {
         {
           title: '日期',
           text: this.matchData.seeked.seekDate,
-          icon: 'mdi-clock'
+          icon: 'mdi-calendar-range'
         },
         {
           title: '交易方式',
           text: this.tradeMode,
-          icon: 'mdi-clock'
+          icon: 'mdi-handshake'
         },
         {
           title: '交易資訊',
           text: this.matchData.seeked.seekToAddress
           + this.matchData.seeked.seekToName,
-          icon: 'mdi-account'
+          icon: 'mdi-information'
         },
         {
           title: '名字',
@@ -222,7 +231,7 @@ export default {
         {
           title: '手機',
           text: this.matchData.seeked.seekCellphone,
-          icon: 'mdi-flag'
+          icon: 'mdi-cellphone'
         },
       ]
     }

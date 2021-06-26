@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -201,10 +201,17 @@ exports.putReceipt = putReceipt;
 
 var putRefusal = function putRefusal(id) {
   return (0, _http["default"])("put", "/seek/otherpeople/refusal/".concat(id));
-}; // Seek Manage
+}; // 歷史訂單
 
 
 exports.putRefusal = putRefusal;
+
+var getRecord = function getRecord(id) {
+  return (0, _http["default"])("get", "/Seek/history/" + id);
+}; // Seek Manage
+
+
+exports.getRecord = getRecord;
 
 var getSeekBookList = function getSeekBookList(id) {
   return (0, _http["default"])("get", "/seek/myself/" + id);
@@ -268,9 +275,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { putRefusal } from "@/request/api";
+import { getRecord } from "@/request/api";
 
-putReceipt()
+getRecord()
   .then(res => {
     console.log(res);
   })

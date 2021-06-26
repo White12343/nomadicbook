@@ -74,6 +74,8 @@ export const putConsignment = (id, user) => req("put", `/Seek/match/consignment/
 export const putReceipt = (id, user) => req("put", `/Seek/match/receipt/${id}`, user);
 // 拒絕
 export const putRefusal = (id) => req("put", `/seek/otherpeople/refusal/${id}`);
+// 歷史訂單
+export const getRecord = (id) => req("get", "/Seek/history/" + id);
 
 
 // Seek Manage
@@ -106,9 +108,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { putRefusal } from "@/request/api";
+import { getRecord } from "@/request/api";
 
-putReceipt()
+getRecord()
   .then(res => {
     console.log(res);
   })
