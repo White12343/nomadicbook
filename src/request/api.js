@@ -11,6 +11,8 @@ export const search = (keyword) => req("get", "/HomePage", keyword);
 // user
 export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
 export const userSignin = (logInData) => req("post", "/user/signin", logInData);
+export const forgetPassword = (mail) => req("put", "/User/forgetpassword", mail);
+
 // export const userLogOut = () => req("get", "/user/logout");
 
 // 會員資料
@@ -76,6 +78,8 @@ export const putReceipt = (id, user) => req("put", `/Seek/match/receipt/${id}`, 
 export const putRefusal = (id) => req("put", `/seek/otherpeople/refusal/${id}`);
 // 歷史訂單
 export const getRecord = (id) => req("get", "/Seek/history/" + id);
+// 評價
+export const rating = (id, data) => req("put", `/Seek/match/evaluation/${id}`, data);
 
 
 // Seek Manage
@@ -108,9 +112,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getRecord } from "@/request/api";
+import { rating } from "@/request/api";
 
-getRecord()
+rating()
   .then(res => {
     console.log(res);
   })

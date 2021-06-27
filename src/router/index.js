@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
 import BookList from '@/views/BookList'
+import ExperienceList from '@/views/ExperienceList'
 import Detail from '@/views/Detail'
 import Login from '@/views/Login'
 import SignIn from '@/views/login/SignIn'
 import SignUp from '@/views/login/SignUp'
+import ForgetPassword from '@/views/login/ForgetPassword'
 import Member from '@/views/Member'
 import Notifications from '@/views/Notifications'
 import Setting from '@/views/Setting'
@@ -42,6 +44,11 @@ const router = new Router({
       component: BookList
     },
     {
+      path: '/experienceList',
+      name: 'ExperienceList',
+      component: ExperienceList
+    },
+    {
       path: '/detail/:id',
       name: 'Detail',
       component: Detail
@@ -69,6 +76,11 @@ const router = new Router({
           path: 'signup',
           name: 'SignUp',
           component: SignUp,
+        },
+        {
+          path: 'forget',
+          name: 'ForgetPassword',
+          component: ForgetPassword,
         },
       ]
     },

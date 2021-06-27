@@ -83,6 +83,7 @@
                 <v-menu
                   offset-y
                   left
+                  color="white"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -107,7 +108,7 @@
                     </v-btn>
                   </template>
                   <template>
-                    <v-list width="500">
+                    <v-list width="500" max-height="500">
 
                       <v-list-item-title class="ml-3 text-h6">
                         通知
@@ -140,7 +141,8 @@
         </v-row>
       </v-container>
     </header>
-    <Menu />
+    <!-- <Nav /> -->
+    <Menu></Menu>
   </div>
 </template>
 
@@ -148,6 +150,7 @@
 import { getNotify, getNotifyNum } from "@/request/api";
 import { mapState } from "vuex";
 import Menu from '@/components/header/Menu';
+import Nav from '@/components/header/Nav';
 export default {
   name: 'Header',
   data () {
@@ -221,6 +224,7 @@ export default {
   },
   components: {
     Menu,
+    Nav,
   }
 
 

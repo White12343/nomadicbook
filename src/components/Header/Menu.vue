@@ -1,14 +1,15 @@
 <template>
   <nav class="menu">
-    <div class="menu__cntr container mx-auto">
-      <router-link class="menu__link" href="#"
+    <div class="menu__cntr mx-auto">
+      <router-link class="menu__link"
         @click.prevent
         :to="{name: 'BookList'}"
       >
         {{ menuJsonData.name }}
       </router-link>
 
-      <router-link class="menu__link" href="#"
+
+      <router-link class="menu__link"
         @click.prevent
         v-for="(item, key) in menuJsonData.sub"
         :key="key"
@@ -21,7 +22,7 @@
       >
         {{ item.name }}
         <nav class="submenu">
-          <router-link href="#"
+          <router-link
             class="submenu__link"
             @click.prevent
             v-for="(subItem, subKey) in item.medium" :key="subKey"
@@ -38,7 +39,12 @@
         </nav>
       </router-link>
 
-
+      <router-link class="menu__link"
+        @click.prevent
+        :to="{name: 'ExperienceList'}"
+      >
+        心得列表
+      </router-link>
     </div>
 
   </nav>
@@ -99,14 +105,15 @@ export default {
   &__cntr
     display flex
     align-items center
+    max-width 1200px
 
   &__link
     display block
     position relative
-    width 15%
     color $text-secondary
     transition all .3s
-    padding 6px 0
+    width 10%
+    padding 0.6em 0
     &:hover
       color $stroke
       font-weight bold
@@ -119,7 +126,7 @@ export default {
 .submenu
   position absolute
   top 100%
-  width 100%
+  width 200px
   display none
   background-color $light
   box-shadow 1px 3px 5px $shadow

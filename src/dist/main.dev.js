@@ -10,9 +10,9 @@ require("@/assets/stylus/all.styl");
 
 var _App = _interopRequireDefault(require("./App"));
 
-var _router = _interopRequireDefault(require("./router"));
-
 var _vueCookies = _interopRequireDefault(require("vue-cookies"));
+
+var _router = _interopRequireDefault(require("./router"));
 
 var _store = _interopRequireDefault(require("./store"));
 

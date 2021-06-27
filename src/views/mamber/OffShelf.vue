@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       page: 1,
-      each: 16,
+      each: 8,
       isSelf: false,
       pdData: [],
       snackbar: false,

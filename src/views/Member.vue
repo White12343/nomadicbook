@@ -15,21 +15,34 @@
           class="mx-auto d-block mb-6"
         >
           <img
-            :src="`http://35.236.167.85/photo/${userData.userPhoto}.jpg`"
-            alt="John"
+            :src="userPhoto || defaultPhoto"
+            alt="個人頭貼"
           >
         </v-avatar>
-        <h3 class="mb-6 fs-4 text-center">{{userData.nickName}} 的書攤</h3>
-        <h4 class="mb-6 fs-5 text-center">{{userData.email}}</h4>
-        <router-link
+        <h3 class="mb-3 fs-4 text-center">{{userData.nickName}} 的書攤</h3>
+        <v-rating
+          v-if="userData.evaluation"
+          class="text-center mb-3"
+          :value="userData.evaluation"
+          color="warning"
+          background-color="warning"
+          empty-icon="mdi-star-outline"
+          half-icon="mdi-star-half"
+          half-increments
+          readonly
+          size="16"
+        ></v-rating>
+        <h4 class="mb-3 text-center grey--text" v-else>還沒有任何評價</h4>
+        <h4 class="mb-3 fs-6 text-center">{{userData.email}}</h4>
+        <p class="mb-3">{{userData.selfIntroduction}}</p>
+        <v-btn
+          class="mt-6"
+          block
           v-if="isSelf"
-          class="member__link"
           to="/setting"
         >
-          <v-btn block>
-            修改個人資料
-          </v-btn>
-        </router-link>
+          修改個人資料
+        </v-btn>
 
       </nav>
       </v-col>
@@ -91,8 +104,11 @@ import { mapState } from "vuex";
 import { getUserDetail } from "@/request/api";
 export default {
   name: 'Member',
+  inject: ['reload'],
   data() {
     return {
+
+      rating: 4.5,
       isSelf: false,
       userData: {},
       mamberNav: [
@@ -102,6 +118,7 @@ export default {
         },
       ],
       nowPath: '/member/booth',
+      defaultPhoto: '/static/img/default-image.png'
     }
   },
   created() {
@@ -111,6 +128,7 @@ export default {
     getUserDetail(this.$route.params.id)
       .then(res => {
         this.userData = res.data;
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error);
@@ -126,6 +144,12 @@ export default {
       'isLogin',
       'user',
     ]),
+    userPhoto() {
+      if(!this.userData.userPhoto){
+        return '';
+      }
+      return `http://35.236.167.85/photo/${this.userData.userPhoto}.jpg`;
+    }
   },
 }
 </script>

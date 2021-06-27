@@ -52,7 +52,7 @@
                     對方攤位
                   </v-card-title>
 
-                  <v-card-text>
+                  <v-card-text v-if="pdData.length !== 0">
                     <v-navigation-drawer
                       v-model="drawer"
                       absolute
@@ -113,6 +113,9 @@
                     </v-row>
                     <BookCntr cntr-title="書況" :cntr="pdDetail.condition" />
                     <BookCntr cntr-title="簡介" :cntr="pdDetail.introduction" />
+                  </v-card-text>
+                  <v-card-text v-else class="text-center my-6">
+                    目前對方還沒有書喔
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -198,11 +201,14 @@ export default {
     requestExchange(id) {
       const exchangeData = {
         bookId: id,
-        tradeMode: 4
+        tradeMode: this.askData.tradeMode
       }
       selectedBook(this.askData.seekId, exchangeData)
         .then(res => {
+
           alert(res.data);
+          this.dialog = false;
+          this.reload();
         })
         .catch(error => {
           console.log(error);

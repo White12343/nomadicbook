@@ -1,6 +1,6 @@
 <template>
   <section class="record">
-    <v-row justify="center my-6">
+    <v-row justify="center" class="my-6">
       <v-expansion-panels tile light>
         <v-expansion-panel
           v-for="(item,i) in records"
@@ -29,12 +29,33 @@
               >
                 <article class="record__cntr">
                   <header class="record__heaer">
-                    <h3 class="mb-3">交易日期：{{item.seeked.seekDate}}</h3>
                     <h3 class="record__tit">{{item.seeked.seekBookName}}</h3>
                     <h4 class="record__subtit">{{item.seeked.seekAuthor}}</h4>
                   </header>
+                  <div class="d-flex align-center">
+                    {{item.seeked.seekUserName}}
+                    <v-rating
+                      v-if="item.seeked.evaluation"
+                      :value="item.seeked.evaluation"
+                      class="ml-2"
+                      color="warning"
+                      background-color="warning"
+                      empty-icon="mdi-star-outline"
+                      half-icon="mdi-star-half"
+                      half-increments
+                      readonly
+                      dense
+                      size="16"
+                    ></v-rating>
+                  </div>
                   <p class="record__desc">{{item.seeked.seekCondition}}</p>
-                  <h5>交易資訊：{{item.seeked.seekToAddress + ' ' + item.seeked.seekToName}}</h5>
+                  <ul>
+                    <li><b>交易日期：</b>{{item.seeked.seekDate}}</li>
+                    <li><b>交易資訊：</b>{{item.seeked.seekToAddress + ' ' + item.seeked.seekToName}}</li>
+
+                  </ul>
+
+                  <!-- <h4 class="text-center grey--text mr-3" v-else>還沒有任何評價</h4> -->
                 </article>
               </v-col>
             </v-row>
@@ -62,6 +83,7 @@ export default {
     getRecord(this.$cookies.get('user').id)
       .then(res => {
         this.records = res.data;
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error);

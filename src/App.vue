@@ -51,7 +51,7 @@ export default {
   position relative
   background-image url('/static/img/bg.png')
 .main
-  min-height calc(100vh - 144px - 112px)
+  min-height calc(100vh - 115px - 112px)
 .background
   width 100%
   height 160px

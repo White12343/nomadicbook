@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login mx-auto">
     <router-view></router-view>
   </div>
 </template>
@@ -10,6 +10,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus">
+.login
+  width 400px
+  padding 1em 2em
+  margin-top 60px
+  box-shadow 2px 3px 10px $shadow
+  background-color $light
 </style>

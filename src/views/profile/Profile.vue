@@ -16,7 +16,7 @@
           class="d-block my-6"
         >
           <img
-            :src="this.preview || `http://35.236.167.85/photo/${userData.userPhoto}.jpg`"
+            :src="this.preview || userPhoto || defaultPhoto"
             alt="大頭貼"
           >
         </v-avatar>
@@ -70,6 +70,13 @@
         label="E-mail"
         required
       ></v-text-field>
+
+      <!-- 簡介 -->
+      <v-textarea
+        name="input-7-1"
+        label="自我介紹"
+        v-model="selfIntroduction"
+      ></v-textarea>
       <v-row align="center">
         <v-col
           cols="12"
@@ -259,6 +266,8 @@ export default {
       Name: '',
     },
     hasDefaultAddress: false,
+    selfIntroduction: '',
+    defaultPhoto: '/static/img/default-image.png',
   }),
 
   methods: {
@@ -375,7 +384,14 @@ export default {
       formData.append('FaceTradeRoad', this.faceTrade.Road)
       formData.append('FaceTradePath', this.faceTrade.Path)
       formData.append('FaceTradeDetail', this.faceTrade.Detail)
+      formData.append('SelfIntroduction', this.selfIntroduction)
       return formData;
+    },
+    userPhoto() {
+      if(!this.userData.userPhoto){
+        return '';
+      }
+      return `http://35.236.167.85/photo/${this.userData.userPhoto}.jpg`;
     }
   },
   created() {
@@ -387,6 +403,7 @@ export default {
         this.email = this.userData.email;
         this.trueName = this.userData.trueName;
         this.phone = this.userData.cellphoneNumber;
+        this.selfIntroduction = this.userData.selfIntroduction;
 
         if(this.userData.homeAddress){
           this.hasDefaultAddress = true;

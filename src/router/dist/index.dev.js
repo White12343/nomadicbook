@@ -13,6 +13,8 @@ var _Home = _interopRequireDefault(require("@/views/Home"));
 
 var _BookList = _interopRequireDefault(require("@/views/BookList"));
 
+var _ExperienceList = _interopRequireDefault(require("@/views/ExperienceList"));
+
 var _Detail = _interopRequireDefault(require("@/views/Detail"));
 
 var _Login = _interopRequireDefault(require("@/views/Login"));
@@ -20,6 +22,8 @@ var _Login = _interopRequireDefault(require("@/views/Login"));
 var _SignIn = _interopRequireDefault(require("@/views/login/SignIn"));
 
 var _SignUp = _interopRequireDefault(require("@/views/login/SignUp"));
+
+var _ForgetPassword = _interopRequireDefault(require("@/views/login/ForgetPassword"));
 
 var _Member = _interopRequireDefault(require("@/views/Member"));
 
@@ -71,6 +75,10 @@ var router = new _vueRouter["default"]({
     name: 'BookList',
     component: _BookList["default"]
   }, {
+    path: '/experienceList',
+    name: 'ExperienceList',
+    component: _ExperienceList["default"]
+  }, {
     path: '/detail/:id',
     name: 'Detail',
     component: _Detail["default"]
@@ -95,6 +103,10 @@ var router = new _vueRouter["default"]({
       path: 'signup',
       name: 'SignUp',
       component: _SignUp["default"]
+    }, {
+      path: 'forget',
+      name: 'ForgetPassword',
+      component: _ForgetPassword["default"]
     }]
   }, {
     path: '/uploadpd/:id?',

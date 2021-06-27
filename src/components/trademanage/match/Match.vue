@@ -18,14 +18,51 @@
             lg="4"
           >
             <BookCard :card-data="selfBook"/>
-            <v-btn
-              block
-              color="primary"
-              @click="consignment"
-              v-if="!record"
+            <v-dialog
+              v-model="consignmentCheck"
+              max-width="250"
             >
-              寄出
-            </v-btn>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  block
+                  color="primary"
+                  :disabled="matchData.seek.seekSend"
+                  v-if="!record"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  寄出
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title class="text-h5">
+                  注意
+                </v-card-title>
+                <v-card-text>
+                  請確認是否已寄出，確認後會通知對方您已寄出書籍。
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn
+                    color="grey darken-1"
+                    text
+                    @click="consignmentCheck = false"
+                  >
+                    取消
+                  </v-btn>
+
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="consignment"
+                  >
+                    確認
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
           <v-col
             cols="12"
@@ -71,15 +108,54 @@
             lg="4"
           >
             <BookCard :card-data="otherSideBook"/>
-
-            <v-btn
-              block
-              color="primary"
-              @click="receipt"
-              v-if="!record"
+            <v-dialog
+              v-model="receiveCheck"
+              max-width="250"
             >
-              收到
-            </v-btn>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  block
+                  color="primary"
+                  :disabled="matchData.seek.seekReceive"
+                  v-if="!record"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  收到
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title class="text-h5">
+                  收到書籍
+                </v-card-title>
+                <v-card-text>
+                  這次交易您還滿意嗎？
+                  <v-rating
+                    class="mt-3"
+                    v-model="evaluation"
+                    color="warning"
+                    background-color="warning"
+                    empty-icon="mdi-star-outline"
+                    half-icon="mdi-star-half"
+                    half-increments
+                    size="16"
+                    @input="receipt"
+                  ></v-rating>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn
+                    color="grey darken-1"
+                    text
+                    @click="receiveCheck = false"
+                  >
+                    取消
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
           <v-col
             cols="12"
@@ -114,7 +190,7 @@
 </template>
 
 <script>
-import { putConsignment, putReceipt } from "@/request/api";
+import { putConsignment, putReceipt, rating } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 export default {
   name: 'Match',
@@ -129,7 +205,9 @@ export default {
   },
   data() {
     return {
-
+      consignmentCheck: false,
+      receiveCheck: false,
+      evaluation: 0,
     }
   },
   components: {
@@ -239,10 +317,10 @@ export default {
   },
   methods: {
     consignment() {
+      this.consignmentCheck = false;
       putConsignment(this.matchData.seekId, this.$cookies.get('user').id)
         .then(res => {
           console.log(res);
-          alert('已寄出');
           this.reload();
         })
         .catch(error => {
@@ -251,15 +329,27 @@ export default {
 
     },
     receipt() {
-      putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
+      this.receiveCheck = false;
+      const data = {
+        userId: this.$cookies.get('user').id,
+        evaluation: this.evaluation,
+      }
+      rating(this.matchData.seekId, data)
         .then(res => {
           console.log(res);
-          alert('已收到');
-          this.reload();
+          putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
+            .then(res => {
+              this.reload();
+            })
+            .catch(error => {
+              console.log(error);
+              alert('失敗');
+            })
         })
         .catch(error => {
           console.log(error);
         })
+
     },
   }
 }

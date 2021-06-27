@@ -4,7 +4,21 @@
       <h2 class="book-info__tit fs-4">{{ bookDesc.bookName }}</h2>
     </header>
     <div class="book-info__user">
-      <h4 class="book-info__user-name">{{ bookDesc.userName }}</h4>
+      <h4 class="book-info__user-name mr-3">{{ bookDesc.userName }}</h4>
+      <v-rating
+        v-if="bookDesc.evaluation"
+        class="text-center mr-3"
+        :value="bookDesc.evaluation"
+        color="warning"
+        background-color="warning"
+        empty-icon="mdi-star-outline"
+        half-icon="mdi-star-half"
+        half-increments
+        readonly
+        dense
+        size="16"
+      ></v-rating>
+      <h4 class="text-center grey--text mr-3" v-else>還沒有任何評價</h4>
       <router-link
         class="book-info__stall-btn"
         :to="{
@@ -68,9 +82,6 @@ export default {
     align-items center
     margin-top 1em
     margin-bottom 1em
-
-  &__user-photo, &__user-name, &__stall-btn
-    margin-right 1em
 
   &__cntr
     color $text-secondary

@@ -1,6 +1,6 @@
 <template>
   <article class="new-book">
-    <header class="publish-day__head">
+    <header class="publish-day__head" v-if="!noHeader">
       <h2 class="publish-day__tit text-h4 mb-2">
         最近上架
       </h2>
@@ -46,6 +46,13 @@ import { getNewBookList } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 export default {
   name: 'NewBook',
+  props: {
+    noHeader: {
+      type: Boolean,
+      default: false,
+      require: false,
+    }
+  },
   data() {
     return {
       bookData: [],

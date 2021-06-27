@@ -26,7 +26,8 @@
             align="center"
             justify="center"
           >
-            <v-row
+          <ExpCard :card-data="item"/>
+            <!-- <v-row
               justify="center"
             >
               <v-col
@@ -46,11 +47,9 @@
                 <h4 class="exp__book-name fs-6 mt-1">{{item.experienceDay}}</h4>
                 <p class="exp__desc fs-5 mt-6 mr-3">
                   {{item.experience}}
-                  <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae amet placeat laborum! Qui minima alias excepturi odit, officia tenetur ea doloremque ratione nulla saepe incidunt repellendus nesciunt, omnis aut ipsa.
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio tenetur nihil architecto! Provident, fugit asperiores labore dolorum sint quia earum amet saepe id aliquam rem dignissimos architecto sequi placeat ad. -->
                 </p>
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-row>
         </v-sheet>
       </v-carousel-item>
@@ -61,22 +60,17 @@
 <script>
 import { getExperienceList } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
+import ExpCard from '@/components/home/ExpCard';
 export default {
   name: 'Exp',
   data() {
     return {
-      slides: [
-        'First',
-        'Second',
-        'Third',
-        'Fourth',
-        'Fifth',
-      ],
       expData: [],
     }
   },
   components: {
     BookCard,
+    ExpCard,
   },
   created() {
     getExperienceList({

@@ -37,6 +37,7 @@ export default {
   props: ['cardData'],
   data() {
     return {
+      rating: 4.5,
       defaultImg: '/static/img/default-image.png',
     }
   },

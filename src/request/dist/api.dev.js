@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -44,11 +44,17 @@ exports.userSignUp = userSignUp;
 
 var userSignin = function userSignin(logInData) {
   return (0, _http["default"])("post", "/user/signin", logInData);
+};
+
+exports.userSignin = userSignin;
+
+var forgetPassword = function forgetPassword(mail) {
+  return (0, _http["default"])("put", "/User/forgetpassword", mail);
 }; // export const userLogOut = () => req("get", "/user/logout");
 // 會員資料
 
 
-exports.userSignin = userSignin;
+exports.forgetPassword = forgetPassword;
 
 var getUserDetail = function getUserDetail(id) {
   return (0, _http["default"])("get", "/User/detaildata/" + id);
@@ -208,10 +214,17 @@ exports.putRefusal = putRefusal;
 
 var getRecord = function getRecord(id) {
   return (0, _http["default"])("get", "/Seek/history/" + id);
-}; // Seek Manage
+}; // 評價
 
 
 exports.getRecord = getRecord;
+
+var rating = function rating(id, data) {
+  return (0, _http["default"])("put", "/Seek/match/evaluation/".concat(id), data);
+}; // Seek Manage
+
+
+exports.rating = rating;
 
 var getSeekBookList = function getSeekBookList(id) {
   return (0, _http["default"])("get", "/seek/myself/" + id);
@@ -275,9 +288,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { getRecord } from "@/request/api";
+import { rating } from "@/request/api";
 
-getRecord()
+rating()
   .then(res => {
     console.log(res);
   })

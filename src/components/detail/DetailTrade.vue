@@ -132,6 +132,14 @@ export default {
     }
   },
   created() {
+    if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
+      if(this.$cookies.get('user').id == this.bookDesc.userId){
+        this.isSelf = true;
+      }else {
+        this.checkChosen();
+      }
+
+    }
   },
   updated() {
     if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
@@ -206,6 +214,7 @@ export default {
         SeekToName: this.getAddress.name,
         SeekedUserId: this.bookDesc.userId,
       }
+      console.log(seekData);
       seekNew(seekData)
         .then(res => {
           console.log(res);

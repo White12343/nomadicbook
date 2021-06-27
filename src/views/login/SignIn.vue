@@ -1,15 +1,48 @@
 <template>
   <div class="signin mx-auto">
     <h2 class="signin__tit">登入</h2>
+    <v-form
+      ref="form"
+      v-model="valid"
+      lazy-validation
+    >
 
-    <form class="signin__form">
-      <input id="SignInMail" type="text" class="signin__mail" placeholder="請輸入信箱" v-model.lazy="mail" autocomplete>
-      <p class="check__mail" v-if="!verificationMailResult">請輸入正確 mail 格式</p>
-      <input type="password" class="signin__password" placeholder="請輸入密碼" v-model.lazy="password" autocomplete>
-      <p class="check__password" v-if="!verificationPasswordResult">密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符</p>
-      <input type="submit" class="signin__btn" value="登入" @click.prevent="signIn">
+      <v-text-field
+        v-model="mail"
+        :rules="emailRules"
+        label="E-mail"
+        required
+        autocomplete
+        validate-on-blur
+      ></v-text-field>
+
+      <v-text-field
+        v-model="password"
+        :counter="18"
+        validate-on-blur
+        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+        :rules="rules"
+        :type="show ? 'text' : 'password'"
+        name="input-10-1"
+        label="請輸入密碼"
+        hint="密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符"
+        @click:append="show = !show"
+        autocomplete
+      ></v-text-field>
+      <router-link class="signin__link" to="/login/forget">忘記密碼？</router-link>
+      <v-btn
+        block
+        :disabled="!valid"
+        color="primary"
+        class="my-4"
+        @click="signIn"
+      >
+        登入
+      </v-btn>
       <h4 class="signin__signup-link fs-6 text-center">還沒有帳號？<router-link class="signin__link" to="/login/signup">註冊</router-link></h4>
-    </form>
+
+    </v-form>
+
   </div>
 </template>
 
@@ -17,46 +50,44 @@
 import { userSignin } from "@/request/api";
 export default {
   name: 'SignIn',
+  inject: ['reload'],
   data() {
     return {
+      show: false,
+      rules: [
+        v => !!v || '此為必填欄位',
+        v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(v) || '密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符',
+      ],
+      valid: true,
+      emailRules: [
+        v => !!v || '此為必填欄位',
+        v => /.+@.+\..+/.test(v) || '請輸入正確格式',
+      ],
+
       mail: '',
       password: '',
-      verificationMailResult: true,
-      verificationPasswordResult: true,
-      fromPath: '',
-    }
-  },
-  watch: {
-    mail(newValue) {
-      this.testEmail(newValue);
-    },
-    password(newValue) {
-      this.testPassword(newValue);
+      from: '',
     }
   },
   beforeRouteEnter(to, from, next) {
+    console.log(from);
     next(vm => {
-      if(from.path === '/login/signin' || from.path === '/login/signup'){
-        vm.fromPath = '/';
+      if(from.name === 'Signin' || from.name === 'Signup'){
+        vm.fromname = 'Home';
         return;
       }
-      vm.fromPath = from.path;
+      vm.from = from.name;
     })
   },
   methods: {
     signIn() {
-      if(this.mail === '' || this.password === ''){
-        this.testEmail(this.mail);
-        this.testPassword(this.password);
+      if(!this.$refs.form.validate()){
         return;
       }
-      if(!this.verificationMailResult || !this.verificationPasswordResult){
-        return;
-      }
-      const signInData = JSON.stringify({
+      const signInData = {
         Email: this.mail,
         Password: this.password,
-      });
+      };
       userSignin(signInData)
         .then(res => {
           this.$cookies.set('isLogin', '1', '1d');
@@ -66,61 +97,57 @@ export default {
           }
           this.$cookies.set('user', user, '1d');
           this.$store.commit("changeLoginState");
-          this.$router.push(this.fromPath);
+          if(this.from){
+            if(this.from === 'Booth' || this.from === 'OffShelf'){
+              this.$router.push(
+                {
+                  name: this.from,
+                  params: {
+                    id: this.$cookies.get('user').id,
+                  }
+                }
+              );
+            }else {
+              this.$router.push({name: this.from});
+            }
+          }else {
+            this.$router.push({name: 'Home'});
+          }
         })
         .catch(error => {
           console.log(error);
           alert('登入失敗，請確認帳號密碼後重試。');
+          this.resetValidation();
         })
     },
-    testEmail(newValue) {
-      this.verificationMailResult = /^([\w\.\-]){1,64}\@([\w\.\-]){1,64}$/.test(newValue);
+    validate () {
+      this.$refs.form.validate()
     },
-    testPassword(newValue) {
-      this.verificationPasswordResult = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(newValue);
-    }
+    reset () {
+      this.$refs.form.reset()
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
 .signin
-  width 350px
-  padding 1em 2em
-  margin-top 60px
-  box-shadow 2px 3px 10px $shadow
-  background-color $light
-  &__tit
-    margin-bottom 1em
+  // width 400px
+  // padding 1em 2em
+  // margin-top 60px
+  // box-shadow 2px 3px 10px $shadow
+  // background-color $light
+  // &__tit
+  //   margin-bottom 1em
 
-  &__mail, &__password, &__btn
-    display block
-    width 100%
-    padding 6px
-    margin-top 1em
-
-  &__mail, &__password
-    border-bottom 1px solid $dark
-
-  &__btn
-    box-shadow 2px 2px 5px $shadow
-    background-color $accent
-    cursor pointer
-    border-radius 3px
-    color $light
-
-    &:active
-      box-shadow 0px 0px 5px $gray
 
   &__signup-link
     color $paragraph-dark
     margin-top 1em
 
-.check
-  &__mail, &__password
-    color $danger
-    margin 0
-    font-size $font-sizes-xs
 
 
 </style>

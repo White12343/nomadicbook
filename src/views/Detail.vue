@@ -18,6 +18,11 @@
     <div class="detail__cntr">
       <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.condition" />
       <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
+
+    </div>
+
+    <div class="detail__cntr">
+      <NewBook :no-header="true"/>
     </div>
   </section>
 </template>
@@ -28,6 +33,7 @@ import BookPic from '@/components/detail/BookPic';
 import DetailTrade from '@/components/detail/DetailTrade';
 import BookInfo from '@/components/detail/BookInfo';
 import BookCntr from '@/components/detail/BookCntr';
+import NewBook from '@/components/home/NewBook';
 
 
 export default {
@@ -58,6 +64,7 @@ export default {
     BookInfo,
     BookCntr,
     DetailTrade,
+    NewBook,
   }
 }
 </script>
