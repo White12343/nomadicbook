@@ -60,47 +60,6 @@
               </v-btn>
             </v-col>
           </v-row>
-          <div class="upload-form__form-wrap">
-            <!-- 姓名 -->
-            <v-text-field
-              label="姓名"
-              id="TrueName"
-              v-model="uploadData.TrueName"
-              :rules="defaultRules"
-              required
-            ></v-text-field>
-            <!-- 手機 -->
-            <v-text-field
-              label="手機"
-              id="CellphoneNumber"
-              v-model="uploadData.CellphoneNumber"
-              :rules="phoneRules"
-              required
-            ></v-text-field>
-            <!-- 預設交易資料 -->
-            <h3 class="upload-form__tit">預設交易方式</h3>
-            <div class="defaultTradeMode" v-if="uploadData.HomeAddress">
-              <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
-              <p class="defaultTradeMode__desc">{{uploadData.HomeAddress}}</p>
-            </div>
-            <div class="defaultTradeMode" v-if="getHomeAddress">
-              <h4 class="defaultTradeMode__tit">面交</h4>
-              <p class="defaultTradeMode__desc">{{getHomeAddress}}</p>
-            </div>
-            <div class="defaultTradeMode" v-if="getIMailAddressAll">
-              <h4 class="defaultTradeMode__tit">i 郵箱</h4>
-              <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
-            </div>
-            <!-- 地址 -->
-            <h3 class="upload-form__tit">交易方式</h3>
-            <small class="red--text" v-if="!hasDefaultAddress && isOpenTradeMode">請至少選擇一種交易方式</small>
-            <!-- <AddressSelect title="店到店" nameId="Store"/> -->
-            <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress" @isOpenTrade="isDeliveryOpen"/>
-            <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress" @isOpenTrade="isFaceOpen"/>
-            <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress" @isOpenTrade="isMailBoxOpen"/>
-          </div>
-        </v-col>
-        <v-col cols="12" md="6">
           <!-- 出版日 -->
           <v-menu
             ref="menu"
@@ -176,8 +135,6 @@
             </v-col>
           </v-row>
           <!-- 分類 -->
-          <h3 class="upload-form__tit">分類</h3>
-          <h4 v-if="defaultCategory">{{ defaultCategory }}</h4>
           <v-row align="center">
             <v-col class="d-flex" cols="12" sm="4">
               <v-select
@@ -210,33 +167,6 @@
               ></v-select>
             </v-col>
           </v-row>
-
-
-          <!-- 長寬高 -->
-          <v-row align="center">
-            <v-col class="d-flex" cols="12" sm="4">
-              <v-text-field
-                label="長(選填)"
-                id="BookLong"
-                v-model="uploadData.BookLong"
-              ></v-text-field>
-            </v-col>
-            <v-col class="d-flex" cols="12" sm="4">
-              <v-text-field
-                label="寬(選填)"
-                id="BookWidth"
-                v-model="uploadData.BookWidth"
-              ></v-text-field>
-            </v-col>
-            <v-col class="d-flex" cols="12" sm="4">
-              <v-text-field
-                label="高(選填)"
-                id="BookHigh"
-                v-model="uploadData.BookHigh"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
           <!-- 書況 -->
           <v-row>
             <v-col
@@ -270,6 +200,31 @@
 
             </v-col>
           </v-row>
+
+          <!-- 長寬高 -->
+          <v-row align="center">
+            <v-col class="d-flex" cols="12" sm="4">
+              <v-text-field
+                label="長(選填)"
+                id="BookLong"
+                v-model="uploadData.BookLong"
+              ></v-text-field>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="4">
+              <v-text-field
+                label="寬(選填)"
+                id="BookWidth"
+                v-model="uploadData.BookWidth"
+              ></v-text-field>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="4">
+              <v-text-field
+                label="高(選填)"
+                id="BookHigh"
+                v-model="uploadData.BookHigh"
+              ></v-text-field>
+            </v-col>
+          </v-row>
           <!-- 簡介 -->
           <v-textarea
             name="input-7-1"
@@ -277,14 +232,57 @@
             label="簡介(選填)"
             v-model="uploadData.Introduction"
           ></v-textarea>
-
           <!-- 心得 -->
           <v-textarea
             name="input-7-1"
             id="experience"
             label="心得(選填)"
             v-model="experience"
+            hint="填寫心得可以在首頁提高曝光率"
           ></v-textarea>
+        </v-col>
+        <v-col cols="12" md="6">
+
+          <div class="upload-form__form-wrap">
+            <!-- 姓名 -->
+            <v-text-field
+              label="姓名"
+              id="TrueName"
+              v-model="uploadData.TrueName"
+              :rules="defaultRules"
+              required
+            ></v-text-field>
+            <!-- 手機 -->
+            <v-text-field
+              label="手機"
+              id="CellphoneNumber"
+              v-model="uploadData.CellphoneNumber"
+              :rules="phoneRules"
+              required
+            ></v-text-field>
+            <!-- 預設交易資料 -->
+            <h3 class="upload-form__tit">預設交易方式</h3>
+            <div class="defaultTradeMode" v-if="uploadData.HomeAddress">
+              <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
+              <p class="defaultTradeMode__desc">{{uploadData.HomeAddress}}</p>
+            </div>
+            <div class="defaultTradeMode" v-if="getHomeAddress">
+              <h4 class="defaultTradeMode__tit">面交</h4>
+              <p class="defaultTradeMode__desc">{{getHomeAddress}}</p>
+            </div>
+            <div class="defaultTradeMode" v-if="getIMailAddressAll">
+              <h4 class="defaultTradeMode__tit">i 郵箱</h4>
+              <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
+            </div>
+            <!-- 地址 -->
+            <h3 class="upload-form__tit">交易方式</h3>
+            <small class="red--text" v-if="!hasDefaultAddress && isOpenTradeMode">請至少選擇一種交易方式</small>
+            <!-- <AddressSelect title="店到店" nameId="Store"/> -->
+            <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress" @isOpenTrade="isDeliveryOpen"/>
+            <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress" @isOpenTrade="isFaceOpen"/>
+            <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress" @isOpenTrade="isMailBoxOpen"/>
+          </div>
+
           <div class="upload-form__btn-group text-right">
             <v-btn class="mr-4" @click="$router.push(`/member/${$cookies.get('user').id}/booth`)">取消</v-btn>
             <v-btn color="primary" class="mr-4" v-if="!bookId" @click="upLoadBook">上架</v-btn>
@@ -304,6 +302,7 @@ import {
   getBookDetail,
   getUserDetail,
   deletePhotoByApi,
+  getCategoryBelong,
 } from "@/request/api";
 import SelectImg from '@/components/member/uploadpd/form/SelectImg';
 import FormInput from '@/components/member/uploadpd/form/FormInput';
@@ -347,7 +346,6 @@ export default {
         v => !!v || '此為必填欄位',
         v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
       ],
-      defaultCategory: '',
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -448,7 +446,7 @@ export default {
           this.uploadData.BookId = res.data.bookId;
           this.uploadData.BookLong = res.data.bookLong;
           this.uploadData.BookWidth = res.data.bookWidth;
-          this.category.bottom = res.data.categoryId;
+          this.categoryBelong(res.data.categoryId);
           this.condition = res.data.conditionNum;
           this.experience = res.data.experience;
           this.uploadData.Introduction = res.data.introduction;
@@ -462,7 +460,7 @@ export default {
           let dateArr = dateStr.split('/');
           this.date = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`;
 
-          this.defaultPhoto = res.data.bookPhotos;
+          // this.defaultPhoto = res.data.bookPhotos;
         })
         .catch(error => {
           console.log(error);
@@ -609,16 +607,12 @@ export default {
         isbn: this.uploadData.ISBN,
       })
         .then(res => {
-          console.log(res);
           vm.uploadData.Author = res.data.author;
-          vm.category.bottom = res.data.categoryId;
-          // vm.category.bottom = res.data.categoryName;
           vm.uploadData.BookHigh = res.data.bookHigh;
           vm.uploadData.BookLong = res.data.bookLong;
           vm.uploadData.BookWidth = res.data.bookWidth;
           vm.uploadData.BookName = res.data.bookName;
-          // 分類名稱
-          // vm.uploadData.CategoryName = res.data.categoryName;
+          this.categoryBelong(res.data.categoryId)
           vm.uploadData.Introduction = res.data.introduction;
           let publishDate = res.data.publishDate.split('/');
           vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
@@ -674,6 +668,22 @@ export default {
         .then(res => {
           console.log(res);
           this.defaultPhoto.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    categoryBelong(val) {
+      getCategoryBelong({
+        categoryId: val,
+      })
+        .then(res => {
+          this.category.top = res.data.mainName;
+          this.getSubCategory(this.category.top);
+          this.category.mid = res.data.bigCategory;
+          this.getBottomCategory(this.category.mid);
+          this.category.bottom = val;
+
         })
         .catch(error => {
           console.log(error);

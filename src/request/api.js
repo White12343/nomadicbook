@@ -17,6 +17,7 @@ export const forgetPassword = (mail) => req("put", "/User/forgetpassword", mail)
 
 // 會員資料
 export const getUserDetail = (id) => req("get", "/User/detaildata/" + id);
+export const getUserBasic = (id) => req("get", "/User/basicdata/" + id);
 // 修改密碼
 export const setNewPassword = (id, data) => req("put", "/User/password/" + id, data);
 
@@ -38,11 +39,11 @@ export const getNotifyNum = (id) => req("get", "HomePage/notifynum/" + id);
 
 
 // 取得產品列表
-// export const getBookList = () => req("get", "/json/pd.json"); // 測試用
 export const getBookList = (data) => req("get", "/product/list", data);
 // 取得產品 detail
-// export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
 export const getBookDetail = (id) => req("get", "/product/" + id);
+// 該攤主是否已有提過邀請
+export const checkIsAlreadyAsk = (data) => req("get", "/Seek/book", data);
 // 是否交換過
 export const chosen = (data) => req("get", "/Product/book/chosen", data);
 
@@ -50,7 +51,6 @@ export const chosen = (data) => req("get", "/Product/book/chosen", data);
 
 // 管理
 // Booth
-// export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
 export const getBoothBookList = (id) => req("get", "/Stall/" + id);
 // 下架
 export const setOffShelf = (id) => req("put", `/Stall/bookoff/${id}`);
@@ -94,6 +94,8 @@ export const uploadProduct = (data) => req("post", "/product/new", data);
 export const getDataByISBNApi = (isbn) => req("get", "/Product", isbn);
 // 刪除圖片
 export const deletePhotoByApi = (id) => req("delete", "/Stall/" + id);
+// 用小分類取得大分類
+export const getCategoryBelong = (id) => req("get", "/Product/category/belong", id);
 
 
 // 地址
@@ -112,9 +114,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { rating } from "@/request/api";
+import { getCategoryBelong } from "@/request/api";
 
-rating()
+getCategoryBelong()
   .then(res => {
     console.log(res);
   })

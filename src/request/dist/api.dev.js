@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -58,10 +58,16 @@ exports.forgetPassword = forgetPassword;
 
 var getUserDetail = function getUserDetail(id) {
   return (0, _http["default"])("get", "/User/detaildata/" + id);
+};
+
+exports.getUserDetail = getUserDetail;
+
+var getUserBasic = function getUserBasic(id) {
+  return (0, _http["default"])("get", "/User/basicdata/" + id);
 }; // 修改密碼
 
 
-exports.getUserDetail = getUserDetail;
+exports.getUserBasic = getUserBasic;
 
 var setNewPassword = function setNewPassword(id, data) {
   return (0, _http["default"])("put", "/User/password/" + id, data);
@@ -106,7 +112,6 @@ exports.getNotify = getNotify;
 var getNotifyNum = function getNotifyNum(id) {
   return (0, _http["default"])("get", "HomePage/notifynum/" + id);
 }; // 取得產品列表
-// export const getBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
 exports.getNotifyNum = getNotifyNum;
@@ -114,23 +119,28 @@ exports.getNotifyNum = getNotifyNum;
 var getBookList = function getBookList(data) {
   return (0, _http["default"])("get", "/product/list", data);
 }; // 取得產品 detail
-// export const getBookDetail = () => req("get", "/json/detail.json"); // 測試用
 
 
 exports.getBookList = getBookList;
 
 var getBookDetail = function getBookDetail(id) {
   return (0, _http["default"])("get", "/product/" + id);
-}; // 是否交換過
+}; // 該攤主是否已有提過邀請
 
 
 exports.getBookDetail = getBookDetail;
+
+var checkIsAlreadyAsk = function checkIsAlreadyAsk(data) {
+  return (0, _http["default"])("get", "/Seek/book", data);
+}; // 是否交換過
+
+
+exports.checkIsAlreadyAsk = checkIsAlreadyAsk;
 
 var chosen = function chosen(data) {
   return (0, _http["default"])("get", "/Product/book/chosen", data);
 }; // 管理
 // Booth
-// export const getBoothBookList = () => req("get", "/json/pd.json"); // 測試用
 
 
 exports.chosen = chosen;
@@ -251,11 +261,18 @@ exports.getDataByISBNApi = getDataByISBNApi;
 
 var deletePhotoByApi = function deletePhotoByApi(id) {
   return (0, _http["default"])("delete", "/Stall/" + id);
+}; // 用小分類取得大分類
+
+
+exports.deletePhotoByApi = deletePhotoByApi;
+
+var getCategoryBelong = function getCategoryBelong(id) {
+  return (0, _http["default"])("get", "/Product/category/belong", id);
 }; // 地址
 // city
 
 
-exports.deletePhotoByApi = deletePhotoByApi;
+exports.getCategoryBelong = getCategoryBelong;
 
 var getCity = function getCity() {
   return (0, _http["default"])("get", "/Trade/address/city");
@@ -288,9 +305,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { rating } from "@/request/api";
+import { getCategoryBelong } from "@/request/api";
 
-rating()
+getCategoryBelong()
   .then(res => {
     console.log(res);
   })

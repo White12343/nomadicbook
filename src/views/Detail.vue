@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { getBookDetail } from "@/request/api";
+import { getBookDetail, checkIsAlreadyAsk } from "@/request/api";
 import BookPic from '@/components/detail/BookPic';
 import DetailTrade from '@/components/detail/DetailTrade';
 import BookInfo from '@/components/detail/BookInfo';
@@ -42,6 +42,8 @@ export default {
     return {
       bookDesc: {},
       isOpenPopup: false,
+
+      askData: null,
     }
   },
   created() {
@@ -50,11 +52,27 @@ export default {
     getBookDetail(this.$route.params.id)
       .then(res => {
         vm.bookDesc = res.data;
-        console.log(res.data);
+        checkIsAlreadyAsk({
+          userId: vm.$cookies.get('user').id,
+          stallUserId: vm.bookDesc.userId,
+        })
+          .then(res => {
+            if(res.status === 200){
+              this.askData = {
+                seekId: res.data.seekId,
+                tradeMode: res.data.tradeMode,
+              }
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
       })
       .catch(error => {
         console.log(error);
       })
+
+
 
   },
   methods: {

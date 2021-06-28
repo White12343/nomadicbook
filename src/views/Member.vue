@@ -101,7 +101,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { getUserDetail } from "@/request/api";
+import { getUserBasic } from "@/request/api";
 export default {
   name: 'Member',
   inject: ['reload'],
@@ -125,7 +125,7 @@ export default {
     if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
       this.isSelf = true;
     }
-    getUserDetail(this.$route.params.id)
+    getUserBasic(this.$route.params.id)
       .then(res => {
         this.userData = res.data;
         console.log(res.data);

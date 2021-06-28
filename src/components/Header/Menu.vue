@@ -1,7 +1,8 @@
 <template>
   <nav class="menu">
     <div class="menu__cntr mx-auto">
-      <router-link class="menu__link"
+
+      <router-link class="menu__link ml-4"
         @click.prevent
         :to="{name: 'BookList'}"
       >
@@ -9,7 +10,8 @@
       </router-link>
 
 
-      <router-link class="menu__link"
+      <router-link
+        class="menu__link"
         @click.prevent
         v-for="(item, key) in menuJsonData.sub"
         :key="key"
