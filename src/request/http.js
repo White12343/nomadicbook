@@ -1,5 +1,6 @@
 import axios from "axios";
 const API_PATH = '/api';
+const PROD_PATH = process.env.API_ROOT;
 const LOACL_PATH = '/static/';
 
 
