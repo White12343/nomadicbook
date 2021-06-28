@@ -108,8 +108,6 @@
 
 <script>
 import { seekNew, chosen } from "@/request/api";
-import Popup from '@/components/ui/Popup';
-import Btn from '@/components/ui/Btn';
 export default {
   name: 'DetailTrade',
   inject: ['reload'],
@@ -186,8 +184,6 @@ export default {
     }
   },
   components: {
-    Popup,
-    Btn,
   },
   methods: {
     // 按下交換前先檢查
@@ -258,37 +254,4 @@ export default {
 
   &__btn-group
     margin-top 1.5em
-    border-top 1px solid $shadow
-
-  &__btn
-    display block
-    text-align center
-    padding-top .6em
-    padding-bottom .6em
-    border-radius 3px
-    margin-top 1em
-    &--dark
-      background-color $accent
-      color $light
-    &--light
-      background-color $gray
-      color $text-secondary
-.seek-new
-  padding 1em
-  &__btn
-    display inline-block
-    padding 6px 1em
-    margin-left 6px
-    border-radius 3px
-    &--light
-      background-color $gray
-      color $text-secondary
-    &--dark
-      background-color $accent
-      color $light
-  &__form
-    color $text-secondary
-  &__input-group
-    margin-top 6px
-    margin-bottom 6px
 </style>

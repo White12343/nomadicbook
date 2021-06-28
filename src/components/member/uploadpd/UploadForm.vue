@@ -307,8 +307,6 @@ import {
   putProduct,
 } from "@/request/api";
 import SelectImg from '@/components/member/uploadpd/form/SelectImg';
-import FormInput from '@/components/member/uploadpd/form/FormInput';
-import FormTextarea from '@/components/member/uploadpd/form/FormTextarea';
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
 import 'vue-date-pick/dist/vueDatePick.css';
@@ -462,7 +460,7 @@ export default {
           let dateArr = dateStr.split('/');
           this.date = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`;
 
-          // this.defaultPhoto = res.data.bookPhotos;
+          this.defaultPhoto = res.data.bookPhotos;
         })
         .catch(error => {
           console.log(error);
@@ -696,8 +694,6 @@ export default {
   },
   components: {
     SelectImg,
-    FormInput,
-    FormTextarea,
     AddressSelect,
     IMailBoxSelect,
   }

@@ -22,6 +22,7 @@ var headerConfig = {};
 
 if ($cookies.get('user')) {
   headerConfig = {
+    'Content-Type': 'application/json',
     'Authorization': "Bearer ".concat($cookies.get('user').token)
   };
 } else {
@@ -30,7 +31,7 @@ if ($cookies.get('user')) {
 
 
 var instance = _axios["default"].create({
-  baseURL: API_PATH,
+  baseURL: PROD_PATH,
   // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
   headers: headerConfig,
   timeout: 20000

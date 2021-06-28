@@ -10,14 +10,14 @@ const LOACL_PATH = '/static/';
 
 let headerConfig = {};
 if($cookies.get('user')) {
-  headerConfig = { 'Authorization': `Bearer ${$cookies.get('user').token}` };
+  headerConfig = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` };
 }else {
   headerConfig = {};
 }
 
 // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 const instance = axios.create({
-  baseURL: API_PATH,
+  baseURL: PROD_PATH,
   // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
   headers: headerConfig,
   timeout: 20000

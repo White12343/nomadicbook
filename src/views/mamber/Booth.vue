@@ -97,7 +97,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$cookies.get('user'));
     if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
       this.isSelf = true;
     }
@@ -140,8 +139,4 @@ export default {
 </script>
 
 <style lang="stylus">
-// .booth
-  // background-color $light
-//   padding 1em
-
 </style>

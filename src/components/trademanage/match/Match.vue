@@ -324,6 +324,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          alert('失敗');
         })
 
     },

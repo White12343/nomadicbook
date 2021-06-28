@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import Btn from '@/components/ui/Btn';
 export default {
   name: 'BookInfo',
   props: {
@@ -65,7 +64,6 @@ export default {
   },
   methods: {},
   components: {
-    Btn,
   }
 }
 </script>

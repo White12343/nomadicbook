@@ -65,7 +65,7 @@ _vueRouter["default"].prototype.push = function push(location) {
 };
 
 var router = new _vueRouter["default"]({
-  mode: 'history',
+  // mode: 'history',
   routes: [{
     path: '/',
     name: 'Home',
