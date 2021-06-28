@@ -303,6 +303,8 @@ import {
   getUserDetail,
   deletePhotoByApi,
   getCategoryBelong,
+  uploadProduct,
+  putProduct,
 } from "@/request/api";
 import SelectImg from '@/components/member/uploadpd/form/SelectImg';
 import FormInput from '@/components/member/uploadpd/form/FormInput';
@@ -558,7 +560,7 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
-      this.$http.post('/api/product/new', this.getFormData)
+      uploadProduct(this.getFormData)
         .then((res) => {
           alert('上架成功');
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
@@ -577,7 +579,7 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
-      this.$http.put('/api/Stall/bookupdate/'+ this.bookId, this.getFormData)
+      putProduct(this.bookId, this.getFormData)
         .then((res) => {
           alert(res.data);
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);

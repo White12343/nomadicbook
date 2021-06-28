@@ -213,10 +213,8 @@ export default {
         SeekToName: this.getAddress.name,
         SeekedUserId: this.bookDesc.userId,
       }
-      console.log(seekData);
       seekNew(seekData)
         .then(res => {
-          console.log(res);
           this.reload();
         })
         .catch(error => {

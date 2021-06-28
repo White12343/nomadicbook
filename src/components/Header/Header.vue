@@ -30,7 +30,7 @@
             <nav class="header__nav">
               <div class="header__signin-btn d-flex align-center justify-end" v-if="isLogin === '1'">
                 <h4 class="header__nav-item mr-2">
-                  {{user.nickName}}
+                  {{user.nickName || ''}}
                 </h4>
                 <!-- Dropdown -->
 
@@ -177,14 +177,28 @@ export default {
     }
   },
   created() {
-    this.items[0].path.params.id = this.$cookies.get('user').id;
-    getNotifyNum(this.$cookies.get('user').id)
-      .then(res => {
-        this.notifyNum = parseInt(res.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    if(this.$cookies.get('user')) {
+      this.items[0].path.params.id = this.user.id;
+      getNotifyNum(this.$cookies.get('user').id)
+        .then(res => {
+          this.notifyNum = parseInt(res.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  },
+  updated() {
+    if(this.$cookies.get('user')) {
+      this.items[0].path.params.id = this.user.id;
+      getNotifyNum(this.$cookies.get('user').id)
+        .then(res => {
+          this.notifyNum = parseInt(res.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   },
   computed: {
     ...mapState([
@@ -194,24 +208,27 @@ export default {
   },
   methods: {
     signOut() {
-      $cookies.set('isLogin', '0');
+      this.$cookies.set('isLogin', '0');
       this.$router.push('/login/signin');
       this.$store.commit("changeLoginState");
+      this.$cookies.remove('user');
     },
     getNotifications() {
-      getNotify(this.$cookies.get('user').id)
-        .then(res => {
-          this.notifyNum = 0;
-          this.notifications = res.data;
-        })
-        .catch(error => {
-          this.notifications = [
-            {
-              notify: '沒有任何通知'
-            }
-          ]
-          console.log(error);
-        })
+      if(this.$cookies.get('user')) {
+        getNotify(this.$cookies.get('user').id)
+          .then(res => {
+            this.notifyNum = 0;
+            this.notifications = res.data;
+          })
+          .catch(error => {
+            this.notifications = [
+              {
+                notify: '沒有任何通知'
+              }
+            ]
+            console.log(error);
+          })
+      }
     },
     searchBook() {
       this.$router.push({

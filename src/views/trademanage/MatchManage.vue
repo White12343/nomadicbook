@@ -41,7 +41,6 @@ export default {
     getMatchList(this.$cookies.get('user').id)
       .then(res => {
         vm.matchData = res.data;
-        console.log(res.data);
       })
       .catch(error => {
         console.log(error);

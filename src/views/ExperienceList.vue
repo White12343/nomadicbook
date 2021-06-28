@@ -50,7 +50,6 @@ export default {
     getExperienceList()
       .then(res => {
         this.expData = res.data;
-        console.log(res);
       })
       .catch(error => {
         console.log(error);

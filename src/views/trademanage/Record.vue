@@ -83,7 +83,6 @@ export default {
     getRecord(this.$cookies.get('user').id)
       .then(res => {
         this.records = res.data;
-        console.log(res.data);
       })
       .catch(error => {
         console.log(error);

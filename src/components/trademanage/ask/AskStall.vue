@@ -72,7 +72,6 @@ export default {
       getBookDetail(id)
         .then(res => {
           vm.pdDetail = res.data;
-          console.log(vm.pdDetail);
         })
         .catch(error => {
           console.log(error);
@@ -85,7 +84,6 @@ export default {
       })
       selectedBook(this.seekId, exchangeData)
         .then(res => {
-          console.log(res.data);
           this.reload();
         })
         .catch(error => {

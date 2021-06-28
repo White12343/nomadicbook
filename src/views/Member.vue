@@ -122,13 +122,12 @@ export default {
     }
   },
   created() {
-    if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
+    if(parseInt(this.$route.params.id) === parseInt(this.$cookies.get('user').id)) {
       this.isSelf = true;
     }
     getUserBasic(this.$route.params.id)
       .then(res => {
         this.userData = res.data;
-        console.log(res.data);
       })
       .catch(error => {
         console.log(error);

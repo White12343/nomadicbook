@@ -70,7 +70,6 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    console.log(from);
     next(vm => {
       if(from.name === 'Signin' || from.name === 'Signup'){
         vm.fromname = 'Home';
@@ -93,7 +92,8 @@ export default {
           this.$cookies.set('isLogin', '1', '1d');
           const user = {
             id: res.data.userId,
-            nickName: res.data.nickName
+            nickName: res.data.nickName,
+            token: res.data.authenticate,
           }
           this.$cookies.set('user', user, '1d');
           this.$store.commit("changeLoginState");
@@ -103,11 +103,13 @@ export default {
                 {
                   name: this.from,
                   params: {
-                    id: this.$cookies.get('user').id,
+                    id: res.data.userId,
                   }
                 }
               );
-            }else {
+            }else if(this.from === 'SignIn' || this.from === 'SignUp') {
+              this.$router.push({name: 'Home'});
+            }else{
               this.$router.push({name: this.from});
             }
           }else {
@@ -135,13 +137,6 @@ export default {
 
 <style lang="stylus" scoped>
 .signin
-  // width 400px
-  // padding 1em 2em
-  // margin-top 60px
-  // box-shadow 2px 3px 10px $shadow
-  // background-color $light
-  // &__tit
-  //   margin-bottom 1em
 
 
   &__signup-link

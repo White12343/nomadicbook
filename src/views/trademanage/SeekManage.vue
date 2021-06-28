@@ -39,7 +39,6 @@ export default {
     getSeekBookList(this.$cookies.get('user').id)
       .then(res => {
         vm.pdData = res.data;
-        console.log(res.data);
       })
       .catch(error => {
         console.log(error);

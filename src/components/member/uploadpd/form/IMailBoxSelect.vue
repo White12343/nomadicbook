@@ -152,7 +152,6 @@ export default {
         Name: arr[0],
         Address: arr[1].split(")")[0],
       }
-      console.log(mailBoxDetail);
       this.$emit('getVal', mailBoxDetail);
     }
   }

@@ -7,17 +7,32 @@ exports["default"] = _default;
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _vue = _interopRequireDefault(require("vue"));
+
+var _vueCookies = _interopRequireDefault(require("vue-cookies"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+_vue["default"].use(_vueCookies["default"]);
 
 var API_PATH = '/api';
 var PROD_PATH = process.env.API_ROOT;
-var LOACL_PATH = '/static/'; // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
+var LOACL_PATH = '/static/';
+var headerConfig = {};
+
+if ($cookies.get('user')) {
+  headerConfig = {
+    'Authorization': "Bearer ".concat($cookies.get('user').token)
+  };
+} else {
+  headerConfig = {};
+} // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
+
 
 var instance = _axios["default"].create({
   baseURL: API_PATH,
-  headers: {
-    'Content-Type': 'application/json'
-  },
+  // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
+  headers: headerConfig,
   timeout: 20000
 }); // request 的攔截器 (Request Interceptors)，放入兩個函式做為參數。
 

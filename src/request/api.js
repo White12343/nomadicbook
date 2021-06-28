@@ -18,6 +18,8 @@ export const forgetPassword = (mail) => req("put", "/User/forgetpassword", mail)
 // 會員資料
 export const getUserDetail = (id) => req("get", "/User/detaildata/" + id);
 export const getUserBasic = (id) => req("get", "/User/basicdata/" + id);
+// 修改會員資料
+export const putUserDetail = (id, data) => req("put", "/User/" + id, data);
 // 修改密碼
 export const setNewPassword = (id, data) => req("put", "/User/password/" + id, data);
 
@@ -86,10 +88,10 @@ export const rating = (id, data) => req("put", `/Seek/match/evaluation/${id}`, d
 export const getSeekBookList = (id) => req("get", "/seek/myself/" + id);
 
 
-// 上架
+// 上架商品
 export const uploadProduct = (data) => req("post", "/product/new", data);
 // 更新
-// export const putProduct = (id) => req("put", "/Stall/bookupdate/" + id);
+export const putProduct = (id, data) => req("put", "/Stall/bookupdate/" + id, data);
 // isbn
 export const getDataByISBNApi = (isbn) => req("get", "/Product", isbn);
 // 刪除圖片
@@ -114,9 +116,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { getCategoryBelong } from "@/request/api";
+import { putProduct } from "@/request/api";
 
-getCategoryBelong()
+putProduct()
   .then(res => {
     console.log(res);
   })

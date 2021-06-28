@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -64,10 +64,17 @@ exports.getUserDetail = getUserDetail;
 
 var getUserBasic = function getUserBasic(id) {
   return (0, _http["default"])("get", "/User/basicdata/" + id);
-}; // 修改密碼
+}; // 修改會員資料
 
 
 exports.getUserBasic = getUserBasic;
+
+var putUserDetail = function putUserDetail(id, data) {
+  return (0, _http["default"])("put", "/User/" + id, data);
+}; // 修改密碼
+
+
+exports.putUserDetail = putUserDetail;
 
 var setNewPassword = function setNewPassword(id, data) {
   return (0, _http["default"])("put", "/User/password/" + id, data);
@@ -238,7 +245,7 @@ exports.rating = rating;
 
 var getSeekBookList = function getSeekBookList(id) {
   return (0, _http["default"])("get", "/seek/myself/" + id);
-}; // 上架
+}; // 上架商品
 
 
 exports.getSeekBookList = getSeekBookList;
@@ -246,11 +253,16 @@ exports.getSeekBookList = getSeekBookList;
 var uploadProduct = function uploadProduct(data) {
   return (0, _http["default"])("post", "/product/new", data);
 }; // 更新
-// export const putProduct = (id) => req("put", "/Stall/bookupdate/" + id);
-// isbn
 
 
 exports.uploadProduct = uploadProduct;
+
+var putProduct = function putProduct(id, data) {
+  return (0, _http["default"])("put", "/Stall/bookupdate/" + id, data);
+}; // isbn
+
+
+exports.putProduct = putProduct;
 
 var getDataByISBNApi = function getDataByISBNApi(isbn) {
   return (0, _http["default"])("get", "/Product", isbn);
@@ -305,9 +317,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { getCategoryBelong } from "@/request/api";
+import { putProduct } from "@/request/api";
 
-getCategoryBelong()
+putProduct()
   .then(res => {
     console.log(res);
   })

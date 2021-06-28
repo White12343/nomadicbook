@@ -122,7 +122,6 @@ export default {
         newPassword: this.newPassword,
       })
         .then(res => {
-          console.log(res);
           this.resetPassword();
           this.$refs.form.resetValidation();
           this.snackbar = true;

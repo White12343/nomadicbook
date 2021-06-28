@@ -320,7 +320,6 @@ export default {
       this.consignmentCheck = false;
       putConsignment(this.matchData.seekId, this.$cookies.get('user').id)
         .then(res => {
-          console.log(res);
           this.reload();
         })
         .catch(error => {
@@ -336,7 +335,6 @@ export default {
       }
       rating(this.matchData.seekId, data)
         .then(res => {
-          console.log(res);
           putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
             .then(res => {
               this.reload();

@@ -93,11 +93,11 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log(to);
       this.reload();
     }
   },
   created() {
+    console.log(this.$cookies.get('user'));
     if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
       this.isSelf = true;
     }

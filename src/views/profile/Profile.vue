@@ -212,7 +212,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { getUserDetail } from "@/request/api";
+import { getUserDetail, putUserDetail } from "@/request/api";
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
 export default {
@@ -278,9 +278,8 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
-      console.log(this.getFormData.get('HomeAddress'));
-      this.$http.put('/api/User/' + this.user.id, this.getFormData)
-        .then((res) => {
+      putUserDetail(this.user.id, this.getFormData)
+        .then(res => {
           this.snackbar = true;
           this.text = res.data;
           this.reload();
