@@ -7,11 +7,11 @@ exports["default"] = void 0;
 
 var _vue = _interopRequireDefault(require("vue"));
 
+var _colors = _interopRequireDefault(require("vuetify/lib/util/colors"));
+
 var _vuetify = _interopRequireDefault(require("vuetify"));
 
 require("vuetify/dist/vuetify.min.css");
-
-var _colors = _interopRequireDefault(require("vuetify/lib/util/colors"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
