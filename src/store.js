@@ -18,8 +18,6 @@ const store = new Vuex.Store({
     changeLoginState(state) {
       state.isLogin = $cookies.get('isLogin');
       state.user = $cookies.get('user');
-      console.log("!");
-      console.log(state.user);
     },
 
   }

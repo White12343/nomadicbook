@@ -177,8 +177,6 @@ export default {
     }
   },
   created() {
-    console.log('header created');
-    console.log(this.user);
     if(this.user) {
       this.items[0].path.params.id = this.user.id;
       getNotifyNum(this.user.id)
@@ -191,8 +189,6 @@ export default {
     }
   },
   updated() {
-    console.log('header updated');
-    console.log(this.user);
     if(this.user) {
       this.items[0].path.params.id = this.user.id;
       getNotifyNum(this.user.id)

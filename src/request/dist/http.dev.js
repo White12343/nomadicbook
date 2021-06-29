@@ -60,7 +60,6 @@ instance.interceptors.response.use(function (response) {
     switch (error.response.status) {
       case 401:
         console.log('token issure');
-        console.log(error.config);
         break;
 
       case 404:

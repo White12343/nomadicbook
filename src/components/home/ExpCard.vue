@@ -17,18 +17,19 @@
         cols="12"
         lg="9"
       >
-        <h3 class="exp__book-name text-h5">{{cardData.bookName}}</h3>
-        <div class="d-flex align-center">
-          <h4 class="exp__book-name fs-6 mt-1 mr-3">{{cardData.userName}}</h4>
-          <router-link :to="{
+        <h3 class="exp__book-name text-h5">
+          <router-link class="exp__link" :to="{
               name: 'Detail',
               params: {
                 id: cardData.bookId,
               }
             }">
-            查看書籍
+            {{cardData.bookName}}
           </router-link>
-        </div>
+        </h3>
+
+        <h4 class="exp__book-name fs-6 mt-1 mr-3">{{cardData.userName}}</h4>
+
         <h4 class="exp__book-name fs-6 mt-1">{{cardData.experienceDay}}</h4>
         <p class="exp__desc fs-5 mt-3 mr-3">
           {{cardData.experience}}
@@ -48,6 +49,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus">
+.exp__link
+  color $dark !important
+  &:hover
+    text-decoration underline
 </style>

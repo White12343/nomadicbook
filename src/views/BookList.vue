@@ -49,6 +49,16 @@
             </v-list-group>
           </v-list>
           <div class="filter p-1">
+
+            <v-select
+              :items="conditionNumList"
+              item-text="text"
+              item-value="value"
+              label="新舊(以上)"
+              v-model="conditionNum"
+              clear-icon="mdi-close-circle-outline"
+              clearable
+            ></v-select>
             <v-checkbox
               v-for="item, index in condition"
               :key="index"
@@ -106,6 +116,16 @@ export default {
     return {
       page: 1,
       each: 12,
+      items: [
+        {
+          text: '9 成新',
+          value: 9
+        },
+        {
+          text: '8 成新',
+          value: 8
+        }
+      ],
       manu: [
         {
           items: [],
@@ -125,6 +145,7 @@ export default {
       ],
       pdData: [],
       filter: [],
+      conditionNum: 0,
       condition: [
         '近全新',
         '保存良好',
@@ -162,22 +183,43 @@ export default {
     }
   },
   computed: {
+    conditionNumList() {
+      let arr = [];
+      for(let i = 9; i > 0; i--){
+        arr.push({
+          text: `${i} 成新`,
+          value: i
+        })
+      }
+      return arr;
+    },
     category() {
       return {
         mainId: this.$route.params.mainId,
         bigCategory: this.$route.params.bigCategory
       }
     },
+    numFilterList() {
+      let arr = [...this.pdData];
+      arr = arr.filter(item => item.conditionNum >= this.conditionNum);
+      return arr;
+    },
     filterList() {
       if(!this.filter.length){
-        return this.pdData;
+        return this.numFilterList;
       }
-      let arr = [];
-      this.pdData.forEach(item => {
-        if(item.condition) {
-          arr.push(item);
-        }
-      })
+      let arr = [...this.numFilterList];
+      // let arr = [];
+      // this.pdData.forEach(item => {
+      //   if(item.condition) {
+      //     arr.push(item);
+      //   }
+      // })
+      if(this.conditionNum > 0) {
+        this.filter.forEach(() => {
+          arr = arr.filter(item => item.conditionNum >= this.conditionNum);
+        })
+      }
       this.filter.forEach(key => {
         arr = arr.filter(item => item.condition.includes(key));
       })

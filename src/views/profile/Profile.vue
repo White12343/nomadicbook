@@ -167,17 +167,17 @@
           </v-dialog>
         </v-col>
       </v-row>
-      <div class="defaultTradeMode">
+      <div class="defaultTradeMode" v-if="homeAddress || userData.homeAddress">
         <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
-        <p class="defaultTradeMode__desc">{{userData.homeAddress}}</p>
+        <p class="defaultTradeMode__desc">{{homeAddress || userData.homeAddress}}</p>
       </div>
-      <div class="defaultTradeMode" v-if="getHomeAddress">
+      <div class="defaultTradeMode" v-if="getDefaultHomeAddress || getHomeAddress">
         <h4 class="defaultTradeMode__tit">面交</h4>
-        <p class="defaultTradeMode__desc">{{getHomeAddress}}</p>
+        <p class="defaultTradeMode__desc">{{getDefaultHomeAddress || getHomeAddress}}</p>
       </div>
-      <div class="defaultTradeMode" v-if="getIMailAddressAll">
+      <div class="defaultTradeMode" v-if="getDefaultIMailAddressAll || getIMailAddressAll">
         <h4 class="defaultTradeMode__tit">i 郵箱</h4>
-        <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
+        <p class="defaultTradeMode__desc">{{getDefaultIMailAddressAll || getIMailAddressAll}}</p>
       </div>
       <div class="d-flex justify-end">
         <v-btn
@@ -282,11 +282,12 @@ export default {
         .then(res => {
           this.snackbar = true;
           this.text = res.data;
-          this.reload();
+          // this.reload();
+          // this.$router.push({name: 'Member'});
         })
         .catch(error => {
           this.snackbar = true;
-          this.text = '更新失敗';
+          this.text = '無資料更新';
           console.log(error);
         })
     },
@@ -359,8 +360,18 @@ export default {
         this.userData.faceTradePath +
         this.userData.faceTradeDetail;
     },
+    getDefaultHomeAddress() {
+      return this.faceTrade.Area +
+        this.faceTrade.City +
+        this.faceTrade.Road +
+        this.faceTrade.Path +
+        this.faceTrade.Detail;
+    },
     getIMailAddressAll() {
       return this.userData.mailBoxName + this.userData.mailBoxAddress;
+    },
+    getDefaultIMailAddressAll() {
+      return this.mailBox.Name + '(' + this.mailBox.Address + ')';
     },
     getFormData() {
       let formData = new FormData()
