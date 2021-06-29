@@ -1,6 +1,8 @@
 import axios from "axios";
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
+import router from '@/router'
+import store from '@/store'
 Vue.use(VueCookies)
 
 
@@ -17,7 +19,7 @@ if($cookies.get('user')) {
 
 // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 const instance = axios.create({
-  baseURL: PROD_PATH,
+  baseURL: API_PATH,
   // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
   headers: headerConfig,
   timeout: 20000
@@ -53,9 +55,13 @@ instance.interceptors.response.use(
     if (error.response){
       switch (error.response.status) {
         case 401:
-        console.log('token issure');
-
-        break
+          console.log('token issure');
+          alert('登入逾時，請重新登入')
+          $cookies.set('isLogin', '0');
+          $cookies.remove('user');
+          store.commit("changeLoginState");
+          router.push('/login/signin');
+          break
         case 404:
           // console.log("你要找的頁面不存在")
           // go to 404 page

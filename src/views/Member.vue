@@ -20,18 +20,20 @@
           >
         </v-avatar>
         <h3 class="mb-3 fs-4 text-center">{{userData.nickName}} 的書攤</h3>
-        <v-rating
-          v-if="userData.evaluation"
-          class="text-center mb-3"
-          :value="userData.evaluation"
-          color="warning"
-          background-color="warning"
-          empty-icon="mdi-star-outline"
-          half-icon="mdi-star-half"
-          half-increments
-          readonly
-          size="16"
-        ></v-rating>
+        <div v-if="userData.evaluation" class="text-center mb-3">
+          <v-rating
+            class="text-center"
+            :value="userData.evaluation"
+            color="warning"
+            background-color="warning"
+            empty-icon="mdi-star-outline"
+            half-icon="mdi-star-half"
+            half-increments
+            readonly
+            size="16"
+          ></v-rating>
+          <small>已經有 {{userData.tradeNum}} 人評價</small>
+        </div>
         <h4 class="mb-3 text-center grey--text" v-else>還沒有任何評價</h4>
         <h4 class="mb-3 fs-6 text-center">{{userData.email}}</h4>
         <p class="mb-3">{{userData.selfIntroduction}}</p>
@@ -122,8 +124,10 @@ export default {
     }
   },
   created() {
-    if(parseInt(this.$route.params.id) === parseInt(this.$cookies.get('user').id)) {
-      this.isSelf = true;
+    if(this.user) {
+      if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
+        this.isSelf = true;
+      }
     }
     getUserBasic(this.$route.params.id)
       .then(res => {

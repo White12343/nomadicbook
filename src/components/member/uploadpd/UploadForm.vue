@@ -584,6 +584,8 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          alert('資料未修改');
+          this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
     },
     getTradeAddress(val) {
@@ -666,7 +668,6 @@ export default {
     deletePhoto(id, index) {
       deletePhotoByApi(id)
         .then(res => {
-          console.log(res);
           this.defaultPhoto.splice(index, 1);
         })
         .catch(error => {

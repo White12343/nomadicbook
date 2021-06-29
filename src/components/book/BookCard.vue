@@ -15,7 +15,7 @@
         </h3>
       </router-link>
       <h4 class="card__author" v-if="cardData.author">{{ cardData.author }}</h4>
-      <h4 class="card__desc" v-if="cardData.condition">{{ cardData.conditionNum }} 成新,{{ cardData.condition }}</h4>
+      <h4 class="card__desc">{{ cardData.conditionNum }} 成新 {{ cardData.condition }}</h4>
     </header>
     <router-link class="card__link" :to="{
         name: 'Detail',

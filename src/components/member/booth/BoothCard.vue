@@ -1,12 +1,14 @@
 <template>
   <article class="booth-card">
-    <v-badge
+    <!-- <v-badge
       color="red"
       :content="BoothData.seekNum"
       :value="BoothData.seekNum"
     >
-      <BookCard :card-data="BoothData"/>
-    </v-badge>
+
+    </v-badge> -->
+    <BookCard :card-data="BoothData"/>
+    <small>已經有 {{BoothData.seekNum}} 人徵求這本書！</small>
     <div v-if="isSelf">
       <router-link
         :to="{ path: '/uploadpd', query: {id: BoothData.bookId}}"

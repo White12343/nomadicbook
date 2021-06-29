@@ -97,8 +97,10 @@ export default {
     }
   },
   created() {
-    if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
-      this.isSelf = true;
+    if(this.user) {
+      if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
+        this.isSelf = true;
+      }
     }
     let vm = this;
     getBoothBookList(this.$route.params.id)

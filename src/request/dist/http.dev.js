@@ -11,6 +11,10 @@ var _vue = _interopRequireDefault(require("vue"));
 
 var _vueCookies = _interopRequireDefault(require("vue-cookies"));
 
+var _router = _interopRequireDefault(require("@/router"));
+
+var _store = _interopRequireDefault(require("@/store"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _vue["default"].use(_vueCookies["default"]);
@@ -31,7 +35,7 @@ if ($cookies.get('user')) {
 
 
 var instance = _axios["default"].create({
-  baseURL: PROD_PATH,
+  baseURL: API_PATH,
   // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
   headers: headerConfig,
   timeout: 20000
@@ -60,6 +64,14 @@ instance.interceptors.response.use(function (response) {
     switch (error.response.status) {
       case 401:
         console.log('token issure');
+        alert('登入逾時，請重新登入');
+        $cookies.set('isLogin', '0');
+        $cookies.remove('user');
+
+        _store["default"].commit("changeLoginState");
+
+        _router["default"].push('/login/signin');
+
         break;
 
       case 404:
