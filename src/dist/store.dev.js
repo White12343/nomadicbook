@@ -28,6 +28,8 @@ var store = new _vuex["default"].Store({
     changeLoginState: function changeLoginState(state) {
       state.isLogin = $cookies.get('isLogin');
       state.user = $cookies.get('user');
+      console.log("!");
+      console.log(state.user);
     }
   }
 });

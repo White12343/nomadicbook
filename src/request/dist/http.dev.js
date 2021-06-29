@@ -41,6 +41,10 @@ var instance = _axios["default"].create({
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent
   // 在 request 送出前攔截到此次的 config，可以做最後的處理。
+  if ($cookies.get('user')) {
+    config.headers.Authorization = "Bearer ".concat($cookies.get('user').token);
+  }
+
   return config;
 }, function (error) {
   // Do something with request error
@@ -54,6 +58,11 @@ instance.interceptors.response.use(function (response) {
 }, function (error) {
   if (error.response) {
     switch (error.response.status) {
+      case 401:
+        console.log('token issure');
+        console.log(error.config);
+        break;
+
       case 404:
         // console.log("你要找的頁面不存在")
         // go to 404 page

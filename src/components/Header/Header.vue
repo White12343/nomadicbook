@@ -177,9 +177,11 @@ export default {
     }
   },
   created() {
-    if(this.$cookies.get('user')) {
+    console.log('header created');
+    console.log(this.user);
+    if(this.user) {
       this.items[0].path.params.id = this.user.id;
-      getNotifyNum(this.$cookies.get('user').id)
+      getNotifyNum(this.user.id)
         .then(res => {
           this.notifyNum = parseInt(res.data);
         })
@@ -189,9 +191,11 @@ export default {
     }
   },
   updated() {
-    if(this.$cookies.get('user')) {
+    console.log('header updated');
+    console.log(this.user);
+    if(this.user) {
       this.items[0].path.params.id = this.user.id;
-      getNotifyNum(this.$cookies.get('user').id)
+      getNotifyNum(this.user.id)
         .then(res => {
           this.notifyNum = parseInt(res.data);
         })
@@ -209,13 +213,14 @@ export default {
   methods: {
     signOut() {
       this.$cookies.set('isLogin', '0');
-      this.$router.push('/login/signin');
-      this.$store.commit("changeLoginState");
       this.$cookies.remove('user');
+      this.$store.commit("changeLoginState");
+      this.$router.push('/login/signin');
     },
     getNotifications() {
-      if(this.$cookies.get('user')) {
-        getNotify(this.$cookies.get('user').id)
+
+      if(this.user) {
+        getNotify(this.user.id)
           .then(res => {
             this.notifyNum = 0;
             this.notifications = res.data;
