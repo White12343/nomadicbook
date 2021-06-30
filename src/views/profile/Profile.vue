@@ -181,7 +181,8 @@
       </div>
       <div class="d-flex justify-end">
         <v-btn
-          :disabled="!valid"
+          :disabled="!valid || isClick"
+          :loading="isClick"
           color="primary"
           @click="updateProfile"
         >
@@ -218,6 +219,7 @@ import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
 export default {
   inject: ['reload'],
   data: () => ({
+    isClick: false,
     snackbar: false,
     text: '',
     timeout: 2000,
@@ -278,15 +280,18 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
+      this.isClick = true;
       putUserDetail(this.user.id, this.getFormData)
         .then(res => {
           this.snackbar = true;
           this.text = res.data;
+          this.isClick = false;
           // this.reload();
           // this.$router.push({name: 'Member'});
         })
         .catch(error => {
           this.snackbar = true;
+          this.isClick = false;
           this.text = '無資料更新';
           console.log(error);
         })

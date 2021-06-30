@@ -1,6 +1,12 @@
 <template>
   <article class="ask-card">
     <BookCard :card-data="bookData"/>
+    <div class="ask-card__desc mb-3">
+      <ul>
+        <li><small>{{askData.seekDate}}</small></li>
+        <li><small>{{tradeMode}}</small></li>
+      </ul>
+    </div>
     <div class="ask-card__cntr">
 
       <v-row justify="center">
@@ -15,6 +21,8 @@
             outlined
             color="red white--text"
             @click="refusal"
+            :disabled="isClickRefusal"
+            :loading="isClickRefusal"
           >
             拒絕
           </v-btn>
@@ -149,6 +157,7 @@ export default {
       pdData: [],
       pdDetail: {},
       drawer: false,
+      isClickRefusal: false,
     }
   },
   watch: {
@@ -185,6 +194,25 @@ export default {
         conditionNum: this.askData.conditionNum,
         condition: this.askData.condition,
       }
+    },
+    tradeMode() {
+      let str = '';
+      switch(this.askData.tradeMode) {
+        case 1:
+          str = '7-11';
+          break;
+        case 2:
+          str = '宅配 ( 郵寄、黑貓 )';
+          break;
+        case 3:
+          str = 'i郵箱';
+          break;
+        case 4:
+          str = '面交';
+          break;
+
+      }
+      return str;
     }
   },
   methods: {
@@ -215,12 +243,13 @@ export default {
         })
     },
     refusal() {
+      this.isClickRefusal = true;
       putRefusal(this.askData.seekId)
         .then(res => {
-          alert('已拒絕')
           this.reload();
         })
         .catch(error => {
+          this.isClickRefusal = false;
           console.log(error);
         })
     }

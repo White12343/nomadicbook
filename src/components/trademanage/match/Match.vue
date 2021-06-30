@@ -26,10 +26,12 @@
                 <v-btn
                   block
                   color="primary"
-                  :disabled="matchData.seek.seekSend"
+                  :disabled="matchData.seek.seekSend || isConsignmentClick"
+                  :loading="isConsignmentClick"
                   v-if="!record"
                   v-bind="attrs"
                   v-on="on"
+                  class="mt-3"
                 >
                   寄出
                 </v-btn>
@@ -116,10 +118,13 @@
                 <v-btn
                   block
                   color="primary"
-                  :disabled="matchData.seek.seekReceive"
+                  class="mt-3"
+                  :disabled="matchData.seek.seekReceive || isReceiveClick"
+                  :loading="isReceiveClick"
                   v-if="!record"
                   v-bind="attrs"
                   v-on="on"
+
                 >
                   收到
                 </v-btn>
@@ -208,6 +213,8 @@ export default {
       consignmentCheck: false,
       receiveCheck: false,
       evaluation: 0,
+      isConsignmentClick: false,
+      isReceiveClick: false,
     }
   },
   components: {
@@ -317,19 +324,23 @@ export default {
   },
   methods: {
     consignment() {
+      this.isConsignmentClick = true;
       this.consignmentCheck = false;
       putConsignment(this.matchData.seekId, this.$cookies.get('user').id)
         .then(res => {
           this.reload();
+          this.isConsignmentClick = false;
         })
         .catch(error => {
           console.log(error);
+          this.isConsignmentClick = false;
           alert('失敗');
         })
 
     },
     receipt() {
       this.receiveCheck = false;
+      this.isReceiveClick = true;
       const data = {
         userId: this.$cookies.get('user').id,
         evaluation: this.evaluation,
@@ -338,10 +349,12 @@ export default {
         .then(res => {
           putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
             .then(res => {
+              this.isReceiveClick = false;
               this.reload();
             })
             .catch(error => {
               console.log(error);
+              this.isReceiveClick = false;
               alert('失敗');
             })
         })

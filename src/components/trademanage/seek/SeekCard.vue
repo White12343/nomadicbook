@@ -1,6 +1,12 @@
 <template>
   <article class="seek-card">
     <BookCard :card-data="bookData"/>
+    <div class="seek-card__desc mb-3">
+      <ul>
+        <li><small>{{seekData.seekDate}}</small></li>
+        <li><small>{{tradeMode}}</small></li>
+      </ul>
+    </div>
     <v-row justify="center">
         <v-col
           cols="12"
@@ -13,6 +19,8 @@
             outlined
             color="red white--text"
             @click="refusal"
+            :disabled="isClickRefusal"
+            :loading="isClickRefusal"
           >
             拒絕
           </v-btn>
@@ -54,6 +62,7 @@ export default {
   inject: ['reload'],
   data() {
     return {
+      isClickRefusal: false,
     }
   },
   components: {
@@ -68,16 +77,37 @@ export default {
         conditionNum: this.seekData.conditionNum,
         condition: this.seekData.condition,
       }
+    },
+    tradeMode() {
+      let str = '';
+      switch(this.seekData.tradeMode) {
+        case 1:
+          str = '7-11';
+          break;
+        case 2:
+          str = '宅配 ( 郵寄、黑貓 )';
+          break;
+        case 3:
+          str = 'i郵箱';
+          break;
+        case 4:
+          str = '面交';
+          break;
+
+      }
+      return str;
     }
+
   },
   methods: {
     refusal() {
+      this.isClickRefusal = true;
       putRefusal(this.seekData.seekId)
         .then(res => {
-          alert('已拒絕')
           this.reload();
         })
         .catch(error => {
+          this.isClickRefusal = false;
           console.log(error);
         })
     }

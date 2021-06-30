@@ -34,7 +34,7 @@
       <ul class="book-info__list">
         <li class="book-info__list-item">作者：{{ bookDesc.author }}</li>
         <li class="book-info__list-item">出版社：{{ bookDesc.publishingHouse }}</li>
-        <li class="book-info__list-item">出版日：{{ publishDate }}</li>
+        <li class="book-info__list-item">出版日：{{ bookDesc.publishDate }}</li>
       </ul>
 
       <p class="book-info__desc mt-3">
@@ -53,14 +53,6 @@ export default {
   },
   data() {
     return {}
-  },
-  computed: {
-    publishDate() {
-      if(!this.bookDesc.publishDate){
-        return;
-      }
-      return this.bookDesc.publishDate.split(' ')[0];
-    }
   },
   methods: {},
   components: {

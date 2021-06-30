@@ -1,12 +1,5 @@
 <template>
   <article class="booth-card">
-    <!-- <v-badge
-      color="red"
-      :content="BoothData.seekNum"
-      :value="BoothData.seekNum"
-    >
-
-    </v-badge> -->
     <BookCard :card-data="BoothData"/>
     <div class="text-right" v-show="BoothData.seekNum">
       <v-icon

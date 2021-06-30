@@ -108,8 +108,7 @@
                     </v-btn>
                   </template>
                   <template>
-                    <v-list width="500" max-height="500">
-
+                    <v-list width="500">
                       <v-list-item-title class="ml-3 text-h6">
                         通知
                       </v-list-item-title>
@@ -184,21 +183,30 @@ export default {
           this.notifyNum = parseInt(res.data);
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.response);
         })
+
+      this.getNotifyNumTimer();
+      // getNotifyNum(this.user.id)
+      //   .then(res => {
+      //     this.notifyNum = parseInt(res.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   })
     }
   },
   updated() {
-    if(this.user) {
-      this.items[0].path.params.id = this.user.id;
-      getNotifyNum(this.user.id)
-        .then(res => {
-          this.notifyNum = parseInt(res.data);
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }
+    // if(this.user) {
+    //   this.items[0].path.params.id = this.user.id;
+    //   getNotifyNum(this.user.id)
+    //     .then(res => {
+    //       this.notifyNum = parseInt(res.data);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     })
+    // }
   },
   computed: {
     ...mapState([
@@ -238,6 +246,17 @@ export default {
           keyword: this.keyWord,
         }
       })
+    },
+    getNotifyNumTimer() {
+      this.timeOutRefresh = window.setInterval(() => {
+        getNotifyNum(this.user.id)
+          .then(res => {
+            this.notifyNum = parseInt(res.data);
+          })
+          .catch(error => {
+            console.log(error.response);
+          })
+      }, 60000);
     }
   },
   components: {

@@ -2,7 +2,7 @@
   <div class="banner mt-6 mb-6">
     <v-carousel
       cycle
-      height="300"
+      height="200"
       hide-delimiter-background
       show-arrows-on-hover
     >

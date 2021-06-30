@@ -32,7 +32,8 @@
           block
           @click.stop="openPopup"
           v-if="popupOpen"
-          :disabled="isSelf"
+          :disabled="isSelf || isClick"
+          :loading="isClick"
         >
           我要交換
         </v-btn>
@@ -41,7 +42,8 @@
           block
           @click.prevent="requestExchange"
           v-else
-          :disabled="isSelf"
+          :disabled="isSelf || isClick"
+          :loading="isClick"
         >
           交換
         </v-btn>
@@ -96,6 +98,7 @@
           <v-btn
             color="primary"
             @click.prevent="seek"
+            :disabled="!tradeMode"
           >
             交換
           </v-btn>
@@ -114,6 +117,7 @@
 
         <v-card-text>
           對方已有提出過邀請，是否直接進行媒合？
+
         </v-card-text>
 
         <v-card-actions>
@@ -162,6 +166,8 @@ export default {
       isSelf: true,
       isAsk: false,
       seekDetail: null,
+      isClick: false,
+
     }
   },
   created() {
@@ -216,7 +222,9 @@ export default {
           break;
       }
       return str;
-    }
+    },
+    // 取得交易方式
+
   },
   components: {
   },
@@ -253,6 +261,7 @@ export default {
     // 提出交換
     seek() {
       this.dialog = false;
+      this.isClick = true;
       const seekData = {
         SeekUserId: parseInt(this.$cookies.get('user').id),
         SeekBookId: this.bookId,
@@ -264,14 +273,17 @@ export default {
       seekNew(seekData)
         .then(res => {
           this.reload();
+          this.isClick = false;
         })
         .catch(error => {
           console.log(error);
+          this.isClick = false;
         })
     },
     // 直接交換 for 交易請求
     requestExchange() {
       this.$emit('exchange', this.bookDesc.bookId)
+      this.isClick = true;
     },
     // 是否選擇過
     checkChosen() {
@@ -293,6 +305,7 @@ export default {
     },
     // 直接媒合
     match() {
+      this.isClick = true;
       const exchangeData = {
         bookId: this.bookId,
         tradeMode: this.seekDetail.tradeMode,
@@ -301,10 +314,12 @@ export default {
         .then(res => {
           this.reload();
           this.isAsk = false;
+          this.isClick = false;
         })
         .catch(error => {
           console.log(error);
           this.isAsk = false;
+          this.isClick = false;
         })
     }
   }

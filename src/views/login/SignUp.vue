@@ -59,26 +59,26 @@
         v-model.lazy="password"
         :counter="18"
         validate-on-blur
-        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="rules"
-        :type="show ? 'text' : 'password'"
+        :type="show1 ? 'text' : 'password'"
         name="input-10-1"
         label="請輸入密碼"
         hint="密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符"
-        @click:append="show = !show"
+        @click:append="show1 = !show1"
         autocomplete
       ></v-text-field>
       <v-text-field
         v-model.lazy="passwordCheck"
         :counter="18"
         validate-on-blur
-        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="checkRules"
-        :type="show ? 'text' : 'password'"
+        :type="show2 ? 'text' : 'password'"
         name="input-10-1"
         label="請再次輸入密碼"
         hint="密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符"
-        @click:append="show = !show"
+        @click:append="show2 = !show2"
         autocomplete
       ></v-text-field>
       <v-btn
@@ -103,7 +103,8 @@ export default {
   name: 'SignUp',
   data() {
     return {
-      show: false,
+      show1: false,
+      show2: false,
       rules: [
         v => !!v || '此為必填欄位',
         v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(v) || '密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符',
@@ -111,7 +112,7 @@ export default {
       valid: true,
       emailRules: [
         v => !!v || '此為必填欄位',
-        v => /.+@.+\..+/.test(v) || '請輸入正確格式',
+        v => /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(v) || '請輸入正確格式',
       ],
       nameRules: [
         v => !!v || '此為必填欄位',

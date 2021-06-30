@@ -55,6 +55,8 @@
                 color="primary"
                 class="mr-4"
                 @click="getDataByISBN"
+                :disabled="isISBNBtnClick"
+                :loading="isISBNBtnClick"
               >
                 ISBN 自動帶入
               </v-btn>
@@ -278,15 +280,38 @@
             <h3 class="upload-form__tit">交易方式</h3>
             <small class="red--text" v-if="!hasDefaultAddress && isOpenTradeMode">請至少選擇一種交易方式</small>
             <!-- <AddressSelect title="店到店" nameId="Store"/> -->
-            <AddressSelect title="宅配 ( 郵寄、黑貓 )" nameId="Delivery" :openInput="true" @getVal="getAddress" @isOpenTrade="isDeliveryOpen"/>
+            <AddressSelect
+              title="宅配 ( 郵寄、黑貓 )"
+              nameId="Delivery"
+              :openInput="true"
+              @getVal="getAddress"
+              @isOpenTrade="isDeliveryOpen"
+              addressValue="123"
+            />
             <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress" @isOpenTrade="isFaceOpen"/>
             <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress" @isOpenTrade="isMailBoxOpen"/>
           </div>
 
           <div class="upload-form__btn-group text-right">
             <v-btn class="mr-4" @click="$router.push(`/member/${$cookies.get('user').id}/booth`)">取消</v-btn>
-            <v-btn color="primary" class="mr-4" v-if="!bookId" @click="upLoadBook">上架</v-btn>
-            <v-btn color="primary" class="mr-4" v-else @click="updataBookData">更新</v-btn>
+            <v-btn
+              color="primary"
+              class="mr-4"
+              v-if="!bookId"
+              @click="upLoadBook"
+              :disabled="isUpload"
+              :loading="isUpload"
+
+            >上架</v-btn>
+            <v-btn
+              color="primary"
+              class="mr-4"
+              v-else
+              @click="updataBookData"
+              :disabled="isUpload"
+              :loading="isUpload"
+
+            >更新</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -316,25 +341,26 @@ export default {
   props: ['bookId'],
   data() {
     return {
+      isUpload: false,
       valid: true,
       date: '',
       menu: false,
       defaultCondition: [
         '近全新',
         '保存良好',
-        '劃記',
-        '摺角、碰撞',
-        '泛黃',
-        '缺頁或裝訂脫落',
-        '污損',
-        '缺少附件',
-        '大範圍黃、黑斑',
-        '少量黃、黑斑',
-        '灰塵印',
-        '缺少附件',
-        '含光碟',
-        '筆記',
-        '膠膜未拆'
+        '無劃記',
+        '無泛黃',
+        '無污損',
+        '無摺角',
+        '無碰撞',
+        '無灰塵印',
+        '無脫落缺頁',
+        '無黃黑斑',
+        '無大量黃黑斑',
+        '膠膜未拆',
+        '有附件',
+        '未使用習題或著色本',
+        '沒有書釘或膠貼'
       ],
       condition: '',
       conditionValue: [],
@@ -346,6 +372,7 @@ export default {
         v => !!v || '此為必填欄位',
         v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
       ],
+
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -396,11 +423,22 @@ export default {
       },
       hasDefaultAddress: false,
       defaultPhoto: [],
+      isISBNBtnClick: false,
+      // 交易方式
+      // 宅配
+      delivery: '',
+      // mailbox
+      mailBox: {
+        MailBoxAddress: null,
+        MailBoxName: null,
+      },
+
     }
   },
   created() {
     getUserDetail($cookies.get('user').id)
       .then(res => {
+        console.log(res);
         this.uploadData.TrueName = res.data.trueName;
         this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
         if(res.data.homeAddress){
@@ -455,10 +493,7 @@ export default {
           this.conditionValue = res.data.condition.split(',');
 
           this.defaultCategory = res.data.categoryDetail;
-
-          let dateStr = res.data.publishDate.split(' ')[0];
-          let dateArr = dateStr.split('/');
-          this.date = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`;
+          this.date = res.data.publishDate;
 
           this.defaultPhoto = res.data.bookPhotos;
         })
@@ -483,9 +518,15 @@ export default {
       formData.append('Author', this.uploadData.Author)
       formData.append('PublishingHouse', this.uploadData.PublishingHouse)
       formData.append('CategoryId', this.category.bottom)
-      formData.append('BookLong', this.uploadData.BookLong)
-      formData.append('BookWidth', this.uploadData.BookWidth)
-      formData.append('BookHigh', this.uploadData.BookHigh)
+      if(this.uploadData.BookLong) {
+        formData.append('BookLong', this.uploadData.BookLong)
+      }
+      if(this.uploadData.BookWidth) {
+        formData.append('BookWidth', this.uploadData.BookWidth)
+      }
+      if(this.uploadData.BookHigh) {
+        formData.append('BookHigh', this.uploadData.BookHigh)
+      }
       formData.append('Introduction', this.uploadData.Introduction)
       formData.append('experience', this.experience)
       formData.append('Condition', this.conditionValue.join(','))
@@ -558,14 +599,17 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
+      this.isUpload = true;
       uploadProduct(this.getFormData)
         .then((res) => {
           alert('上架成功');
+          this.isUpload = false;
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
         .catch(error => {
           console.log(error);
-          alert('上架失敗');
+          this.isUpload = false;
+          alert('上架失敗，請確認資料是否有正確填寫');
         })
     },
     updataBookData() {
@@ -577,14 +621,17 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
+      this.isUpload = true;
       putProduct(this.bookId, this.getFormData)
         .then((res) => {
           alert(res.data);
+          this.isUpload = false;
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
         .catch(error => {
           console.log(error);
           alert('資料未修改');
+          this.isUpload = false;
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
     },
@@ -605,25 +652,31 @@ export default {
     },
     getDataByISBN() {
       let vm = this;
-      getDataByISBNApi({
-        isbn: this.uploadData.ISBN,
-      })
-        .then(res => {
-          vm.uploadData.Author = res.data.author;
-          vm.uploadData.BookHigh = res.data.bookHigh;
-          vm.uploadData.BookLong = res.data.bookLong;
-          vm.uploadData.BookWidth = res.data.bookWidth;
-          vm.uploadData.BookName = res.data.bookName;
-          this.categoryBelong(res.data.categoryId)
-          vm.uploadData.Introduction = res.data.introduction;
-          let publishDate = res.data.publishDate.split('/');
-          vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
-          vm.uploadData.PublishingHouse = res.data.publishingHouse;
+      if(this.uploadData.ISBN){
+        this.isISBNBtnClick = true;
+        getDataByISBNApi({
+          isbn: this.uploadData.ISBN,
         })
-        .catch(error => {
-          alert('取得失敗，請確認是否有輸入正確 ISBN');
-          console.log(error);
-        })
+          .then(res => {
+            vm.uploadData.Author = res.data.author;
+            vm.uploadData.BookHigh = res.data.bookHigh;
+            vm.uploadData.BookLong = res.data.bookLong;
+            vm.uploadData.BookWidth = res.data.bookWidth;
+            vm.uploadData.BookName = res.data.bookName;
+            this.categoryBelong(res.data.categoryId)
+            vm.uploadData.Introduction = res.data.introduction;
+            let publishDate = res.data.publishDate.split('/');
+            vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
+            vm.uploadData.PublishingHouse = res.data.publishingHouse;
+            this.isISBNBtnClick = false;
+          })
+          .catch(error => {
+            alert('取得失敗，請確認是否有輸入正確 ISBN');
+            console.log(error);
+            this.isISBNBtnClick = false;
+          })
+      }
+
     },
     getImgs(val) {
       this.uploadData.BookPhoto = val

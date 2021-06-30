@@ -71,7 +71,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if(from.name === 'Signin' || from.name === 'Signup'){
+      if(from.name === 'Signin' || from.name === 'Signup' || from.name === 'ForgetPassword'){
         vm.fromname = 'Home';
         return;
       }

@@ -55,7 +55,7 @@ export default {
   flex-direction column-reverse
   background-color $light
   &__inner
-    height 200px
+    height 250px
     overflow hidden
     display flex
     align-items center
@@ -84,6 +84,7 @@ export default {
     margin-bottom .6em
   &__author
     color $text-secondary
+    textHiding(1)
 
   &__desc
     font-size .9em

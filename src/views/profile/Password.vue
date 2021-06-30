@@ -49,7 +49,8 @@
 
       <div class="d-flex justify-end">
         <v-btn
-          :disabled="!valid"
+          :disabled="!valid || isClick"
+          :loading="isClick"
           color="primary"
           @click="updateProfile"
         >
@@ -82,6 +83,7 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+      isClick: false,
       snackbar: false,
       text: '',
       timeout: 2000,
@@ -117,6 +119,7 @@ export default {
       if(this.newPassword !== this.passwordCheck){
         return;
       }
+      this.isClick = true;
       setNewPassword(this.user.id, {
         oldPassword: this.oldPassword,
         newPassword: this.newPassword,
@@ -126,11 +129,13 @@ export default {
           this.$refs.form.resetValidation();
           this.snackbar = true;
           this.text = res.data;
+          this.isClick = false;
         })
         .catch(error => {
           this.snackbar = true;
           this.text = '失敗，請確認密碼是否正確';
           console.log(error);
+          this.isClick = false;
         })
     },
     resetPassword() {
