@@ -116,9 +116,9 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 使用範例
 /*
-import { putProduct } from "@/request/api";
+import { checkIsAlreadyAsk } from "@/request/api";
 
-putProduct()
+checkIsAlreadyAsk()
   .then(res => {
     console.log(res);
   })

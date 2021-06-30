@@ -64,7 +64,7 @@ instance.interceptors.response.use(function (response) {
     switch (error.response.status) {
       case 401:
         console.log('token issure');
-        alert('登入逾時，請重新登入');
+        alert('已在其他地方登入，請重新登入');
         $cookies.set('isLogin', '0');
         $cookies.remove('user');
 

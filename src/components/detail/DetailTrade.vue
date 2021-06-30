@@ -102,12 +102,45 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog
+      v-model="isAsk"
+      max-width="350"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          提示
+        </v-card-title>
+
+        <v-card-text>
+          對方已有提出過邀請，是否直接進行媒合？
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            outlined
+            @click="openTrade"
+          >
+            否，我要提出新的徵求
+          </v-btn>
+
+          <v-btn
+            color="primary"
+            @click="match"
+          >
+            是
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </aside>
 
 </template>
 
 <script>
-import { seekNew, chosen } from "@/request/api";
+import { seekNew, chosen, checkIsAlreadyAsk, selectedBook } from "@/request/api";
 export default {
   name: 'DetailTrade',
   inject: ['reload'],
@@ -127,6 +160,8 @@ export default {
       isOpenPopup: false,
       tradeMode: 0,
       isSelf: true,
+      isAsk: false,
+      seekDetail: null,
     }
   },
   created() {
@@ -196,7 +231,24 @@ export default {
     // 開啟 popup window
     openPopup() {
       this.checkLogin();
-      this.dialog = true;
+      checkIsAlreadyAsk({
+        userId: this.$cookies.get('user').id,
+        stallUserId: this.bookDesc.userId,
+      })
+        .then(res => {
+          switch(res.status) {
+            case 200:
+              this.isAsk = true;
+              this.seekDetail = res.data;
+              break;
+            case 204:
+              this.dialog = true;
+              break;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
     },
     // 提出交換
     seek() {
@@ -221,6 +273,7 @@ export default {
     requestExchange() {
       this.$emit('exchange', this.bookDesc.bookId)
     },
+    // 是否選擇過
     checkChosen() {
       chosen({
         userId: this.$cookies.get('user').id,
@@ -231,6 +284,27 @@ export default {
         })
         .catch(error => {
           console.log(error);
+        })
+    },
+    // 進去交換頁面
+    openTrade() {
+      this.isAsk = false;
+      this.dialog = true;
+    },
+    // 直接媒合
+    match() {
+      const exchangeData = {
+        bookId: this.bookId,
+        tradeMode: this.seekDetail.tradeMode,
+      }
+      selectedBook(this.seekDetail.seekId, exchangeData)
+        .then(res => {
+          this.reload();
+          this.isAsk = false;
+        })
+        .catch(error => {
+          console.log(error);
+          this.isAsk = false;
         })
     }
   }

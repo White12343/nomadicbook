@@ -8,7 +8,14 @@
 
     </v-badge> -->
     <BookCard :card-data="BoothData"/>
-    <small>已經有 {{BoothData.seekNum}} 人徵求這本書！</small>
+    <div class="text-right" v-show="BoothData.seekNum">
+      <v-icon
+        small
+      >
+        mdi-human-greeting
+      </v-icon>
+      <small><b>已有 {{BoothData.seekNum}} 人徵求</b></small>
+    </div>
     <div v-if="isSelf">
       <router-link
         :to="{ path: '/uploadpd', query: {id: BoothData.bookId}}"

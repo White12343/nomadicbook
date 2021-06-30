@@ -79,13 +79,16 @@ export default {
     height 40px
     &:hover
       text-decoration underline
-  &__author,&__desc
+  &__author
     font-size .9em
     margin-bottom .6em
   &__author
     color $text-secondary
 
   &__desc
+    font-size .9em
     color $text-primary
+    min-height 42px
+    textHiding(2)
 
 </style>

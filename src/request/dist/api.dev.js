@@ -317,9 +317,9 @@ var seekNew = function seekNew(data) {
 }; // 使用範例
 
 /*
-import { putProduct } from "@/request/api";
+import { checkIsAlreadyAsk } from "@/request/api";
 
-putProduct()
+checkIsAlreadyAsk()
   .then(res => {
     console.log(res);
   })

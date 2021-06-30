@@ -38,6 +38,7 @@ import NewBook from '@/components/home/NewBook';
 
 export default {
   namd: 'Detail',
+  inject: ['reload'],
   data() {
     return {
       bookDesc: {},
@@ -74,6 +75,12 @@ export default {
 
 
 
+  },
+  watch: {
+    $route(to) {
+      console.log(to);
+      this.reload();
+    }
   },
   methods: {
   },
