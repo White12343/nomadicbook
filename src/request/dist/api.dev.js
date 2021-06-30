@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.postMsg = exports.getMsg = exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -314,12 +314,27 @@ exports.getIMailBox = getIMailBox;
 
 var seekNew = function seekNew(data) {
   return (0, _http["default"])("post", "/seek/new", data);
+}; // 留言板
+// 取得留言
+
+
+exports.seekNew = seekNew;
+
+var getMsg = function getMsg(id) {
+  return (0, _http["default"])("get", "/Message/" + id);
+}; // 留言
+
+
+exports.getMsg = getMsg;
+
+var postMsg = function postMsg(data) {
+  return (0, _http["default"])("post", "/Message", data);
 }; // 使用範例
 
 /*
-import { checkIsAlreadyAsk } from "@/request/api";
+import { postMsg } from "@/request/api";
 
-checkIsAlreadyAsk()
+postMsg()
   .then(res => {
     console.log(res);
   })
@@ -330,4 +345,4 @@ checkIsAlreadyAsk()
 */
 
 
-exports.seekNew = seekNew;
+exports.postMsg = postMsg;

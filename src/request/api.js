@@ -112,13 +112,20 @@ export const getIMailBox = (data) => req("get", "/trade/mailbox", data);
 // 產品
 export const seekNew = (data) => req("post", "/seek/new", data);
 
+// 留言板
+// 取得留言
+export const getMsg = (id) => req("get", "/Message/" + id);
+// 留言
+export const postMsg = (data) => req("post", "/Message", data);
+
+
 
 
 // 使用範例
 /*
-import { checkIsAlreadyAsk } from "@/request/api";
+import { postMsg } from "@/request/api";
 
-checkIsAlreadyAsk()
+postMsg()
   .then(res => {
     console.log(res);
   })

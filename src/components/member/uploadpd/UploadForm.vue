@@ -467,42 +467,43 @@ export default {
   created() {
     getUserDetail($cookies.get('user').id)
       .then(res => {
-        console.log(res);
         this.uploadData.TrueName = res.data.trueName;
         this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
-        if(res.data.homeAddress){
-          this.hasDefaultAddress = true;
-          this.delivery.default = true;
-          // this.tradeModeOpen.delivery = true;
-          // 宅配
-          this.delivery.address = res.data.homeAddress;
-        }
-        if(res.data.mailBoxAddress){
-          this.hasDefaultAddress = true;
-          this.mailBox.default = true;
-          // this.tradeModeOpen.mailBox = true;
-          // mail
-          this.mailBox.address = res.data.mailBoxAddress;
-          this.mailBox.name = res.data.mailBoxName;
-        }
-        if(res.data.storeAddress){
-          this.hasDefaultAddress = true;
-          this.store.default = true;
-          // this.tradeModeOpen.stroe = true;
-          // 7-11
-          this.store.address = res.data.storeAddress;
-          this.store.name = res.data.storeName;
-        }
-        if(res.data.faceTradeRoad){
-          this.hasDefaultAddress = true;
-          this.faceTrade.default = true;
-          // this.tradeModeOpen.face = true;
-          // 面交
-          this.faceTrade.FaceTradeCity = res.data.faceTradeCity;
-          this.faceTrade.FaceTradeArea = res.data.faceTradeArea;
-          this.faceTrade.FaceTradeDetail = res.data.faceTradeDetail;
-          this.faceTrade.FaceTradePath = res.data.faceTradePath;
-          this.faceTrade.FaceTradeRoad = res.data.faceTradeRoad;
+        if(!this.bookId){
+          if(res.data.homeAddress){
+            this.hasDefaultAddress = true;
+            this.delivery.default = true;
+            // this.tradeModeOpen.delivery = true;
+            // 宅配
+            this.delivery.address = res.data.homeAddress;
+          }
+          if(res.data.mailBoxAddress){
+            this.hasDefaultAddress = true;
+            this.mailBox.default = true;
+            // this.tradeModeOpen.mailBox = true;
+            // mail
+            this.mailBox.address = res.data.mailBoxAddress;
+            this.mailBox.name = res.data.mailBoxName;
+          }
+          if(res.data.storeAddress){
+            this.hasDefaultAddress = true;
+            this.store.default = true;
+            // this.tradeModeOpen.stroe = true;
+            // 7-11
+            this.store.address = res.data.storeAddress;
+            this.store.name = res.data.storeName;
+          }
+          if(res.data.faceTradeRoad){
+            this.hasDefaultAddress = true;
+            this.faceTrade.default = true;
+            // this.tradeModeOpen.face = true;
+            // 面交
+            this.faceTrade.FaceTradeCity = res.data.faceTradeCity;
+            this.faceTrade.FaceTradeArea = res.data.faceTradeArea;
+            this.faceTrade.FaceTradeDetail = res.data.faceTradeDetail;
+            this.faceTrade.FaceTradePath = res.data.faceTradePath;
+            this.faceTrade.FaceTradeRoad = res.data.faceTradeRoad;
+          }
         }
       })
       .catch(error => {
@@ -529,6 +530,40 @@ export default {
           this.date = res.data.publishDate;
 
           this.defaultPhoto = res.data.bookPhotos;
+          if(res.data.homeAddress){
+            this.hasDefaultAddress = true;
+            this.delivery.default = true;
+            // this.tradeModeOpen.delivery = true;
+            // 宅配
+            this.delivery.address = res.data.homeAddress;
+          }
+          if(res.data.mailBoxAddress){
+            this.hasDefaultAddress = true;
+            this.mailBox.default = true;
+            // this.tradeModeOpen.mailBox = true;
+            // mail
+            this.mailBox.address = res.data.mailBoxAddress;
+            this.mailBox.name = res.data.mailBoxName;
+          }
+          if(res.data.storeAddress){
+            this.hasDefaultAddress = true;
+            this.store.default = true;
+            // this.tradeModeOpen.stroe = true;
+            // 7-11
+            this.store.address = res.data.storeAddress;
+            this.store.name = res.data.storeName;
+          }
+          if(res.data.faceTradeRoad){
+            this.hasDefaultAddress = true;
+            this.faceTrade.default = true;
+            // this.tradeModeOpen.face = true;
+            // 面交
+            this.faceTrade.FaceTradeCity = res.data.faceTradeCity;
+            this.faceTrade.FaceTradeArea = res.data.faceTradeArea;
+            this.faceTrade.FaceTradeDetail = res.data.faceTradeDetail;
+            this.faceTrade.FaceTradePath = res.data.faceTradePath;
+            this.faceTrade.FaceTradeRoad = res.data.faceTradeRoad;
+          }
         })
         .catch(error => {
           console.log(error);
