@@ -263,10 +263,10 @@
               required
             ></v-text-field>
             <!-- 預設交易資料 -->
-            <h3 class="upload-form__tit">預設交易方式</h3>
-            <div class="defaultTradeMode" v-if="uploadData.HomeAddress">
+            <!-- <h3 class="upload-form__tit">預設交易方式</h3>
+            <div class="defaultTradeMode" v-if="delivery.address">
               <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
-              <p class="defaultTradeMode__desc">{{uploadData.HomeAddress}}</p>
+              <p class="defaultTradeMode__desc">{{delivery.address}}</p>
             </div>
             <div class="defaultTradeMode" v-if="getHomeAddress">
               <h4 class="defaultTradeMode__tit">面交</h4>
@@ -275,10 +275,10 @@
             <div class="defaultTradeMode" v-if="getIMailAddressAll">
               <h4 class="defaultTradeMode__tit">i 郵箱</h4>
               <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
-            </div>
+            </div> -->
             <!-- 地址 -->
             <h3 class="upload-form__tit">交易方式</h3>
-            <small class="red--text" v-if="!hasDefaultAddress && isOpenTradeMode">請至少選擇一種交易方式</small>
+            <small class="red--text" v-if="isOpenTradeMode">請至少選擇一種交易方式</small>
             <!-- <AddressSelect title="店到店" nameId="Store"/> -->
             <AddressSelect
               title="宅配 ( 郵寄、黑貓 )"
@@ -286,10 +286,27 @@
               :openInput="true"
               @getVal="getAddress"
               @isOpenTrade="isDeliveryOpen"
-              addressValue="123"
+              :addressValue="delivery"
+              :hasDefault="delivery.default"
             />
-            <AddressSelect title="面交" nameId="FaceTrade" :openInput="true" :openRemark="true" @getVal="getTradeAddress" @isOpenTrade="isFaceOpen"/>
-            <IMailBoxSelect title="i 郵箱" nameId="MailBox" @getVal="getIMailAddress" @isOpenTrade="isMailBoxOpen"/>
+            <AddressSelect
+              title="面交"
+              nameId="FaceTrade"
+              :openInput="true"
+              :openRemark="true"
+              @getVal="getTradeAddress"
+              @isOpenTrade="isFaceOpen"
+              :faceTrade="faceTrade"
+              :hasDefault="faceTrade.default"
+            />
+            <IMailBoxSelect
+              title="i 郵箱"
+              nameId="MailBox"
+              @getVal="getIMailAddress"
+              @isOpenTrade="isMailBoxOpen"
+              :addressValue="mailBox"
+              :hasDefault="mailBox.default"
+            />
           </div>
 
           <div class="upload-form__btn-group text-right">
@@ -386,16 +403,6 @@ export default {
         BookHigh: null,
         Introduction: "",
         Condition: "",
-        StoreAddress: null,
-        StoreName: null,
-        MailBoxAddress: null,
-        MailBoxName: null,
-        HomeAddress: "",
-        FaceTradeCity: "",
-        FaceTradeArea: "",
-        FaceTradeRoad: "",
-        FaceTradePath: "",
-        FaceTradeDetail: "",
         TrueName: "",
         CellphoneNumber: "",
         BookPhoto:[]
@@ -422,16 +429,38 @@ export default {
         mailBox: false,
       },
       hasDefaultAddress: false,
+
       defaultPhoto: [],
       isISBNBtnClick: false,
       // 交易方式
       // 宅配
-      delivery: '',
+      delivery: {
+        default: false,
+        address: '',
+        name: '',
+      },
       // mailbox
       mailBox: {
-        MailBoxAddress: null,
-        MailBoxName: null,
+        default: false,
+        address: null,
+        name: null,
       },
+      // 7-11
+      store: {
+        default: false,
+        address: null,
+        name: null,
+      },
+      // 面交
+      faceTrade: {
+        default: false,
+        FaceTradeCity: "",
+        FaceTradeArea: "",
+        FaceTradeRoad: "",
+        FaceTradePath: "",
+        FaceTradeDetail: "",
+      }
+
 
     }
   },
@@ -443,33 +472,37 @@ export default {
         this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
         if(res.data.homeAddress){
           this.hasDefaultAddress = true;
-          this.tradeModeOpen.delivery = true;
+          this.delivery.default = true;
+          // this.tradeModeOpen.delivery = true;
           // 宅配
-          this.uploadData.HomeAddress = res.data.homeAddress;
+          this.delivery.address = res.data.homeAddress;
         }
         if(res.data.mailBoxAddress){
           this.hasDefaultAddress = true;
-          this.tradeModeOpen.mailBox = true;
+          this.mailBox.default = true;
+          // this.tradeModeOpen.mailBox = true;
           // mail
-          this.uploadData.MailBoxAddress = res.data.mailBoxAddress;
-          this.uploadData.MailBoxName = res.data.mailBoxName;
+          this.mailBox.address = res.data.mailBoxAddress;
+          this.mailBox.name = res.data.mailBoxName;
         }
         if(res.data.storeAddress){
           this.hasDefaultAddress = true;
-          this.tradeModeOpen.stroe = true;
+          this.store.default = true;
+          // this.tradeModeOpen.stroe = true;
           // 7-11
-          this.uploadData.StoreAddress = res.data.storeAddress;
-          this.uploadData.StoreName = res.data.storeName;
+          this.store.address = res.data.storeAddress;
+          this.store.name = res.data.storeName;
         }
         if(res.data.faceTradeRoad){
           this.hasDefaultAddress = true;
-          this.tradeModeOpen.face = true;
+          this.faceTrade.default = true;
+          // this.tradeModeOpen.face = true;
           // 面交
-          this.uploadData.FaceTradeArea = res.data.faceTradeArea;
-          this.uploadData.FaceTradeCity = res.data.faceTradeCity;
-          this.uploadData.FaceTradeDetail = res.data.faceTradeDetail;
-          this.uploadData.FaceTradePath = res.data.faceTradePath;
-          this.uploadData.FaceTradeRoad = res.data.faceTradeRoad;
+          this.faceTrade.FaceTradeCity = res.data.faceTradeCity;
+          this.faceTrade.FaceTradeArea = res.data.faceTradeArea;
+          this.faceTrade.FaceTradeDetail = res.data.faceTradeDetail;
+          this.faceTrade.FaceTradePath = res.data.faceTradePath;
+          this.faceTrade.FaceTradeRoad = res.data.faceTradeRoad;
         }
       })
       .catch(error => {
@@ -533,25 +566,25 @@ export default {
       formData.append('conditionNum', this.condition)
       // 店到店開放
       if(this.tradeModeOpen.stroe){
-        formData.append('StoreAddress', this.uploadData.StoreAddress)
-        formData.append('StoreName', this.uploadData.StoreName)
+        formData.append('StoreAddress', this.store.address)
+        formData.append('StoreName', this.store.name)
       }
       // i郵箱開放
       if(this.tradeModeOpen.mailBox){
-        formData.append('MailBoxAddress', this.uploadData.MailBoxAddress)
-        formData.append('MailBoxName', this.uploadData.MailBoxName)
+        formData.append('MailBoxAddress', this.mailBox.address)
+        formData.append('MailBoxName', this.mailBox.name)
       }
       // 宅配開放
       if(this.tradeModeOpen.delivery){
-        formData.append('HomeAddress', this.uploadData.HomeAddress)
+        formData.append('HomeAddress', this.delivery.address)
       }
       // 面交開放
       if(this.tradeModeOpen.face){
-        formData.append('FaceTradeCity', this.uploadData.FaceTradeCity)
-        formData.append('FaceTradeArea', this.uploadData.FaceTradeArea)
-        formData.append('FaceTradeRoad', this.uploadData.FaceTradeRoad)
-        formData.append('FaceTradePath', this.uploadData.FaceTradePath)
-        formData.append('FaceTradeDetail', this.uploadData.FaceTradeDetail)
+        formData.append('FaceTradeCity', this.faceTrade.FaceTradeCity)
+        formData.append('FaceTradeArea', this.faceTrade.FaceTradeArea)
+        formData.append('FaceTradeRoad', this.faceTrade.FaceTradeRoad)
+        formData.append('FaceTradePath', this.faceTrade.FaceTradePath)
+        formData.append('FaceTradeDetail', this.faceTrade.FaceTradeDetail)
       }
       formData.append('TrueName', this.uploadData.TrueName)
       formData.append('CellphoneNumber', this.uploadData.CellphoneNumber)
@@ -577,25 +610,26 @@ export default {
       return arr;
     },
     getHomeAddress() {
-      return this.uploadData.FaceTradeArea +
-        this.uploadData.FaceTradeCity +
-        this.uploadData.FaceTradeRoad +
-        this.uploadData.FaceTradePath +
-        this.uploadData.FaceTradeDetail;
+      return this.faceTrade.FaceTradeCity +
+        this.faceTrade.FaceTradeArea +
+        this.faceTrade.FaceTradeRoad +
+        this.faceTrade.FaceTradePath +
+        this.faceTrade.FaceTradeDetail;
     },
     getIMailAddressAll() {
-      return this.uploadData.MailBoxName + this.uploadData.MailBoxAddress;
+      return this.mailBox.name + this.mailBox.address;
     },
 
 
   },
   methods: {
     upLoadBook() {
-      if(!this.hasDefaultAddress){
+      // if(!this.hasDefaultAddress){
         if(this.isOpenTradeMode){
+          alert('請至少選擇一種交易方式')
           return;
         }
-      }
+      // }
       if(!this.$refs.form.validate()){
         return;
       }
@@ -613,11 +647,12 @@ export default {
         })
     },
     updataBookData() {
-      if(!this.hasDefaultAddress){
+      // if(!this.hasDefaultAddress){
         if(this.isOpenTradeMode){
+          alert('請至少選擇一種交易方式')
           return;
         }
-      }
+      // }
       if(!this.$refs.form.validate()){
         return;
       }
@@ -636,18 +671,18 @@ export default {
         })
     },
     getTradeAddress(val) {
-      this.uploadData.FaceTradeCity = val.city;
-      this.uploadData.FaceTradeArea = val.area;
-      this.uploadData.FaceTradeRoad = val.road;
-      this.uploadData.FaceTradePath = val.path;
-      this.uploadData.FaceTradeDetail = val.detail;
+      this.faceTrade.FaceTradeCity = val.city;
+      this.faceTrade.FaceTradeArea = val.area;
+      this.faceTrade.FaceTradeRoad = val.road;
+      this.faceTrade.FaceTradePath = val.path;
+      this.faceTrade.FaceTradeDetail = val.detail;
     },
     getAddress(val) {
-      this.uploadData.HomeAddress = val.city + val.area + val.road + val.path;
+      this.delivery.address = val.city + val.area + val.road + val.path;
     },
     getIMailAddress(val) {
-      this.uploadData.MailBoxAddress = val.Address;
-      this.uploadData.MailBoxName = val.Name;
+      this.mailBox.address = val.Address;
+      this.mailBox.name = val.Name;
 
     },
     getDataByISBN() {

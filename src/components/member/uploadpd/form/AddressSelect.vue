@@ -7,7 +7,8 @@
       @change="openTrade"
       v-if="isOptional"
     ></v-switch>
-    <h4 v-if="addressValue">{{addressValue}}</h4>
+    <h4 v-if="addressValue">{{getAddress}}</h4>
+    <h4 v-if="faceTrade">{{getFaceTrade}}</h4>
 
 
     <v-row align="center">
@@ -77,8 +78,13 @@ export default {
       required: true
     },
     addressValue: {
-      type: String,
-      default: "",
+      type: Object,
+      default: null,
+      required: false
+    },
+    faceTrade: {
+      type: Object,
+      default: null,
       required: false
     },
     nameId: {
@@ -100,11 +106,15 @@ export default {
       type: Boolean,
       default: true,
       required: false
+    },
+    hasDefault: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   data() {
     return {
-      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       isOpen: false,
       cityArr: [],
       areaArr: [],
@@ -123,9 +133,7 @@ export default {
       this.isOpen = true;
       this.openTrade();
     }
-    // if(this.addressValue) {
-    //   this.isOpen = true;
-    // }
+
     getCity()
       .then(res => {
         this.cityArr = res.data;
@@ -134,10 +142,31 @@ export default {
         console.log(error);
       })
   },
-  updated() {
-    // if(this.addressValue) {
-    //   this.isOpen = true;
-    // }
+  computed: {
+    getAddress() {
+      if(!this.address.city){
+        return this.addressValue.name + ' ' + this.addressValue.address;
+      }
+      return this.address.city + this.address.area + this.address.road + this.address.path + this.address.detail;
+    },
+    getFaceTrade() {
+      if(!this.address.city){
+        return this.faceTrade.FaceTradeCity +
+          this.faceTrade.FaceTradeArea +
+          this.faceTrade.FaceTradeRoad +
+          this.faceTrade.FaceTradePath +
+          this.faceTrade.FaceTradeDetail;
+      }
+      return this.address.city + this.address.area + this.address.road + this.address.path + this.address.detail;
+    }
+  },
+  watch: {
+    hasDefault(val) {
+      this.isOpen = val;
+      if(this.isOpen){
+        this.openTrade();
+      }
+    }
   },
   methods: {
     openTrade() {

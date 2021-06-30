@@ -7,6 +7,7 @@
       @change="openTrade"
       v-if="isOptional"
     ></v-switch>
+    <h4 v-if="addressValue">{{getAddress}}</h4>
     <v-row align="center">
       <v-col class="d-flex" cols="12" sm="4">
         <v-select
@@ -58,6 +59,11 @@ export default {
       // 是否必填
       required: true
     },
+    addressValue: {
+      type: Object,
+      default: null,
+      required: false
+    },
     nameId: {
       type: String,
       default: "0",
@@ -77,6 +83,11 @@ export default {
       type: Boolean,
       default: true,
       required: false
+    },
+    hasDefault: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   data() {
@@ -94,6 +105,14 @@ export default {
       },
     }
   },
+  watch: {
+    hasDefault(val) {
+      this.isOpen = val;
+      if(this.isOpen){
+        this.openTrade();
+      }
+    }
+  },
   computed: {
     getRoadDetailArr() {
       let arr = [];
@@ -101,7 +120,13 @@ export default {
         arr.push(`${item.mailboxName}(${item.mailboxAddress})`)
       })
       return arr;
-    }
+    },
+    getAddress() {
+      if(!this.address.city){
+        return this.addressValue.name + '(' + this.addressValue.address+')';
+      }
+      return this.address.detail;
+    },
   },
   created() {
     if(!this.isOptional){
