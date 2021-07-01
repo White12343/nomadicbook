@@ -1,13 +1,13 @@
 <template>
-  <section class="record">
-    <MatchList v-if="records.length" :match-data="records"/>
-    <!-- <v-row justify="center" class="my-6">
+  <section class="match-list">
+    <v-row justify="center" class="my-6">
       <v-expansion-panels tile light>
         <v-expansion-panel
-          v-for="(item,i) in records"
+          v-for="(item,i) in matchData"
           :key="i"
         >
-          <v-expansion-panel-header>
+          <MatchListItem :matchData="item"/>
+          <!-- <v-expansion-panel-header>
             <v-row
               justify="center"
               align="center"
@@ -19,9 +19,9 @@
                 <v-row align="center">
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="6"
-                    lg="6"
+                    sm="5"
+                    md="5"
+                    lg="5"
                   >
                     <v-img
                       class="mx-auto"
@@ -32,14 +32,14 @@
 
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="6"
-                    lg="6"
+                    sm="7"
+                    md="7"
+                    lg="7"
                   >
-                    <article class="record__cntr">
-                      <header class="record__heaer">
-                        <h3 class="record__tit">{{item.seek.seekBookName}}</h3>
-                        <h4 class="record__subtit">{{item.seek.seekAuthor}}</h4>
+                    <article class="match-list__cntr">
+                      <header class="match-list__heaer">
+                        <h3 class="match-list__tit">{{item.seek.seekBookName}}</h3>
+                        <h4 class="match-list__subtit">{{item.seek.seekAuthor}}</h4>
                       </header>
                       <div class="d-flex align-center">
                         {{item.seek.seekUserName}}
@@ -57,7 +57,7 @@
                           size="16"
                         ></v-rating>
                       </div>
-                      <p class="record__desc">{{item.seek.seekCondition}}</p>
+                      <p class="match-list__desc">{{item.seek.seekCondition}}</p>
                       <ul>
                         <li><b>交易日期：</b>{{item.seek.seekDate}}</li>
                         <li><b>交易資訊：</b>{{item.seek.seekToAddress + ' ' + item.seek.seekToName}}</li>
@@ -88,9 +88,9 @@
                 <v-row align="center">
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="6"
-                    lg="6"
+                    sm="5"
+                    md="5"
+                    lg="5"
                   >
                     <v-img
                       class="mx-auto"
@@ -101,14 +101,14 @@
 
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="6"
-                    lg="6"
+                    sm="7"
+                    md="7"
+                    lg="7"
                   >
-                    <article class="record__cntr">
-                      <header class="record__heaer">
-                        <h3 class="record__tit">{{item.seeked.seekBookName}}</h3>
-                        <h4 class="record__subtit">{{item.seeked.seekAuthor}}</h4>
+                    <article class="match-list__cntr">
+                      <header class="match-list__heaer">
+                        <h3 class="match-list__tit">{{item.seeked.seekBookName}}</h3>
+                        <h4 class="match-list__subtit">{{item.seeked.seekAuthor}}</h4>
                       </header>
                       <div class="d-flex align-center">
                         {{item.seeked.seekUserName}}
@@ -126,11 +126,10 @@
                           size="16"
                         ></v-rating>
                       </div>
-                      <p class="record__desc">{{item.seeked.seekCondition}}</p>
+                      <p class="match-list__desc">{{item.seeked.seekCondition}}</p>
                       <ul>
                         <li><b>交易日期：</b>{{item.seeked.seekDate}}</li>
                         <li><b>交易資訊：</b>{{item.seeked.seekToAddress + ' ' + item.seeked.seekToName}}</li>
-
                       </ul>
                     </article>
                   </v-col>
@@ -140,44 +139,49 @@
 
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <h3 class="record__tit mt-3 ml-4">詳細交易資訊</h3>
+            <h3 class="match-list__tit mt-3 ml-4">詳細交易資訊</h3>
             <v-divider></v-divider>
-            <Match :match-data="item" :record="true"/>
-          </v-expansion-panel-content>
+            <Match :match-data="item"/>
+          </v-expansion-panel-content> -->
         </v-expansion-panel>
       </v-expansion-panels>
-    </v-row> -->
+    </v-row>
   </section>
 </template>
 
 <script>
-import { getRecord } from "@/request/api";
 import Match from '@/components/trademanage/match/Match';
-import MatchList from '@/components/trademanage/match/MatchList';
+import MatchListItem from '@/components/trademanage/match/MatchListItem';
 export default {
-  name: 'Record',
-  data: () => ({
-    records: [],
-  }),
-  created() {
-    getRecord(this.$cookies.get('user').id)
-      .then(res => {
-        this.records = res.data;
-        console.log(res);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+  name: 'MatchList',
+  inject: ['reload'],
+  props: {
+    matchData: {
+      type: Array,
+      default: [],
+    },
+    hasBtn: {
+      type: Boolean,
+      default: true,
+      require: false,
+    }
+  },
+  data() {
+    return {
+    }
   },
   components: {
     Match,
-    MatchList,
+    MatchListItem,
+  },
+  methods: {
+
   }
 }
 </script>
 
 <style lang="stylus">
-.record
+.match-list
   &__tit
     font-weight bold
     font-size 1.2em

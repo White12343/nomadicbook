@@ -1,7 +1,8 @@
 <template>
 
   <section class="match-manage mt-6">
-    <div class="match-manage__cntr">
+
+    <!-- <div class="match-manage__cntr">
       <v-row>
         <v-col
           v-for="(item, index) in matchData"
@@ -20,15 +21,16 @@
             class="match-manage__divider mt-6 mb-6"></v-divider>
         </v-col>
       </v-row>
-    </div>
+    </div> -->
 
-
+    <MatchList v-if="matchData.length" :match-data="matchData"/>
   </section>
 </template>
 
 <script>
 import { getMatchList } from "@/request/api";
 import Match from '@/components/trademanage/match/Match';
+import MatchList from '@/components/trademanage/match/MatchList';
 export default {
   name: 'MatchManage',
   data() {
@@ -48,6 +50,7 @@ export default {
   },
   components: {
     Match,
+    MatchList,
   },
 }
 </script>

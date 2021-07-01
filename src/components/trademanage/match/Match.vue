@@ -9,7 +9,7 @@
         md="6"
         lg="6"
       >
-        <h3>自己的書</h3>
+        <h3 class="font-weight-bold">自己的書</h3>
         <v-row align="center">
           <v-col
             cols="12"
@@ -101,7 +101,7 @@
         lg="6"
       >
 
-        <h3>對方的書</h3>
+        <h3 class="font-weight-bold">對方的書</h3>
 
         <v-row align="center">
           <v-col
@@ -208,6 +208,7 @@
       fixed
       right
       temporary
+      hide-overlay
       width="500"
       :height="'100vh'"
     >
@@ -479,7 +480,6 @@ export default {
       this.drawer = !this.drawer;
       getMsg(this.matchData.seekId)
         .then(res => {
-          console.log(res);
           this.message = res.data;
         })
         .catch(error => {
@@ -506,7 +506,6 @@ export default {
           this.resetMsg();
           getMsg(this.matchData.seekId)
           .then(res => {
-            console.log(res);
             this.message = res.data;
           })
           .catch(error => {
