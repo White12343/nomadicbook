@@ -280,6 +280,7 @@
             <h3 class="upload-form__tit">交易方式</h3>
             <small class="red--text" v-if="isOpenTradeMode">請至少選擇一種交易方式</small>
             <!-- <AddressSelect title="店到店" nameId="Store"/> -->
+
             <AddressSelect
               title="宅配 ( 郵寄、黑貓 )"
               nameId="Delivery"
@@ -298,6 +299,15 @@
               @isOpenTrade="isFaceOpen"
               :faceTrade="faceTrade"
               :hasDefault="faceTrade.default"
+            />
+
+            <StoreSelect
+              title="7-11 店到店"
+              nameId="Store"
+              @getVal="getStoreAddress"
+              @isOpenTrade="isStoreBoxOpen"
+              :addressValue="store"
+              :hasDefault="store.default"
             />
             <IMailBoxSelect
               title="i 郵箱"
@@ -351,6 +361,7 @@ import {
 import SelectImg from '@/components/member/uploadpd/form/SelectImg';
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
+import StoreSelect from '@/components/member/uploadpd/form/StoreSelect';
 import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
@@ -425,7 +436,7 @@ export default {
       tradeModeOpen: {
         delivery: false,
         face: false,
-        stroe: false,
+        store: false,
         mailBox: false,
       },
       hasDefaultAddress: false,
@@ -488,7 +499,7 @@ export default {
           if(res.data.storeAddress){
             this.hasDefaultAddress = true;
             this.store.default = true;
-            // this.tradeModeOpen.stroe = true;
+            // this.tradeModeOpen.store = true;
             // 7-11
             this.store.address = res.data.storeAddress;
             this.store.name = res.data.storeName;
@@ -548,7 +559,7 @@ export default {
           if(res.data.storeAddress){
             this.hasDefaultAddress = true;
             this.store.default = true;
-            // this.tradeModeOpen.stroe = true;
+            // this.tradeModeOpen.store = true;
             // 7-11
             this.store.address = res.data.storeAddress;
             this.store.name = res.data.storeName;
@@ -600,7 +611,7 @@ export default {
       formData.append('Condition', this.conditionValue.join(','))
       formData.append('conditionNum', this.condition)
       // 店到店開放
-      if(this.tradeModeOpen.stroe){
+      if(this.tradeModeOpen.store){
         formData.append('StoreAddress', this.store.address)
         formData.append('StoreName', this.store.name)
       }
@@ -629,7 +640,7 @@ export default {
       return formData;
     },
     isOpenTradeMode() {
-      return !this.tradeModeOpen.stroe &&
+      return !this.tradeModeOpen.store &&
         !this.tradeModeOpen.face &&
         !this.tradeModeOpen.mailBox &&
         !this.tradeModeOpen.delivery;
@@ -720,6 +731,12 @@ export default {
       this.mailBox.name = val.Name;
 
     },
+
+    getStoreAddress(val) {
+      this.store.address = val.Address;
+      this.store.name = val.Name;
+
+    },
     getDataByISBN() {
       let vm = this;
       if(this.uploadData.ISBN){
@@ -788,6 +805,9 @@ export default {
     isMailBoxOpen(val) {
       this.tradeModeOpen.mailBox = val;
     },
+    isStoreBoxOpen(val) {
+      this.tradeModeOpen.store = val;
+    },
     deletePhoto(id, index) {
       deletePhotoByApi(id)
         .then(res => {
@@ -820,6 +840,7 @@ export default {
     SelectImg,
     AddressSelect,
     IMailBoxSelect,
+    StoreSelect,
   }
 }
 </script>

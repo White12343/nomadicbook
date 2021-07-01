@@ -55,7 +55,8 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
-      forgetPassword(JSON.stringify(this.mail))
+      let mail = JSON.stringify(this.mail);
+      forgetPassword(mail)
         .then(res => {
           this.isSent = true;
           this.msg = res.data;

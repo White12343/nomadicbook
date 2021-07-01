@@ -107,6 +107,10 @@ export const getArea = (data) => req("get", "/Trade/address/area", data);
 export const getRoad = (data) => req("get", "/Trade/address/road", data);
 // iMail
 export const getIMailBox = (data) => req("get", "/trade/mailbox", data);
+// 7-11
+export const getStoreCity = () => req("get", "/Trade/store/city");
+export const getStoreArea = (data) => req("get", "/Trade/store/area", data);
+export const getStoreAddress = (data) => req("get", "/Trade/store/address", data);
 
 
 // 產品

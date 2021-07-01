@@ -146,6 +146,18 @@
                       @isOpenTrade="isMailBoxOpen"
                     />
                   </v-col>
+                  <v-col
+                      cols="12"
+                      sm="12"
+                      md="12"
+                    >
+                    <StoreSelect
+                      title="7-11"
+                      nameId="store"
+                      @getVal="getStoreAddress"
+                      @isOpenTrade="isStoreOpen"
+                    />
+                  </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -179,6 +191,10 @@
         <h4 class="defaultTradeMode__tit">i 郵箱</h4>
         <p class="defaultTradeMode__desc">{{getDefaultIMailAddressAll || getIMailAddressAll}}</p>
       </div>
+      <div class="defaultTradeMode" v-if="getStoreAddressAll || getStoreAddressAll">
+        <h4 class="defaultTradeMode__tit">7-11 店到店</h4>
+        <p class="defaultTradeMode__desc">{{getDefaultStoreAddressAll || getStoreAddressAll}}</p>
+      </div>
       <div class="d-flex justify-end">
         <v-btn
           :disabled="!valid || isClick"
@@ -193,6 +209,7 @@
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
+      color="primary"
     >
       {{ text }}
 
@@ -216,6 +233,7 @@ import { mapState } from "vuex";
 import { getUserDetail, putUserDetail } from "@/request/api";
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
+import StoreSelect from '@/components/member/uploadpd/form/StoreSelect';
 export default {
   inject: ['reload'],
   data: () => ({
@@ -305,6 +323,9 @@ export default {
     isMailBoxOpen(val) {
       this.tradeModeOpen.mailBox = val;
     },
+    isStoreOpen(val) {
+      this.tradeModeOpen.store = val;
+    },
     getTradeAddress(val) {
       this.faceTrade.City = val.city;
       this.faceTrade.Area = val.area;
@@ -318,6 +339,10 @@ export default {
     getIMailAddress(val) {
       this.mailBox.Address = val.Address;
       this.mailBox.Name = val.Name;
+    },
+    getStoreAddress(val) {
+      this.store.Address = val.Address;
+      this.store.Name = val.Name;
     },
     // 點擊觸發 form 選取
     clickUploadPic() {
@@ -345,6 +370,7 @@ export default {
   components: {
     AddressSelect,
     IMailBoxSelect,
+    StoreSelect,
   },
 
   computed: {
@@ -375,8 +401,14 @@ export default {
     getIMailAddressAll() {
       return this.userData.mailBoxName + this.userData.mailBoxAddress;
     },
+    getStoreAddressAll() {
+      return this.userData.storeName + this.userData.storeAddress;
+    },
     getDefaultIMailAddressAll() {
       return this.mailBox.Name + '(' + this.mailBox.Address + ')';
+    },
+    getDefaultStoreAddressAll() {
+      return this.store.Name + '(' + this.store.Address + ')';
     },
     getFormData() {
       let formData = new FormData()
@@ -431,8 +463,8 @@ export default {
         }
         if(this.userData.storeAddress){
           this.hasDefaultAddress = true;
-          this.store.name = this.userData.storeName;
-          this.stort.address = this.userData.storeAddress;
+          this.store.Name = this.userData.storeName;
+          this.store.Address = this.userData.storeAddress;
         }
         if(this.userData.faceTradeRoad){
           this.hasDefaultAddress = true;

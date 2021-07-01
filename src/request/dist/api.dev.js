@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postMsg = exports.getMsg = exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.postMsg = exports.getMsg = exports.seekNew = exports.getStoreAddress = exports.getStoreArea = exports.getStoreCity = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -307,10 +307,29 @@ exports.getRoad = getRoad;
 
 var getIMailBox = function getIMailBox(data) {
   return (0, _http["default"])("get", "/trade/mailbox", data);
-}; // 產品
+}; // 7-11
 
 
 exports.getIMailBox = getIMailBox;
+
+var getStoreCity = function getStoreCity() {
+  return (0, _http["default"])("get", "/Trade/store/city");
+};
+
+exports.getStoreCity = getStoreCity;
+
+var getStoreArea = function getStoreArea(data) {
+  return (0, _http["default"])("get", "/Trade/store/area", data);
+};
+
+exports.getStoreArea = getStoreArea;
+
+var getStoreAddress = function getStoreAddress(data) {
+  return (0, _http["default"])("get", "/Trade/store/address", data);
+}; // 產品
+
+
+exports.getStoreAddress = getStoreAddress;
 
 var seekNew = function seekNew(data) {
   return (0, _http["default"])("post", "/seek/new", data);
