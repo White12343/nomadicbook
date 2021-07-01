@@ -9,8 +9,25 @@
         md="6"
         lg="6"
       >
-        <h3 class="font-weight-bold">自己的書</h3>
-        <v-row align="center">
+        <!-- <h3 class="font-weight-bold">自己的書</h3> -->
+        <v-list>
+          <v-subheader>自己的書</v-subheader>
+          <v-list-item
+            v-for="(item, i) in selfInfo"
+            :key="i"
+            three-line
+            dense
+          >
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <!-- <v-row align="center">
           <v-col
             cols="12"
             sm="12"
@@ -18,53 +35,6 @@
             lg="4"
           >
             <BookCard :card-data="selfBook"/>
-            <v-dialog
-              v-model="consignmentCheck"
-              max-width="250"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  block
-                  color="primary"
-                  :disabled="matchData.seek.seekSend || isConsignmentClick"
-                  :loading="isConsignmentClick"
-                  v-if="!record"
-                  v-bind="attrs"
-                  v-on="on"
-                  class="mt-3"
-                >
-                  寄出
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="text-h5">
-                  注意
-                </v-card-title>
-                <v-card-text>
-                  請確認是否已寄出，確認後會通知對方您已寄出書籍。
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn
-                    color="grey darken-1"
-                    text
-                    @click="consignmentCheck = false"
-                  >
-                    取消
-                  </v-btn>
-
-                  <v-btn
-                    color="primary"
-                    text
-                    @click="consignment"
-                  >
-                    確認
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </v-col>
           <v-col
             cols="12"
@@ -90,7 +60,7 @@
               </v-list-item>
             </v-list>
           </v-col>
-        </v-row>
+        </v-row> -->
 
       </v-col>
 
@@ -101,9 +71,25 @@
         lg="6"
       >
 
-        <h3 class="font-weight-bold">對方的書</h3>
-
-        <v-row align="center">
+        <!-- <h3 class="font-weight-bold">對方的書</h3> -->
+        <v-list>
+          <v-subheader>對方的書</v-subheader>
+          <v-list-item
+            v-for="(item, i) in otherInfo"
+            :key="i"
+            three-line
+            dense
+          >
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <!-- <v-row align="center">
           <v-col
             cols="12"
             sm="12"
@@ -111,57 +97,6 @@
             lg="4"
           >
             <BookCard :card-data="otherSideBook"/>
-            <v-dialog
-              v-model="receiveCheck"
-              max-width="250"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  block
-                  color="primary"
-                  class="mt-3"
-                  :disabled="matchData.seek.seekReceive || isReceiveClick"
-                  :loading="isReceiveClick"
-                  v-if="!record"
-                  v-bind="attrs"
-                  v-on="on"
-
-                >
-                  收到
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="text-h5">
-                  收到書籍
-                </v-card-title>
-                <v-card-text>
-                  這次交易您還滿意嗎？
-                  <v-rating
-                    class="mt-3"
-                    v-model="evaluation"
-                    color="warning"
-                    background-color="warning"
-                    empty-icon="mdi-star-outline"
-                    half-icon="mdi-star-half"
-                    half-increments
-                    size="16"
-                    @input="receipt"
-                  ></v-rating>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn
-                    color="grey darken-1"
-                    text
-                    @click="receiveCheck = false"
-                  >
-                    取消
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </v-col>
           <v-col
             cols="12"
@@ -169,8 +104,7 @@
             md="8"
             lg="8"
           >
-            <v-list
-            >
+            <v-list>
               <v-list-item
                 v-for="(item, i) in otherInfo"
                 :key="i"
@@ -187,114 +121,9 @@
               </v-list-item>
             </v-list>
           </v-col>
-        </v-row>
+        </v-row> -->
       </v-col>
     </v-row>
-    <v-btn
-      fab
-      dark
-      small
-      color="primary"
-      @click.stop="openMessage"
-      v-if="!record"
-    >
-      <v-icon dark>
-        mdi-message-outline
-      </v-icon>
-    </v-btn>
-    <!-- 留言板 -->
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      right
-      temporary
-      hide-overlay
-      width="500"
-      :height="'100vh'"
-    >
-      <article class="message">
-        <header class="message__header px-3">
-          <v-card
-            elevation="0"
-          >
-            <v-card-title>
-              留言板
-            </v-card-title>
-
-            <v-card-text>
-              <v-textarea
-                outlined
-                name="input-7-4"
-                label="留言"
-                v-model="value"
-                hide-details
-              ></v-textarea>
-            </v-card-text>
-            <v-card-actions class="message__btn mb-3 mr-2">
-              <v-btn
-                text
-                @click="resetMsg"
-              >
-                取消
-              </v-btn>
-
-              <v-btn
-                color="primary"
-                @click="sentMsg"
-                :disabled="isSentMsg"
-                :loading="isSentMsg"
-              >
-                送出
-              </v-btn>
-            </v-card-actions>
-
-          </v-card>
-        </header>
-        <v-divider></v-divider>
-        <div class="message__body" v-if="message.length">
-          <v-card
-            v-for="item, index in message"
-            :key="index"
-            elevation="0"
-          >
-            <v-card-title class="mb-3">
-              <v-avatar
-                color="primary"
-                size="32"
-                class="mr-3"
-              >
-                <v-img
-                  class="elevation-6"
-                  alt=""
-                  :src="`http://35.236.167.85/photo/${item.userPhoto}.jpg`"
-                ></v-img>
-              </v-avatar>
-              {{item.userName}}
-            </v-card-title>
-            <v-card-subtitle>
-              {{item.messageTime}}
-            </v-card-subtitle>
-
-            <v-card-text class="text-body-1 text--primary">
-              {{item.message}}
-              <v-divider v-if="index < message.length - 1" class="mt-3"></v-divider>
-            </v-card-text>
-          </v-card>
-        </div>
-        <div class="message__body" v-else>
-          <v-card
-            elevation="0"
-          >
-            <v-card-subtitle class="text-center">
-              目前還沒有留言喔
-            </v-card-subtitle>
-          </v-card>
-        </div>
-
-
-      </article>
-
-    </v-navigation-drawer>
 
   </article>
 
@@ -308,33 +137,13 @@ export default {
   inject: ['reload'],
   props: {
     matchData: Object,
-    record: {
-      type: Boolean,
-      default: false,
-      require: false,
-    }
   },
   data() {
     return {
-      consignmentCheck: false,
-      receiveCheck: false,
-      evaluation: 0,
-      isConsignmentClick: false,
-      isReceiveClick: false,
-      drawer: false,
-      group: null,
-      message: [],
-      value: '',
-      isSentMsg: false,
     }
   },
   components: {
     BookCard,
-  },
-  watch: {
-    group () {
-      this.drawer = false
-    },
   },
   computed: {
     selfBook() {
@@ -436,87 +245,6 @@ export default {
 
   },
   methods: {
-    consignment() {
-      this.isConsignmentClick = true;
-      this.consignmentCheck = false;
-      putConsignment(this.matchData.seekId, this.$cookies.get('user').id)
-        .then(res => {
-          this.reload();
-          this.isConsignmentClick = false;
-        })
-        .catch(error => {
-          console.log(error);
-          this.isConsignmentClick = false;
-          alert('失敗');
-        })
-
-    },
-    receipt() {
-      this.receiveCheck = false;
-      this.isReceiveClick = true;
-      const data = {
-        userId: this.$cookies.get('user').id,
-        evaluation: this.evaluation,
-      }
-      rating(this.matchData.seekId, data)
-        .then(res => {
-          putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
-            .then(res => {
-              this.isReceiveClick = false;
-              this.reload();
-            })
-            .catch(error => {
-              console.log(error);
-              this.isReceiveClick = false;
-              alert('失敗');
-            })
-        })
-        .catch(error => {
-          console.log(error);
-        })
-
-    },
-    openMessage() {
-      this.drawer = !this.drawer;
-      getMsg(this.matchData.seekId)
-        .then(res => {
-          this.message = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    },
-    resetMsg() {
-      this.value = '';
-    },
-    sentMsg() {
-      if(!this.value){
-        return;
-      }
-      this.isSentMsg = true;
-      const data = {
-        seekId: this.matchData.seekId,
-        userId: this.matchData.seek.seekUserId,
-        message: this.value,
-      }
-      postMsg(data)
-        .then(res => {
-          console.log(res);
-          this.isSentMsg = false;
-          this.resetMsg();
-          getMsg(this.matchData.seekId)
-          .then(res => {
-            this.message = res.data;
-          })
-          .catch(error => {
-            console.log(error);
-          })
-        })
-        .catch(error => {
-          this.isSentMsg = false;
-          console.log(error);
-        })
-    }
 
   }
 }
@@ -529,6 +257,4 @@ export default {
 .message
   &__body
     padding 0 1em
-  &__btn
-    justify-content flex-end
 </style>

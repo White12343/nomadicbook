@@ -2,17 +2,19 @@
   <div>
 
     <v-btn
-      fab
       dark
-      small
+      outlined
       color="primary"
       @click.stop="openMessage"
     >
-      <v-icon dark>
+      <!-- <v-icon dark>
         mdi-message-outline
-      </v-icon>
+      </v-icon> -->
+      留言版
     </v-btn>
     <!-- 留言板 -->
+    <v-overlay :value="drawer" z-index="7"></v-overlay>
+
     <v-navigation-drawer
       v-model="drawer"
       fixed
@@ -28,6 +30,9 @@
             elevation="0"
           >
             <v-card-title>
+              <!-- <v-row>
+
+              </v-row> -->
               留言板
             </v-card-title>
 
@@ -38,6 +43,8 @@
                 label="留言"
                 v-model="value"
                 hide-details
+                @change.stop
+                @click.stop
               ></v-textarea>
             </v-card-text>
             <v-card-actions class="message__btn mb-3 mr-2">
@@ -50,7 +57,7 @@
 
               <v-btn
                 color="primary"
-                @click="sentMsg"
+                @click.stop="sentMsg"
                 :disabled="isSentMsg"
                 :loading="isSentMsg"
               >
@@ -66,6 +73,7 @@
             v-for="item, index in message"
             :key="index"
             elevation="0"
+            class="text-left"
           >
             <v-card-title class="mb-3">
               <v-avatar
@@ -172,6 +180,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+.message
+  z-index 10 !important
+  &__btn
+    justify-content flex-end
 
 </style>

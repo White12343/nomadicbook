@@ -741,7 +741,7 @@ export default {
             this.isISBNBtnClick = false;
           })
           .catch(error => {
-            alert('取得失敗，請確認是否有輸入正確 ISBN');
+            alert('系統忙碌中，請稍後再試。');
             console.log(error);
             this.isISBNBtnClick = false;
           })

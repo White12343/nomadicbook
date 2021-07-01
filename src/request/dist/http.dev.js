@@ -21,7 +21,6 @@ _vue["default"].use(_vueCookies["default"]);
 
 var API_PATH = '/api';
 var PROD_PATH = process.env.API_ROOT;
-var LOACL_PATH = '/static/';
 var headerConfig = {};
 
 if ($cookies.get('user')) {
@@ -35,7 +34,7 @@ if ($cookies.get('user')) {
 
 
 var instance = _axios["default"].create({
-  baseURL: API_PATH,
+  baseURL: PROD_PATH,
   // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
   headers: headerConfig,
   timeout: 20000

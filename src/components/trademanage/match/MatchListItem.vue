@@ -1,6 +1,6 @@
 <template>
-  <div><Message :seekId="matchData.seekId" :userId="matchData.seek.seekUserId"/>
-    <v-expansion-panel-header>
+  <div>
+    <div class="match-list-item__cntr">
       <v-row
         justify="center"
         align="center"
@@ -9,7 +9,7 @@
           cols="12"
           lg="5"
         >
-          <v-row align="center">
+          <v-row>
             <v-col
               cols="12"
               sm="5"
@@ -21,7 +21,7 @@
                 max-width="150"
                 :src="`http://35.236.167.85/photo/${matchData.seek.seekBookPhoto}.jpg`"
               ></v-img>
-              <ConsignmentBtn :isSent="matchData.seek.seekSend" :seekId="matchData.seekId"/>
+              <ConsignmentBtn v-if="!hideBtn" :isSent="matchData.seek.seekSend" :seekId="matchData.seekId"/>
             </v-col>
 
             <v-col
@@ -73,14 +73,14 @@
           >
             mdi-arrow-left-right-bold
           </v-icon>
-
+          <Message class="btn" :seekId="matchData.seekId" :userId="matchData.seek.seekUserId"/>
         </v-col>
 
         <v-col
           cols="12"
           lg="5"
         >
-          <v-row align="center">
+          <v-row>
             <v-col
               cols="12"
               sm="5"
@@ -92,7 +92,7 @@
                 max-width="150"
                 :src="`http://35.236.167.85/photo/${matchData.seeked.seekBookPhoto}.jpg`"
               ></v-img>
-              <ReceiveBtn :isSent="matchData.seek.seekReceive" :seekId="matchData.seekId"/>
+              <ReceiveBtn v-if="!hideBtn" :isSent="matchData.seek.seekReceive" :seekId="matchData.seekId"/>
             </v-col>
 
             <v-col
@@ -132,13 +132,16 @@
           </v-row>
         </v-col>
       </v-row>
-
+    </div>
+    <v-expansion-panel-header expand-icon="mdi-menu-down">
+      <v-subheader class="match-list-item__more-tit">查看詳情</v-subheader>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <h3 class="match-list__tit mt-3 ml-4">詳細交易資訊</h3>
+      <h3 class="text-h5 font-weight-bold mt-3 ml-4 mb-1">詳細交易資訊</h3>
       <v-divider></v-divider>
-      <Match :match-data="matchData" :record="true"/>
+      <Match :match-data="matchData"/>
     </v-expansion-panel-content>
+
   </div>
 </template>
 
@@ -155,6 +158,11 @@ export default {
       type: Object,
       default: [],
     },
+    hideBtn: {
+      type: Boolean,
+      default: false,
+      require: false,
+    }
   },
   data() {
     return {
@@ -183,5 +191,12 @@ export default {
     color $text-secondary
   &__cntr
     line-height 1.7
+
+.match-list-item
+  &__cntr
+    padding 2em
+  &__more-tit
+    height auto
+    justify-content flex-end
 </style>
 
