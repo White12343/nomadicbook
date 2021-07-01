@@ -2,20 +2,25 @@
   <article class="exp-card">
     <v-row
       justify="center"
-
     >
       <v-col
         cols="12"
+        sm="3"
+        md="3"
         lg="3"
       >
         <BookCard
+          :photoHeight="'280px'"
           :card-data="cardData"
           class="ml-3"
         />
       </v-col>
       <v-col
         cols="12"
+        sm="9"
+        md="9"
         lg="9"
+        class="mt-6"
       >
         <h3 class="exp__book-name text-h5">
           <router-link class="exp__link" :to="{
@@ -50,6 +55,8 @@ export default {
 </script>
 
 <style lang="stylus">
+.exp-card
+  width 100%
 .exp__link
   color $dark !important
   &:hover

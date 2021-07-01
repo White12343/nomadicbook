@@ -30,6 +30,53 @@
         autocomplete
       ></v-text-field>
       <router-link class="signin__link" to="/login/forget">忘記密碼？</router-link>
+      <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <!-- <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            block
+            :disabled="!valid"
+            color="primary"
+            class="my-4"
+            v-bind="attrs"
+            v-on="on"
+            @click="signIn"
+          >
+            登入
+          </v-btn>
+        </template> -->
+        <v-card>
+          <v-card-title class="text-h5">
+            系統訊息
+          </v-card-title>
+          <v-card-text>{{errorMsg}}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              v-if="errorCode === 403"
+              @click="dialog = false"
+            >
+              取消
+            </v-btn>
+            <v-btn
+              v-if="errorCode === 403"
+              color="primary"
+              @click="sentMail"
+            >
+              發送驗證信
+            </v-btn>
+            <v-btn
+              v-if="errorCode === 404"
+              color="primary"
+              @click="dialog = false"
+            >
+              確認
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-btn
         block
         :disabled="!valid"
@@ -53,6 +100,9 @@ export default {
   inject: ['reload'],
   data() {
     return {
+      dialog: false,
+      errorMsg: '',
+      errorCode: 0,
       show: false,
       rules: [
         v => !!v || '此為必填欄位',
@@ -117,10 +167,24 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
-          alert('登入失敗，請確認帳號密碼後重試。');
+          this.dialog = true;
+          this.errorCode = error.response.status;
+          switch(error.response.status) {
+            case 403:
+              this.errorMsg = '此帳號尚未驗證通過，請前往驗證。'
+              break;
+            case 404:
+              this.errorMsg = '查無此帳號，請確認後重試。'
+              break;
+          }
           this.resetValidation();
         })
+    },
+    // 發送驗證信
+    sentMail() {
+      console.log(this.mail);
+      this.dialog = false;
+
     },
     validate () {
       this.$refs.form.validate()
@@ -137,8 +201,6 @@ export default {
 
 <style lang="stylus" scoped>
 .signin
-
-
   &__signup-link
     color $paragraph-dark
     margin-top 1em

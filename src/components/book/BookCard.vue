@@ -23,7 +23,7 @@
           id: cardData.bookId,
         }
       }">
-      <figure class="card__inner">
+      <figure class="card__inner" :style="{'height': photoHeight}">
         <img :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg` || defaultImg" :alt="cardData.name" class="card__img img-resp">
       </figure>
     </router-link>
@@ -34,7 +34,15 @@
 <script>
 export default {
   name: 'BookCard',
-  props: ['cardData'],
+  props: ['cardData', 'photoHeight'],
+  props: {
+    cardData: Object,
+    photoHeight: {
+      type: String,
+      default: '200px',
+      require: false,
+    }
+  },
   data() {
     return {
       rating: 4.5,

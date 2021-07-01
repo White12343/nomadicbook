@@ -81,6 +81,42 @@
         @click:append="show2 = !show2"
         autocomplete
       ></v-text-field>
+      <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            系統訊息
+          </v-card-title>
+          <v-card-text>{{systemMsg}}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <!-- <v-btn
+              v-if="systemCode === 200"
+              @click="dialog = false"
+            >
+              取消
+            </v-btn> -->
+            <v-btn
+              v-if="systemCode === 200"
+              color="primary"
+              :to="{
+                name: 'SignIn',
+              }"
+            >
+              前往登入
+            </v-btn>
+            <v-btn
+              v-else
+              color="primary"
+              @click="dialog = false"
+            >
+              確認
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-btn
         block
         :disabled="!valid"
@@ -103,6 +139,9 @@ export default {
   name: 'SignUp',
   data() {
     return {
+      dialog: false,
+      systemCode: 0,
+      systemMsg: '',
       show1: false,
       show2: false,
       rules: [
@@ -176,11 +215,15 @@ export default {
       }
       userSignUp(signUpData)
         .then(res => {
-          alert('註冊成功');
-          this.$router.push('/login/signin');
+          this.dialog = true;
+          this.systemCode = 200;
+          this.systemMsg = '註冊成功，請到信箱收取驗證信'
+          // this.$router.push('/login/signin');
         })
         .catch(error => {
-          alert('註冊失敗');
+          this.dialog = true;
+          this.systemCode = 404;
+          this.systemMsg = '註冊失敗'
         })
     },
     checkNickNameIsRepeat() {

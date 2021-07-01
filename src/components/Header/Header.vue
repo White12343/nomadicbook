@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header class="header__main">
-      <v-container>
+      <div class="header__base">
         <v-row justify="space-between" align="center">
           <v-col col="12" lg="3">
             <h1 class="header__tit fs-1">
@@ -41,7 +41,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      class="mx-2"
+                      class="ml-4"
                       fab
                       dark
                       text
@@ -87,7 +87,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      class="mx-2"
+                      class="ml-4"
                       fab
                       dark
                       text
@@ -131,14 +131,33 @@
                   </template>
                 </v-menu>
               </div>
-              <div class="header__signin-btn" v-else>
-                <router-link class="header__link header__nav-item nav__link" to="/login/signin">登入</router-link>
-                <router-link class="header__link header__nav-item nav__link" to="/login/signup">註冊</router-link>
+              <div class="header__signin-btn d-flex align-center justify-end" v-else>
+                <!-- <router-link class="header__link header__nav-item nav__link" to="/login/signin">登入</router-link> -->
+                <!-- <router-link class="header__link header__nav-item nav__link" to="/login/signup">註冊</router-link> -->
+                <v-btn
+                  dark
+                  text
+                  class="ml-4"
+                  :to="{
+                    name: 'SignIn'
+                  }"
+                >
+                  登入
+                </v-btn><v-btn
+                  dark
+                  text
+                  class="ml-4"
+                  :to="{
+                    name: 'SignUp'
+                  }"
+                >
+                  註冊
+                </v-btn>
               </div>
             </nav>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </header>
     <!-- <Nav /> -->
     <Menu></Menu>
@@ -274,12 +293,11 @@ export default {
   &__main
     background-color $primary
 
+
   &__base
-    padding-top 6px
-    padding-bottom 6px
-    display flex
-    justify-content space-between
-    align-items center
+    max-width 1200px
+    margin 0 auto
+    padding .6em 0
 
   &__nav
     &-item

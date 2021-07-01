@@ -1,6 +1,6 @@
 <template>
   <article class="ask-card">
-    <BookCard :card-data="bookData"/>
+    <BookCard :card-data="bookData" :photoHeight="'280px'"/>
     <div class="ask-card__desc mb-3">
       <ul>
         <li><small>{{askData.seekDate}}</small></li>

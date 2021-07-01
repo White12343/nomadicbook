@@ -22,7 +22,7 @@
     </div>
 
     <div class="detail__cntr">
-      <NewBook :no-header="true"/>
+      <NewBook :no-header="true" :photoHeight="'280px'"/>
     </div>
   </section>
 </template>

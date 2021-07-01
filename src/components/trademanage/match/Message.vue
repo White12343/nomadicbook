@@ -5,7 +5,7 @@
       dark
       outlined
       color="primary"
-      @click.stop="openMessage"
+      @click="openMessage"
     >
       <!-- <v-icon dark>
         mdi-message-outline
@@ -43,8 +43,6 @@
                 label="留言"
                 v-model="value"
                 hide-details
-                @change.stop
-                @click.stop
               ></v-textarea>
             </v-card-text>
             <v-card-actions class="message__btn mb-3 mr-2">
