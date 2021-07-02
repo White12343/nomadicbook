@@ -8,10 +8,10 @@
     </header>
     <v-carousel
       cycle
-      height="400"
+      height="415"
       hide-delimiter-background
       show-arrows-on-hover
-      interval="100000"
+      interval="10000"
       hide-delimiters
     >
       <v-carousel-item

@@ -17,7 +17,7 @@
     </div>
     <div class="detail__cntr">
       <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.condition" />
-      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
+      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="replaceIntroduction" />
 
     </div>
 
@@ -75,6 +75,17 @@ export default {
 
 
 
+  },
+  computed: {
+    replaceIntroduction() {
+
+      let str = '';
+      if(this.bookDesc.introduction) {
+        str = this.bookDesc.introduction.replace(/\n/g, '<br>')
+      }
+      return str;
+
+    }
   },
   watch: {
     $route(to) {

@@ -228,12 +228,13 @@
             </v-col>
           </v-row>
           <!-- 簡介 -->
-          <v-textarea
+          <!-- <v-textarea
             name="input-7-1"
             id="Introduction"
             label="簡介(選填)"
             v-model="uploadData.Introduction"
-          ></v-textarea>
+          ></v-textarea> -->
+          <Editor v-model="uploadData.Introduction"/>
           <!-- 心得 -->
           <v-textarea
             name="input-7-1"
@@ -362,6 +363,7 @@ import SelectImg from '@/components/member/uploadpd/form/SelectImg';
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
 import StoreSelect from '@/components/member/uploadpd/form/StoreSelect';
+import Editor from '@/components/tools/Editor';
 import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
@@ -400,7 +402,6 @@ export default {
         v => !!v || '此為必填欄位',
         v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
       ],
-
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -532,7 +533,7 @@ export default {
           this.categoryBelong(res.data.categoryId);
           this.condition = res.data.conditionNum;
           this.experience = res.data.experience;
-          this.uploadData.Introduction = res.data.introduction;
+          this.uploadData.Introduction = this.replaceIntroduction(res.data.introduction);
           this.uploadData.ISBN = res.data.isbn;
           this.uploadData.PublishingHouse = res.data.publishingHouse;
           this.conditionValue = res.data.condition.split(',');
@@ -731,7 +732,6 @@ export default {
       this.mailBox.name = val.Name;
 
     },
-
     getStoreAddress(val) {
       this.store.address = val.Address;
       this.store.name = val.Name;
@@ -745,17 +745,18 @@ export default {
           isbn: this.uploadData.ISBN,
         })
           .then(res => {
+            console.log(res);
             vm.uploadData.Author = res.data.author;
             vm.uploadData.BookHigh = res.data.bookHigh;
             vm.uploadData.BookLong = res.data.bookLong;
             vm.uploadData.BookWidth = res.data.bookWidth;
             vm.uploadData.BookName = res.data.bookName;
-            this.categoryBelong(res.data.categoryId)
-            vm.uploadData.Introduction = res.data.introduction;
+            vm.categoryBelong(res.data.categoryId)
+            vm.uploadData.Introduction = vm.replaceIntroduction(res.data.introduction);
             let publishDate = res.data.publishDate.split('/');
             vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
             vm.uploadData.PublishingHouse = res.data.publishingHouse;
-            this.isISBNBtnClick = false;
+            vm.isISBNBtnClick = false;
           })
           .catch(error => {
             alert('系統忙碌中，請稍後再試。');
@@ -832,6 +833,13 @@ export default {
         .catch(error => {
           console.log(error);
         })
+    },
+    replaceIntroduction(introduction) {
+      let str = introduction
+        .replace(/div/g, '')
+        // .replace(/&nbsp;/g, '')
+      return str;
+
     }
 
 
@@ -841,6 +849,7 @@ export default {
     AddressSelect,
     IMailBoxSelect,
     StoreSelect,
+    Editor,
   }
 }
 </script>
