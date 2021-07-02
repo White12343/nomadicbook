@@ -73,6 +73,7 @@ export default {
     display block
     margin-left auto
     margin-right auto
+    height 100%
 
   &__header
     margin-top 1em

@@ -8,12 +8,24 @@
         sm="3"
         md="3"
         lg="3"
+        class="align-self-center"
       >
-        <BookCard
+        <!-- <BookCard
           :photoHeight="'280px'"
           :card-data="cardData"
           class="ml-3"
-        />
+        /> -->
+        <router-link :to="{
+          name: 'Detail',
+          params: {
+            id: cardData.bookId,
+          }
+        }">
+          <v-img
+            :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg`"
+          ></v-img>
+        </router-link>
+
       </v-col>
       <v-col
         cols="12"
@@ -51,14 +63,20 @@ export default {
   components: {
     BookCard,
   },
+  created() {
+    console.log(this.cardData);
+  }
 }
 </script>
 
 <style lang="stylus">
 .exp-card
   width 100%
-.exp__link
-  color $dark !important
-  &:hover
-    text-decoration underline
+.exp
+  &__link
+    color $dark !important
+    &:hover
+      text-decoration underline
+  &__desc
+    textHiding(9)
 </style>

@@ -58,22 +58,18 @@
                     <v-list-item
                       v-for="(item, index) in items"
                       :key="index"
+                      :to="item.path"
                     >
                       <v-list-item-title>
-                        <router-link :to="item.path">
-                          {{ item.title }}
-                        </router-link>
+                        {{ item.title }}
                       </v-list-item-title>
                     </v-list-item>
                     <!-- 登出 -->
-                    <v-list-item>
+                    <v-list-item
+                      @click.prevent="signOut"
+                    >
                       <v-list-item-title>
-                        <a
-                          href="#"
-                          @click.prevent="signOut"
-                        >
                           登出
-                        </a>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -84,6 +80,7 @@
                   offset-y
                   left
                   color="white"
+                  max-height="530"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -108,9 +105,15 @@
                     </v-btn>
                   </template>
                   <template>
-                    <v-list width="500">
-                      <v-list-item-title class="ml-3 text-h6">
-                        通知
+                    <v-list
+                      width="500"
+                    >
+                      <v-list-item-title class="ml-4 text-h6">
+
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-3">mdi-bell</v-icon>
+                          通知
+                        </div>
                       </v-list-item-title>
                       <v-divider></v-divider>
                       <template v-for="(item, index) in notifications">
@@ -118,9 +121,12 @@
                         <v-list-item
                           :key="index"
                         >
-                          <v-list-item-title>
-                            {{item.notify}}
-                          </v-list-item-title>
+                          <v-list-item-content>
+                            <div class="d-flex align-center">
+                              <v-icon class="mr-3">mdi-alert-circle-outline</v-icon>
+                              {{item.notify}}
+                            </div>
+                          </v-list-item-content>
                         </v-list-item>
                         <v-divider
                           v-if="index < notifications.length - 1"
@@ -132,8 +138,6 @@
                 </v-menu>
               </div>
               <div class="header__signin-btn d-flex align-center justify-end" v-else>
-                <!-- <router-link class="header__link header__nav-item nav__link" to="/login/signin">登入</router-link> -->
-                <!-- <router-link class="header__link header__nav-item nav__link" to="/login/signup">註冊</router-link> -->
                 <v-btn
                   dark
                   text
@@ -173,22 +177,6 @@ export default {
   name: 'Header',
   data () {
     return {
-
-      items: [
-        {
-          title: '攤位頁',
-          path: {
-            name: 'Booth',
-            params: {
-              id: '',
-            }
-          },
-        },
-        {
-          title: '交易管理',
-          path: '/manage/seek',
-        },
-      ],
       notifications: [],
       notifyNum: 0,
       keyWord: '',
@@ -196,42 +184,39 @@ export default {
   },
   created() {
     if(this.user) {
-      this.items[0].path.params.id = this.user.id;
       getNotifyNum(this.user.id)
         .then(res => {
           this.notifyNum = parseInt(res.data);
         })
         .catch(error => {
-          console.log(error.response);
+          // console.log(error.response);
         })
 
       this.getNotifyNumTimer();
-      // getNotifyNum(this.user.id)
-      //   .then(res => {
-      //     this.notifyNum = parseInt(res.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   })
     }
-  },
-  updated() {
-    // if(this.user) {
-    //   this.items[0].path.params.id = this.user.id;
-    //   getNotifyNum(this.user.id)
-    //     .then(res => {
-    //       this.notifyNum = parseInt(res.data);
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     })
-    // }
   },
   computed: {
     ...mapState([
       'isLogin',
       'user',
     ]),
+    items() {
+      return [
+        {
+          title: '攤位頁',
+          path: {
+            name: 'Booth',
+            params: {
+              id: this.user.id,
+            }
+          },
+        },
+        {
+          title: '交易管理',
+          path: '/manage/seek',
+        },
+      ]
+    }
   },
   methods: {
     signOut() {
@@ -273,7 +258,7 @@ export default {
             this.notifyNum = parseInt(res.data);
           })
           .catch(error => {
-            console.log(error.response);
+            // console.log(error.response);
           })
       }, 60000);
     }
@@ -321,5 +306,7 @@ export default {
     border-radius 3px
     color #f4f2eb
     cursor pointer
+.notify
+  background-color #fff !important
 
 </style>

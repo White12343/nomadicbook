@@ -16,6 +16,7 @@
           class="d-block my-6"
         >
           <img
+            class="img-resp"
             :src="this.preview || userPhoto || defaultPhoto"
             alt="大頭貼"
           >

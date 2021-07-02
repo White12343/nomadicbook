@@ -43,6 +43,7 @@
                 label="留言"
                 v-model="value"
                 hide-details
+                maxlength="2000"
               ></v-textarea>
             </v-card-text>
             <v-card-actions class="message__btn mb-3 mr-2">
@@ -131,6 +132,28 @@ export default {
     group () {
       this.drawer = false
     },
+  },
+  //新增監聽器
+  filters: {
+    ellipsis(value) {
+        const len = 8;
+        if (!value) return "";
+        if (value.length > len) {
+            return value.slice(0, len) + "...";
+        }
+        return value;
+    }
+  },
+  created() {
+    this.timeOutRefresh = window.setInterval(() => {
+      getMsg(this.seekId)
+        .then(res => {
+          this.message = res.data;
+        })
+        .catch(error => {
+          // console.log(error);
+        })
+    }, 10000);
   },
   methods: {
     openMessage() {

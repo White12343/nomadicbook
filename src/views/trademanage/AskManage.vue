@@ -1,7 +1,16 @@
 <template>
   <section class="ask-manage mt-6">
-    <div class="ask-manage__cntr">
-      <v-row>
+    <!-- <v-overlay :value="isLoading" z-index="0"></v-overlay> -->
+    <div class="text-center" v-if="isLoading">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <div class="ask-manage__cntr" v-else>
+      <v-row v-if="askData.length">
         <v-col
           v-for="(item, index) in askData"
           :key="index"
@@ -13,6 +22,7 @@
           <AskCard class="ask-manage__item" :ask-data="item" />
         </v-col>
       </v-row>
+      <v-subheader v-else>目前還沒有人徵求</v-subheader>
 
     </div>
 
@@ -31,6 +41,7 @@ export default {
     return {
       askData: [],
       isOpenPopup: false,
+      isLoading: true,
     }
   },
   components: {
@@ -41,9 +52,11 @@ export default {
     getAskBookList(this.$cookies.get('user').id)
       .then(res => {
         vm.askData = res.data;
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
+        this.isLoading = false;
       })
 
   }

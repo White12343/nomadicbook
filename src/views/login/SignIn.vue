@@ -28,6 +28,7 @@
         hint="密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符"
         @click:append="show = !show"
         autocomplete
+        @keypress.enter="signIn"
       ></v-text-field>
       <router-link class="signin__link" to="/login/forget">忘記密碼？</router-link>
       <v-dialog
@@ -174,7 +175,7 @@ export default {
               this.errorMsg = '此帳號尚未驗證通過，請前往驗證。'
               break;
             case 404:
-              this.errorMsg = '查無此帳號，請確認後重試。'
+              this.errorMsg = '帳號密碼有誤，請確認後重試。'
               break;
           }
           this.resetValidation();

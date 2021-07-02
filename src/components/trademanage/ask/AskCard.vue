@@ -53,9 +53,9 @@
                 </template>
 
                 <v-card
-                  class="overflow-hidden"
+                  class="stall overflow-hidden"
                 >
-                  <v-card-title class="text-h5 grey lighten-2">
+                  <v-card-title class="stall__header text-h5 grey lighten-2">
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                     對方攤位
                   </v-card-title>
@@ -156,7 +156,7 @@ export default {
       dialog: false,
       pdData: [],
       pdDetail: {},
-      drawer: false,
+      drawer: true,
       isClickRefusal: false,
     }
   },
@@ -258,6 +258,12 @@ export default {
 </script>
 
 <style lang="stylus">
-
+// .stall
+//   position relative !important
+//   &__header
+//     position fixed
+//     top 0
+//     left 0
+//     right 0
 
 </style>

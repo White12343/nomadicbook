@@ -1,6 +1,16 @@
 <template>
   <section class="record">
-    <MatchList v-if="records.length" :match-data="records" :hideBtn="true"/>
+    <div class="text-center" v-if="isLoading">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <div v-else>
+      <MatchList v-if="records.length" :match-data="records" :hideBtn="true"/>
+    </div>
   </section>
 </template>
 
@@ -12,15 +22,17 @@ export default {
   name: 'Record',
   data: () => ({
     records: [],
+    isLoading: true,
   }),
   created() {
     getRecord(this.$cookies.get('user').id)
       .then(res => {
         this.records = res.data;
-        console.log(res);
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
+        this.isLoading = false;
       })
   },
   components: {

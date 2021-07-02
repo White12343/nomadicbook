@@ -836,7 +836,7 @@ export default {
     },
     replaceIntroduction(introduction) {
       let str = introduction
-        .replace(/div/g, '')
+        .replace(/div/g, 'p')
         // .replace(/&nbsp;/g, '')
       return str;
 

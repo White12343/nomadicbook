@@ -15,13 +15,25 @@
               sm="5"
               md="5"
               lg="5"
+              class="d-flex justify-space-between flex-column"
             >
-              <v-img
-                class="mx-auto"
-                max-width="150"
-                :src="`http://35.236.167.85/photo/${matchData.seek.seekBookPhoto}.jpg`"
-              ></v-img>
-              <ConsignmentBtn v-if="!hideBtn" :isSent="matchData.seek.seekSend" :seekId="matchData.seekId"/>
+              <router-link :to="{
+                name: 'Detail',
+                params: {
+                  id: matchData.seek.seekBookId,
+                }
+              }">
+                <v-img
+                  class="mx-auto"
+                  :src="`http://35.236.167.85/photo/${matchData.seek.seekBookPhoto}.jpg`"
+                ></v-img>
+              </router-link>
+              <ConsignmentBtn
+
+                v-if="!hideBtn"
+                :isSent="matchData.seek.seekSend"
+                :seekId="matchData.seekId"
+              />
             </v-col>
 
             <v-col
@@ -32,7 +44,15 @@
             >
               <article class="match-list__cntr">
                 <header class="match-list__heaer">
-                  <h3 class="match-list__tit">{{matchData.seek.seekBookName}}</h3>
+                  <router-link class="match-list__link" :to="{
+                    name: 'Detail',
+                    params: {
+                      id: matchData.seek.seekBookId,
+                    }
+                  }">
+                    <h3 class="match-list__tit">{{matchData.seek.seekBookName}}</h3>
+                  </router-link>
+
                   <h4 class="match-list__subtit">{{matchData.seek.seekAuthor}}</h4>
                 </header>
                 <div class="d-flex align-center">
@@ -86,12 +106,19 @@
               sm="5"
               md="5"
               lg="5"
+              class="d-flex justify-space-between flex-column"
             >
-              <v-img
-                class="mx-auto"
-                max-width="150"
-                :src="`http://35.236.167.85/photo/${matchData.seeked.seekBookPhoto}.jpg`"
-              ></v-img>
+              <router-link :to="{
+                name: 'Detail',
+                params: {
+                  id: matchData.seeked.seekBookId,
+                }
+              }">
+                <v-img
+                  class="mx-auto"
+                  :src="`http://35.236.167.85/photo/${matchData.seeked.seekBookPhoto}.jpg`"
+                ></v-img>
+              </router-link>
               <ReceiveBtn v-if="!hideBtn" :isSent="matchData.seek.seekReceive" :seekId="matchData.seekId"/>
             </v-col>
 
@@ -103,7 +130,15 @@
             >
               <article class="match-list__cntr">
                 <header class="match-list__heaer">
-                  <h3 class="match-list__tit">{{matchData.seeked.seekBookName}}</h3>
+                  <router-link class="match-list__link" :to="{
+                    name: 'Detail',
+                    params: {
+                      id: matchData.seeked.seekBookId,
+                    }
+                  }">
+                    <h3 class="match-list__tit">{{matchData.seeked.seekBookName}}</h3>
+                  </router-link>
+
                   <h4 class="match-list__subtit">{{matchData.seeked.seekAuthor}}</h4>
                 </header>
                 <div class="d-flex align-center">
@@ -191,6 +226,10 @@ export default {
     color $text-secondary
   &__cntr
     line-height 1.7
+  &__link
+    color #000 !important
+    &:hover
+      text-decoration underline
 
 .match-list-item
   &__cntr

@@ -1,8 +1,17 @@
 <template>
   <section class="seek-manage mt-6">
+    <!-- <v-overlay :value="isLoading" z-index="0"></v-overlay> -->
+    <div class="text-center" v-if="isLoading">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
     <!-- 顯示自己對對方要求交換的書，連結到對方產品頁 -->
-    <div class="seek-manage__cntr">
-      <v-row>
+    <div class="seek-manage__cntr" v-else>
+      <v-row v-if="pdData.length">
         <v-col
           v-for="(item, key) in pdData"
           :key="key"
@@ -14,6 +23,7 @@
           <SeekCard class="seek-manage__item" :seekData="item" />
         </v-col>
       </v-row>
+      <v-subheader v-else>目前還沒有提出徵求</v-subheader>
 
     </div>
 
@@ -29,6 +39,7 @@ export default {
   data() {
     return {
       pdData: [],
+      isLoading: true,
     }
   },
   components: {
@@ -39,9 +50,11 @@ export default {
     getSeekBookList(this.$cookies.get('user').id)
       .then(res => {
         vm.pdData = res.data;
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
+        this.isLoading = false;
       })
   },
 }
