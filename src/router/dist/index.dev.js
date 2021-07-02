@@ -66,6 +66,12 @@ _vueRouter["default"].prototype.push = function push(location) {
 
 var router = new _vueRouter["default"]({
   // mode: 'history',
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    };
+  },
   routes: [{
     path: '/',
     name: 'Home',

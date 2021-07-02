@@ -97,6 +97,7 @@
             <v-pagination
               v-model="page"
               :length="getPage"
+              @input="goPage"
             ></v-pagination>
           </div>
         </v-col>
@@ -257,8 +258,11 @@ export default {
         .catch(error => {
           console.log(error);
         })
-    }else {
+    }else{
       this.getBookListData(this.category);
+      if(this.$route.query.page) {
+        this.page = parseInt(this.$route.query.page);
+      }
     }
     this.manu.forEach(item => {
       getCategory({
@@ -299,6 +303,14 @@ export default {
         max = this.total;
       }
       return this.filterList.filter((item, i) => i >= min && i <= max);
+    },
+    goPage() {
+      this.$router.push({
+        name: 'BookList',
+        query: {
+          page: this.page,
+        }
+      })
     }
   }
 }

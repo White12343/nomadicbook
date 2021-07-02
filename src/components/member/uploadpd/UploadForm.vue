@@ -5,7 +5,7 @@
       v-model="valid"
       lazy-validation
     >
-      <SelectImg class="upload-form__selectImg" @getImgFiles="getImgs"/>
+      <SelectImg class="upload-form__selectImg" @getImgFiles="getImgs" :limit="defaultPhoto.length"/>
       <!-- 預設圖片 -->
       <v-row>
         <v-col
@@ -263,25 +263,9 @@
               :rules="phoneRules"
               required
             ></v-text-field>
-            <!-- 預設交易資料 -->
-            <!-- <h3 class="upload-form__tit">預設交易方式</h3>
-            <div class="defaultTradeMode" v-if="delivery.address">
-              <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
-              <p class="defaultTradeMode__desc">{{delivery.address}}</p>
-            </div>
-            <div class="defaultTradeMode" v-if="getHomeAddress">
-              <h4 class="defaultTradeMode__tit">面交</h4>
-              <p class="defaultTradeMode__desc">{{getHomeAddress}}</p>
-            </div>
-            <div class="defaultTradeMode" v-if="getIMailAddressAll">
-              <h4 class="defaultTradeMode__tit">i 郵箱</h4>
-              <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
-            </div> -->
             <!-- 地址 -->
             <h3 class="upload-form__tit">交易方式</h3>
             <small class="red--text" v-if="isOpenTradeMode">請至少選擇一種交易方式</small>
-            <!-- <AddressSelect title="店到店" nameId="Store"/> -->
-
             <AddressSelect
               title="宅配 ( 郵寄、黑貓 )"
               nameId="Delivery"
@@ -677,6 +661,15 @@ export default {
           return;
         }
       // }
+      if(!this.condition) {
+        alert('請選擇新舊程度')
+      }
+      if(!this.uploadData.TrueName){
+        alert('請選擇填寫真實姓名(在交易達成後提供給對方交易資訊)')
+      }
+      if(!this.uploadData.CellphoneNumber){
+        alert('請選擇填寫手機號碼(在交易達成後提供給對方交易資訊)')
+      }
       if(!this.$refs.form.validate()){
         return;
       }
@@ -700,6 +693,12 @@ export default {
           return;
         }
       // }
+      if(!this.uploadData.TrueName){
+        alert('請選擇填寫真實姓名(在交易達成後提供給對方交易資訊)')
+      }
+      if(!this.uploadData.CellphoneNumber){
+        alert('請選擇填寫手機號碼(在交易達成後提供給對方交易資訊)')
+      }
       if(!this.$refs.form.validate()){
         return;
       }
@@ -712,6 +711,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          console.log(this.uploadData.BookPhoto);
           alert('資料未修改');
           this.isUpload = false;
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
