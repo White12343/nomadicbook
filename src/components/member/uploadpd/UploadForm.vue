@@ -711,7 +711,6 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          console.log(this.uploadData.BookPhoto);
           alert('資料未修改');
           this.isUpload = false;
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
@@ -745,7 +744,6 @@ export default {
           isbn: this.uploadData.ISBN,
         })
           .then(res => {
-            console.log(res);
             vm.uploadData.Author = res.data.author;
             vm.uploadData.BookHigh = res.data.bookHigh;
             vm.uploadData.BookLong = res.data.bookLong;

@@ -94,6 +94,10 @@ export default {
       if (f) {
         for(let i = 0; i < f.length; i++){
           // 建立一個讀檔器
+          if(f[i].size > 102400) {
+            alert("上傳的圖片不能超過 100KB")
+            continue;
+          }
           const reader = new FileReader();
           reader.onload = (e) => {
             this.preview.push(e.target.result);

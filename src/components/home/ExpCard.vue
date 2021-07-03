@@ -63,9 +63,6 @@ export default {
   components: {
     BookCard,
   },
-  created() {
-    console.log(this.cardData);
-  }
 }
 </script>
 
