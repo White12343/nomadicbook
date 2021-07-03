@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postMsg = exports.getMsg = exports.seekNew = exports.getStoreAddress = exports.getStoreArea = exports.getStoreCity = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.verify = exports.verifymail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.editMsg = exports.delMsg = exports.postMsg = exports.getMsg = exports.seekNew = exports.getStoreAddress = exports.getStoreArea = exports.getStoreCity = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.verify = exports.verifymail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -352,8 +352,8 @@ var seekNew = function seekNew(data) {
 
 exports.seekNew = seekNew;
 
-var getMsg = function getMsg(id) {
-  return (0, _http["default"])("get", "/Message/" + id);
+var getMsg = function getMsg(id, user) {
+  return (0, _http["default"])("get", "/Message/" + id + '/' + user);
 }; // 留言
 
 
@@ -361,12 +361,24 @@ exports.getMsg = getMsg;
 
 var postMsg = function postMsg(data) {
   return (0, _http["default"])("post", "/Message", data);
+};
+
+exports.postMsg = postMsg;
+
+var delMsg = function delMsg(id) {
+  return (0, _http["default"])("delete", "/Message/" + id);
+};
+
+exports.delMsg = delMsg;
+
+var editMsg = function editMsg(id, data) {
+  return (0, _http["default"])("put", "/Message/" + id, data);
 }; // 使用範例
 
 /*
-import { verify } from "@/request/api";
+import { editMsg } from "@/request/api";
 
-verify()
+editMsg()
   .then(res => {
     console.log(res);
   })
@@ -377,4 +389,4 @@ verify()
 */
 
 
-exports.postMsg = postMsg;
+exports.editMsg = editMsg;

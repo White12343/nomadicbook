@@ -122,18 +122,20 @@ export const seekNew = (data) => req("post", "/seek/new", data);
 
 // 留言板
 // 取得留言
-export const getMsg = (id) => req("get", "/Message/" + id);
+export const getMsg = (id, user) => req("get", "/Message/" + id + '/' + user);
 // 留言
 export const postMsg = (data) => req("post", "/Message", data);
+export const delMsg = (id) => req("delete", "/Message/" + id);
+export const editMsg = (id, data) => req("put", "/Message/" + id, data);
 
 
 
 
 // 使用範例
 /*
-import { verify } from "@/request/api";
+import { editMsg } from "@/request/api";
 
-verify()
+editMsg()
   .then(res => {
     console.log(res);
   })
