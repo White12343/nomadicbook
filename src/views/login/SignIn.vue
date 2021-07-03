@@ -165,7 +165,7 @@ export default {
                   }
                 }
               );
-            }else if(this.from === 'SignIn' || this.from === 'SignUp') {
+            }else if(this.from === 'SignIn' || this.from === 'SignUp' || this.from === 'Notifications') {
               this.$router.push({name: 'Home'});
             }else{
               this.$router.push({name: this.from});
