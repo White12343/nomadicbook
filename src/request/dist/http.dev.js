@@ -29,7 +29,9 @@ if ($cookies.get('user')) {
     'Authorization': "Bearer ".concat($cookies.get('user').token)
   };
 } else {
-  headerConfig = {};
+  headerConfig = {
+    'Content-Type': 'application/json'
+  };
 } // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
 
 

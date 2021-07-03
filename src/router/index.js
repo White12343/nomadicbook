@@ -197,17 +197,9 @@ const router = new Router({
     },
     // 通知
     {
-      path: '/notifications',
+      path: '/notifications/:id',
       name: 'Notifications',
       component: Notifications,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      },
     },
 
   ]

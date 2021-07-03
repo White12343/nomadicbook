@@ -20,7 +20,8 @@
       <small class="msg__desc grey--text" v-if="isSent">{{msg}}</small>
       <v-btn
         block
-        :disabled="!valid"
+        :disabled="isClick || !valid"
+        :loading="isClick"
         color="primary"
         class="my-4"
         @click="sentPassword"
@@ -40,6 +41,7 @@ export default {
   name: 'ForgetPassword',
   data() {
     return {
+      isClick: false,
       valid: true,
       emailRules: [
         v => !!v || '此為必填欄位',
@@ -55,15 +57,18 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
+      this.isClick = true;
       let mail = JSON.stringify(this.mail);
       forgetPassword(mail)
         .then(res => {
           this.isSent = true;
+          this.isClick = false;
           this.msg = res.data;
         })
         .catch(error => {
           console.log(error);
           this.isSent = true;
+          this.isClick = false;
           this.msg = '查無此 mail，請再次確認輸入是否正確';
         })
     }

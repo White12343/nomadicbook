@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postMsg = exports.getMsg = exports.seekNew = exports.getStoreAddress = exports.getStoreArea = exports.getStoreCity = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.postMsg = exports.getMsg = exports.seekNew = exports.getStoreAddress = exports.getStoreArea = exports.getStoreCity = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.verify = exports.verifymail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -50,11 +50,24 @@ exports.userSignin = userSignin;
 
 var forgetPassword = function forgetPassword(mail) {
   return (0, _http["default"])("put", "/User/forgetpassword", mail);
+};
+
+exports.forgetPassword = forgetPassword;
+
+var verifymail = function verifymail(mail) {
+  return (0, _http["default"])("get", "/User/verifymail/" + mail);
+}; // 會員驗證
+
+
+exports.verifymail = verifymail;
+
+var verify = function verify(id) {
+  return (0, _http["default"])("get", "/User/verify/" + id);
 }; // export const userLogOut = () => req("get", "/user/logout");
 // 會員資料
 
 
-exports.forgetPassword = forgetPassword;
+exports.verify = verify;
 
 var getUserDetail = function getUserDetail(id) {
   return (0, _http["default"])("get", "/User/detaildata/" + id);
@@ -351,9 +364,9 @@ var postMsg = function postMsg(data) {
 }; // 使用範例
 
 /*
-import { postMsg } from "@/request/api";
+import { verify } from "@/request/api";
 
-postMsg()
+verify()
   .then(res => {
     console.log(res);
   })

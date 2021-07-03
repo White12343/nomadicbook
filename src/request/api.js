@@ -12,6 +12,10 @@ export const search = (keyword) => req("get", "/HomePage", keyword);
 export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
 export const userSignin = (logInData) => req("post", "/user/signin", logInData);
 export const forgetPassword = (mail) => req("put", "/User/forgetpassword", mail);
+export const verifymail = (mail) => req("get", "/User/verifymail/" + mail);
+// 會員驗證
+export const verify = (id) => req("get", "/User/verify/" + id);
+
 
 // export const userLogOut = () => req("get", "/user/logout");
 
@@ -127,9 +131,9 @@ export const postMsg = (data) => req("post", "/Message", data);
 
 // 使用範例
 /*
-import { postMsg } from "@/request/api";
+import { verify } from "@/request/api";
 
-postMsg()
+verify()
   .then(res => {
     console.log(res);
   })

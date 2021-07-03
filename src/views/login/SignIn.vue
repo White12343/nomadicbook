@@ -64,6 +64,8 @@
             <v-btn
               v-if="errorCode === 403"
               color="primary"
+              :disabled="isSentVerifymail"
+              :loading="isSentVerifymail"
               @click="sentMail"
             >
               發送驗證信
@@ -80,7 +82,8 @@
       </v-dialog>
       <v-btn
         block
-        :disabled="!valid"
+        :disabled="isSignin || !valid"
+        :loading="isSignin"
         color="primary"
         class="my-4"
         @click="signIn"
@@ -95,12 +98,13 @@
 </template>
 
 <script>
-import { userSignin } from "@/request/api";
+import { userSignin, verifymail } from "@/request/api";
 export default {
   name: 'SignIn',
   inject: ['reload'],
   data() {
     return {
+      isSignin: false,
       dialog: false,
       errorMsg: '',
       errorCode: 0,
@@ -118,6 +122,7 @@ export default {
       mail: '',
       password: '',
       from: '',
+      isSentVerifymail: false,
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -134,12 +139,14 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
+      this.isSignin = true;
       const signInData = {
         Email: this.mail,
         Password: this.password,
       };
       userSignin(signInData)
         .then(res => {
+          this.isSignin = false;
           this.$cookies.set('isLogin', '1', '1d');
           const user = {
             id: res.data.userId,
@@ -168,6 +175,7 @@ export default {
           }
         })
         .catch(error => {
+          this.isSignin = false;
           this.dialog = true;
           this.errorCode = error.response.status;
           switch(error.response.status) {
@@ -183,9 +191,19 @@ export default {
     },
     // 發送驗證信
     sentMail() {
-      console.log(this.mail);
-      this.dialog = false;
-
+      this.isSentVerifymail = true;
+      verifymail(this.mail)
+        .then(res => {
+          alert('發送成功')
+          this.isSentVerifymail = false;
+          this.dialog = false;
+        })
+        .catch(error => {
+          console.log(error);
+          alert('發送失敗')
+          this.dialog = false;
+          this.isSentVerifymail = false;
+        })
     },
     validate () {
       this.$refs.form.validate()

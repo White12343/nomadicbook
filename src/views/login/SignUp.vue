@@ -119,7 +119,8 @@
       </v-dialog>
       <v-btn
         block
-        :disabled="!valid"
+        :disabled="isSignUp || !valid"
+        :loading="isSignUp"
         color="primary"
         class="my-4"
         @click="signUp"
@@ -139,6 +140,7 @@ export default {
   name: 'SignUp',
   data() {
     return {
+      isSignUp: false,
       dialog: false,
       systemCode: 0,
       systemMsg: '',
@@ -208,6 +210,7 @@ export default {
         alert('mail 重複');
         return;
       }
+      this.isSignUp = true;
       const signUpData = {
         Nickname: this.nickName,
         Email: this.mail,
@@ -218,10 +221,12 @@ export default {
           this.dialog = true;
           this.systemCode = 200;
           this.systemMsg = '註冊成功，請到信箱收取驗證信'
+          this.isSignUp = false;
           // this.$router.push('/login/signin');
         })
         .catch(error => {
           this.dialog = true;
+          this.isSignUp = false;
           this.systemCode = 404;
           this.systemMsg = '註冊失敗'
         })
@@ -272,13 +277,6 @@ export default {
 <style lang="stylus" scoped>
 
 .signup
-  // width 400px
-  // padding 1em 2em
-  // margin-top 60px
-  // box-shadow 2px 3px 10px $shadow
-  // background-color $light
-  // &__tit
-  //   margin-bottom 1em
 
 
 
