@@ -5,7 +5,7 @@
     >
       <v-col
         cols="12"
-        sm="12"
+        sm="6"
         md="6"
         lg="6"
       >
@@ -27,46 +27,12 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <!-- <v-row align="center">
-          <v-col
-            cols="12"
-            sm="12"
-            md="4"
-            lg="4"
-          >
-            <BookCard :card-data="selfBook"/>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="12"
-            md="8"
-            lg="8"
-          >
-            <v-list
-            >
-              <v-list-item
-                v-for="(item, i) in selfInfo"
-                :key="i"
-                three-line
-                dense
-              >
-                <v-list-item-icon>
-                  <v-icon v-text="item.icon"></v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
-                  <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-col>
-        </v-row> -->
 
       </v-col>
 
       <v-col
         cols="12"
-        sm="12"
+        sm="6"
         md="6"
         lg="6"
       >
@@ -89,39 +55,6 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <!-- <v-row align="center">
-          <v-col
-            cols="12"
-            sm="12"
-            md="4"
-            lg="4"
-          >
-            <BookCard :card-data="otherSideBook"/>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="12"
-            md="8"
-            lg="8"
-          >
-            <v-list>
-              <v-list-item
-                v-for="(item, i) in otherInfo"
-                :key="i"
-                three-line
-                dense
-              >
-                <v-list-item-icon>
-                  <v-icon v-text="item.icon"></v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
-                  <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-col>
-        </v-row> -->
       </v-col>
     </v-row>
 
@@ -130,7 +63,6 @@
 </template>
 
 <script>
-import { putConsignment, putReceipt, rating, getMsg, postMsg } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 export default {
   name: 'Match',

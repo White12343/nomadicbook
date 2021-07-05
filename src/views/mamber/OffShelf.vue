@@ -22,6 +22,8 @@
       <v-pagination
         v-model="page"
         :length="getPage"
+        :total-visible="7"
+        @input="goPage"
       ></v-pagination>
     </div>
   </div>
@@ -103,6 +105,9 @@ export default {
     getBoothBookList(this.$route.params.id)
       .then(res => {
         vm.pdData = res.data;
+        if(this.$route.query.page) {
+          this.page = parseInt(this.$route.query.page);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -131,6 +136,18 @@ export default {
         max = this.total;
       }
       return this.getPdData.filter((item, i) => i >= min && i <= max);
+    },
+    goPage() {
+
+      this.$router.push({
+        name: 'OffShelf',
+        params: {
+          id: this.user.id,
+        },
+        query: {
+          page: this.page,
+        }
+      })
     }
   }
 }

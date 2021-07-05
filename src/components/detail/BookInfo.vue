@@ -35,6 +35,9 @@
         <li class="book-info__list-item">作者：{{ bookDesc.author }}</li>
         <li class="book-info__list-item">出版社：{{ bookDesc.publishingHouse }}</li>
         <li class="book-info__list-item">出版日：{{ bookDesc.publishDate }}</li>
+        <li class="book-info__list-item">規格：{{`${bookDesc.bookWidth} x ${bookDesc.bookLong} x ${bookDesc.bookHigh} cm`}}</li>
+
+
       </ul>
 
       <p class="book-info__desc mt-3">

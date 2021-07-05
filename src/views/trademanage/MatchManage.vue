@@ -12,7 +12,7 @@
       ></v-progress-circular>
     </div>
     <div v-else>
-      <MatchList v-if="matchData.length" :match-data="matchData"/>
+      <MatchList v-if="matchData.length" :match-data="matchData" :hideRating="true"/>
     </div>
   </section>
 </template>

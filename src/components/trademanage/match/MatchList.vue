@@ -6,7 +6,7 @@
           v-for="(item,i) in matchData"
           :key="i"
         >
-          <MatchListItem :matchData="item" :hideBtn="hideBtn"/>
+          <MatchListItem :matchData="item" :hideBtn="hideBtn" :hideRating="hideRating"/>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-row>
@@ -25,6 +25,11 @@ export default {
       default: [],
     },
     hideBtn: {
+      type: Boolean,
+      default: false,
+      require: false,
+    },
+    hideRating: {
       type: Boolean,
       default: false,
       require: false,

@@ -242,6 +242,8 @@
             label="心得(選填)"
             v-model="experience"
             hint="填寫心得可以在首頁提高曝光率"
+            :rules="expRules"
+            required
           ></v-textarea>
         </v-col>
         <v-col cols="12" md="6">
@@ -386,6 +388,9 @@ export default {
         v => !!v || '此為必填欄位',
         v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
       ],
+      expRules: [
+        v => v.length <= 2000 || '請勿超過 2000 字',
+      ],
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -461,11 +466,29 @@ export default {
     }
   },
   created() {
-    getUserDetail($cookies.get('user').id)
-      .then(res => {
-        this.uploadData.TrueName = res.data.trueName;
-        this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
-        if(!this.bookId){
+    if(this.bookId) {
+      getBookDetail(this.bookId)
+        .then(res => {
+          this.uploadData.TrueName = res.data.trueName;
+          this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
+          this.uploadData.BookName = res.data.bookName;
+          this.uploadData.Author = res.data.author;
+          this.uploadData.BookHigh = res.data.bookHigh;
+          this.uploadData.BookId = res.data.bookId;
+          this.uploadData.BookLong = res.data.bookLong;
+          this.uploadData.BookWidth = res.data.bookWidth;
+          this.categoryBelong(res.data.categoryId);
+          this.condition = res.data.conditionNum;
+          this.experience = res.data.experience;
+          this.uploadData.Introduction = this.replaceIntroduction(res.data.introduction);
+          this.uploadData.ISBN = res.data.isbn;
+          this.uploadData.PublishingHouse = res.data.publishingHouse;
+          this.conditionValue = res.data.condition.split(',');
+
+          this.defaultCategory = res.data.categoryDetail;
+          this.date = res.data.publishDate;
+
+          this.defaultPhoto = res.data.bookPhotos;
           if(res.data.homeAddress){
             this.hasDefaultAddress = true;
             this.delivery.default = true;
@@ -500,32 +523,15 @@ export default {
             this.faceTrade.FaceTradePath = res.data.faceTradePath;
             this.faceTrade.FaceTradeRoad = res.data.faceTradeRoad;
           }
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    if(this.bookId) {
-      getBookDetail(this.bookId)
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }else {
+      getUserDetail($cookies.get('user').id)
         .then(res => {
-          this.uploadData.BookName = res.data.bookName;
-          this.uploadData.Author = res.data.author;
-          this.uploadData.BookHigh = res.data.bookHigh;
-          this.uploadData.BookId = res.data.bookId;
-          this.uploadData.BookLong = res.data.bookLong;
-          this.uploadData.BookWidth = res.data.bookWidth;
-          this.categoryBelong(res.data.categoryId);
-          this.condition = res.data.conditionNum;
-          this.experience = res.data.experience;
-          this.uploadData.Introduction = this.replaceIntroduction(res.data.introduction);
-          this.uploadData.ISBN = res.data.isbn;
-          this.uploadData.PublishingHouse = res.data.publishingHouse;
-          this.conditionValue = res.data.condition.split(',');
-
-          this.defaultCategory = res.data.categoryDetail;
-          this.date = res.data.publishDate;
-
-          this.defaultPhoto = res.data.bookPhotos;
+          this.uploadData.TrueName = res.data.trueName;
+          this.uploadData.CellphoneNumber = res.data.cellphoneNumber;
           if(res.data.homeAddress){
             this.hasDefaultAddress = true;
             this.delivery.default = true;
@@ -661,6 +667,10 @@ export default {
           return;
         }
       // }
+      if(!(this.defaultPhoto.length + this.uploadData.BookPhoto.length)) {
+        alert('請至少上傳一張照片')
+        return;
+      }
       if(!this.condition) {
         alert('請選擇新舊程度')
       }
@@ -693,6 +703,10 @@ export default {
           return;
         }
       // }
+      if(!(this.defaultPhoto.length + this.uploadData.BookPhoto.length)) {
+        alert('請至少上傳一張照片')
+        return;
+      }
       if(!this.uploadData.TrueName){
         alert('請選擇填寫真實姓名(在交易達成後提供給對方交易資訊)')
       }

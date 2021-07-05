@@ -110,11 +110,23 @@ export default {
   created() {
     this.msg = this.msgData.message;
   },
+  watch: {
+    "msgData": {
+      handler(val) {
+        if(this.isEdit) {
+          return;
+        }
+        this.msg = val.message;
+      },
+      deep: true,
+    }
+  },
   methods: {
     deleteMsg(id) {
       delMsg(id)
         .then(res => {
           this.$emit('deleteMsg')
+          this.cancelEdit();
         })
         .catch(error => {
           console.log(error);

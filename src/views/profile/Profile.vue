@@ -406,9 +406,15 @@ export default {
       return this.userData.storeName + this.userData.storeAddress;
     },
     getDefaultIMailAddressAll() {
+      if(!this.mailBox.Name && !this.mailBox.Address){
+        return '';
+      }
       return this.mailBox.Name + '(' + this.mailBox.Address + ')';
     },
     getDefaultStoreAddressAll() {
+      if(!this.store.Name && !this.store.Address){
+        return '';
+      }
       return this.store.Name + '(' + this.store.Address + ')';
     },
     getFormData() {

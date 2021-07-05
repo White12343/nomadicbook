@@ -17,6 +17,7 @@
           <img
             :src="userPhoto || defaultPhoto"
             alt="個人頭貼"
+            class="img-resp"
           >
         </v-avatar>
         <article class="member__desc">
@@ -33,7 +34,7 @@
               readonly
               size="16"
             ></v-rating>
-            <small>已經有 {{userData.tradeNum}} 人評價</small>
+            <small>已經有 {{userData.tradeNum}} 則評價</small>
           </div>
           <h4 class="mb-3 text-center grey--text" v-else>還沒有任何評價</h4>
           <h4 class="mb-3 fs-6 text-center">{{userData.email}}</h4>

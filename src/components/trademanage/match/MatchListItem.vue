@@ -7,6 +7,8 @@
       >
         <v-col
           cols="12"
+          sm="5"
+          md="5"
           lg="5"
         >
           <v-row>
@@ -57,24 +59,27 @@
                 </header>
                 <div class="d-flex align-center">
                   {{matchData.seek.seekUserName}}
-                  <v-rating
-                    v-if="matchData.seek.evaluation"
-                    :value="matchData.seek.evaluation"
-                    class="ml-2"
-                    color="warning"
-                    background-color="warning"
-                    empty-icon="mdi-star-outline"
-                    half-icon="mdi-star-half"
-                    half-increments
-                    readonly
-                    dense
-                    size="16"
-                  ></v-rating>
+
                 </div>
                 <p class="match-list__desc">{{matchData.seek.seekCondition}}</p>
                 <ul>
                   <li><b>交易日期：</b>{{matchData.seek.seekDate}}</li>
                   <li><b>交易資訊：</b>{{matchData.seek.seekToAddress + ' ' + matchData.seek.seekToName}}</li>
+                  <li v-if="!hideRating" class="d-flex align-center"><b>評價：</b>
+                    <v-rating
+                      v-if="matchData.seek.evaluation"
+                      :value="matchData.seek.evaluation"
+                      class="d-flex align-center"
+                      color="warning"
+                      background-color="warning"
+                      empty-icon="mdi-star-outline"
+                      half-icon="mdi-star-half"
+                      half-increments
+                      readonly
+                      dense
+                      size="16"
+                    ></v-rating>
+                  </li>
 
                 </ul>
               </article>
@@ -83,6 +88,8 @@
         </v-col>
         <v-col
           cols="12"
+          sm="2"
+          md="2"
           lg="2"
           class="text-center"
         >
@@ -98,6 +105,8 @@
 
         <v-col
           cols="12"
+          sm="5"
+          md="5"
           lg="5"
         >
           <v-row>
@@ -143,24 +152,26 @@
                 </header>
                 <div class="d-flex align-center">
                   {{matchData.seeked.seekUserName}}
-                  <v-rating
-                    v-if="matchData.seeked.evaluation"
-                    :value="matchData.seeked.evaluation"
-                    class="ml-2"
-                    color="warning"
-                    background-color="warning"
-                    empty-icon="mdi-star-outline"
-                    half-icon="mdi-star-half"
-                    half-increments
-                    readonly
-                    dense
-                    size="16"
-                  ></v-rating>
                 </div>
                 <p class="match-list__desc">{{matchData.seeked.seekCondition}}</p>
                 <ul>
                   <li><b>交易日期：</b>{{matchData.seeked.seekDate}}</li>
                   <li><b>交易資訊：</b>{{matchData.seeked.seekToAddress + ' ' + matchData.seeked.seekToName}}</li>
+                  <li v-if="!hideRating" class="d-flex align-center"><b>評價：</b>
+                    <v-rating
+                      v-if="matchData.seeked.evaluation"
+                      :value="matchData.seeked.evaluation"
+                      class="d-flex align-center"
+                      color="warning"
+                      background-color="warning"
+                      empty-icon="mdi-star-outline"
+                      half-icon="mdi-star-half"
+                      half-increments
+                      readonly
+                      dense
+                      size="16"
+                    ></v-rating>
+                  </li>
                 </ul>
               </article>
             </v-col>
@@ -197,7 +208,13 @@ export default {
       type: Boolean,
       default: false,
       require: false,
+    },
+    hideRating: {
+      type: Boolean,
+      default: false,
+      require: false,
     }
+
   },
   data() {
     return {

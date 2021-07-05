@@ -123,7 +123,7 @@ export default {
   created() {
     this.timeOutRefresh = window.setInterval(() => {
       this.getMsgList();
-    }, 10000);
+    }, 2000);
   },
   methods: {
     openMessage() {
@@ -154,16 +154,9 @@ export default {
       }
       postMsg(data)
         .then(res => {
-          console.log(res);
           this.isSentMsg = false;
           this.resetMsg();
-          getMsg(this.seekId)
-          .then(res => {
-            this.message = res.data;
-          })
-          .catch(error => {
-            console.log(error);
-          })
+          this.getMsgList();
         })
         .catch(error => {
           this.isSentMsg = false;

@@ -2,7 +2,7 @@
   <section class="detail">
     <div class="detail__head">
       <div class="detail__info">
-        <BookPic class="detail__pic" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
+        <BookPic class="detail__pic align-self-center" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
         <BookInfo
           :book-id="parseInt(this.$route.params.id)"
           :bookDesc="bookDesc"

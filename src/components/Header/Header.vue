@@ -244,12 +244,23 @@ export default {
       }
     },
     searchBook() {
-      this.$router.push({
-        name: 'BookList',
-        query: {
-          keyword: this.keyWord,
-        }
-      })
+      if(this.$route.name === 'BookList'){
+        let path = this.$route.fullPath;
+        this.$router.push({
+          path: path,
+          query: {
+            keyword: this.keyWord,
+            page: 1,
+          }
+        })
+      }else {
+        this.$router.push({
+          name: 'BookList',
+          query: {
+            keyword: this.keyWord,
+          }
+        })
+      }
     },
     getNotifyNumTimer() {
       this.timeOutRefresh = window.setInterval(() => {
@@ -260,7 +271,7 @@ export default {
           .catch(error => {
             // console.log(error.response);
           })
-      }, 60000);
+      }, 2000);
     }
   },
   components: {

@@ -27,6 +27,7 @@
       <v-pagination
         v-model="page"
         :length="getPage"
+        :total-visible="7"
         @input="goPage"
       ></v-pagination>
     </div>

@@ -1,15 +1,5 @@
 <template>
   <section class="book-list mx-auto">
-    <!-- <v-breadcrumbs :items="breadcrumbs" class="mb-6">
-      <template v-slot:item="{ item }">
-        <v-breadcrumbs-item
-          :href="item.href"
-          :disabled="item.disabled"
-        >
-          {{ item.text.toUpperCase() }}
-        </v-breadcrumbs-item>
-      </template>
-    </v-breadcrumbs> -->
     <div class="book-list__body">
       <v-row>
         <v-col
@@ -97,6 +87,7 @@
             <v-pagination
               v-model="page"
               :length="getPage"
+              :total-visible="7"
               @input="goPage"
             ></v-pagination>
           </div>
@@ -194,11 +185,18 @@ export default {
       }
       return arr;
     },
-    category() {
-      return {
-        mainId: this.$route.params.mainId,
-        bigCategory: this.$route.params.bigCategory
+    queryData() {
+      let obj = {};
+      if(this.$route.query.keyword){
+        obj.keyWord = this.$route.query.keyword;
       }
+      if(this.$route.params.mainId){
+        obj.mainId = this.$route.params.mainId;
+      }
+      if(this.$route.params.bigCategory){
+        obj.bigCategory = this.$route.params.bigCategory;
+      }
+      return obj;
     },
     numFilterList() {
       let arr = [...this.pdData];
@@ -210,12 +208,6 @@ export default {
         return this.numFilterList;
       }
       let arr = [...this.numFilterList];
-      // let arr = [];
-      // this.pdData.forEach(item => {
-      //   if(item.condition) {
-      //     arr.push(item);
-      //   }
-      // })
       if(this.conditionNum > 0) {
         this.filter.forEach(() => {
           arr = arr.filter(item => item.conditionNum >= this.conditionNum);
@@ -237,33 +229,17 @@ export default {
     }
   },
   watch: {
-    "category": {
-      handler: function(val) {
-        this.getBookListData(val);
-      },
-      deep: true,
-    },
     $route() {
       this.reload();
     }
   },
   created() {
-    if(this.$route.query.keyword){
-      search({
-        keyWord: this.$route.query.keyword
-      })
-        .then(res => {
-          this.pdData = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }else{
-      this.getBookListData(this.category);
-      if(this.$route.query.page) {
-        this.page = parseInt(this.$route.query.page);
-      }
+    this.getBookListData(this.queryData);
+    if(this.$route.query.page) {
+      this.page = parseInt(this.$route.query.page);
     }
+
+
     this.manu.forEach(item => {
       getCategory({
         mainId: item.id
@@ -305,10 +281,16 @@ export default {
       return this.filterList.filter((item, i) => i >= min && i <= max);
     },
     goPage() {
+
       this.$router.push({
         name: 'BookList',
+        params: {
+          mainId: this.queryData.mainId,
+          bigCategory: this.queryData.bigCategory,
+        },
         query: {
           page: this.page,
+          keyword: this.queryData.keyWord
         }
       })
     }

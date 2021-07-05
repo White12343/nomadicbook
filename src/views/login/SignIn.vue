@@ -131,7 +131,7 @@ export default {
         vm.fromname = 'Home';
         return;
       }
-      vm.from = from.name;
+      vm.from = from;
     })
   },
   methods: {
@@ -156,19 +156,19 @@ export default {
           this.$cookies.set('user', user, '1d');
           this.$store.commit("changeLoginState");
           if(this.from){
-            if(this.from === 'Booth' || this.from === 'OffShelf'){
+            if(this.from.name === 'Booth' || this.from.name === 'OffShelf'){
               this.$router.push(
                 {
-                  name: this.from,
+                  name: this.from.name,
                   params: {
                     id: res.data.userId,
                   }
                 }
               );
-            }else if(this.from === 'SignIn' || this.from === 'SignUp' || this.from === 'Notifications') {
+            }else if(this.from.name === 'SignIn' || this.from.name === 'SignUp' || this.from.name === 'Notifications') {
               this.$router.push({name: 'Home'});
             }else{
-              this.$router.push({name: this.from});
+              this.$router.push(this.from.fullPath);
             }
           }else {
             this.$router.push({name: 'Home'});
