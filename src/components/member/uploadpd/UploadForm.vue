@@ -411,10 +411,7 @@ export default {
       category: {
         top: '',
         mid: '',
-        bottom: {
-          id: '',
-          name: '',
-        },
+        bottom: '',
       },
       categoryNameArr: [
         '中文書',

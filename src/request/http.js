@@ -31,7 +31,7 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     // 在 request 送出前攔截到此次的 config，可以做最後的處理。
-    if($cookies.get('user')) {
+    if(parseInt($cookies.get('isLogin'))) {
       config.headers.Authorization = `Bearer ${$cookies.get('user').token}`;
     }
 
@@ -56,10 +56,10 @@ instance.interceptors.response.use(
         case 401:
           console.log('token issure');
           // alert('已在其他地方登入，請重新登入')
-          $cookies.set('isLogin', '0');
-          $cookies.remove('user');
-          store.commit("changeLoginState");
-          router.push('/login/signin');
+          // $cookies.set('isLogin', '0');
+          // $cookies.remove('user');
+          // store.commit("changeLoginState");
+          // router.push('/login/signin');
           break
         case 404:
           // console.log("你要找的頁面不存在")

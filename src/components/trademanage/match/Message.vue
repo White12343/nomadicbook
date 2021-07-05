@@ -125,19 +125,24 @@ export default {
       this.getMsgList();
     }, 2000);
   },
+  beforeDestroy() {
+    clearInterval(this.timeOutRefresh);
+  },
   methods: {
     openMessage() {
       this.drawer = !this.drawer;
       this.getMsgList();
     },
     getMsgList() {
-      getMsg(this.seekId, this.user.id)
-        .then(res => {
-          this.message = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        })
+      if(this.user && this.user.id) {
+        getMsg(this.seekId, this.user.id)
+          .then(res => {
+            this.message = res.data;
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
     },
     resetMsg() {
       this.value = '';

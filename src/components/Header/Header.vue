@@ -183,7 +183,7 @@ export default {
     }
   },
   created() {
-    if(this.user) {
+    if(parseInt(this.isLogin)) {
       getNotifyNum(this.user.id)
         .then(res => {
           this.notifyNum = parseInt(res.data);
@@ -193,6 +193,16 @@ export default {
         })
 
       this.getNotifyNumTimer();
+    }
+  },
+  watch: {
+    isLogin(val) {
+      let state = parseInt(val);
+      if(state) {
+        this.getNotifyNumTimer();
+      }else {
+        clearInterval(this.notifyRefresh);
+      }
     }
   },
   computed: {
@@ -226,8 +236,7 @@ export default {
       this.$router.push('/login/signin');
     },
     getNotifications() {
-
-      if(this.user) {
+      if(parseInt(this.isLogin)) {
         getNotify(this.user.id)
           .then(res => {
             this.notifyNum = 0;
@@ -263,12 +272,15 @@ export default {
       }
     },
     getNotifyNumTimer() {
-      this.timeOutRefresh = window.setInterval(() => {
+      this.notifyRefresh = window.setInterval(() => {
         getNotifyNum(this.user.id)
           .then(res => {
             this.notifyNum = parseInt(res.data);
           })
           .catch(error => {
+            if(error.response.status === 401) {
+              clearInterval(this.notifyRefresh);
+            }
             // console.log(error.response);
           })
       }, 2000);
