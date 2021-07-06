@@ -190,12 +190,17 @@ export default {
       if(this.$route.query.keyword){
         obj.keyWord = this.$route.query.keyword;
       }
+
+
+
       if(this.$route.params.mainId){
         obj.mainId = this.$route.params.mainId;
       }
+
       if(this.$route.params.bigCategory){
         obj.bigCategory = this.$route.params.bigCategory;
       }
+
       return obj;
     },
     numFilterList() {
@@ -259,6 +264,14 @@ export default {
   methods: {
     getBookListData(val) {
       let vm = this;
+      if(this.$route.query.filternum){
+        vm.conditionNum = this.$route.query.filternum;
+      }
+
+      if(this.$route.query.filter){
+        vm.filter = [...this.$route.query.filter];
+      }
+
       getBookList(val)
         .then(res => {
           vm.pdData = res.data;
@@ -281,7 +294,6 @@ export default {
       return this.filterList.filter((item, i) => i >= min && i <= max);
     },
     goPage() {
-
       this.$router.push({
         name: 'BookList',
         params: {
@@ -290,7 +302,9 @@ export default {
         },
         query: {
           page: this.page,
-          keyword: this.queryData.keyWord
+          keyword: this.queryData.keyWord,
+          filter: this.filter,
+          filternum: this.conditionNum,
         }
       })
     }

@@ -45,7 +45,7 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/booklist/:mainId?/:bigCategory?/:keyword?',
+      path: '/booklist/:mainId?/:bigCategory?/:keyword?/:filternum?/:filter?',
       name: 'BookList',
       component: BookList
     },
