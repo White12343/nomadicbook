@@ -35,7 +35,7 @@
         <li class="book-info__list-item">作者：{{ bookDesc.author }}</li>
         <li class="book-info__list-item">出版社：{{ bookDesc.publishingHouse }}</li>
         <li class="book-info__list-item">出版日：{{ bookDesc.publishDate }}</li>
-        <li class="book-info__list-item">規格：{{`${bookDesc.bookWidth} x ${bookDesc.bookLong} x ${bookDesc.bookHigh} cm`}}</li>
+        <li class="book-info__list-item">規格：{{specification}}</li>
 
 
       </ul>
@@ -57,8 +57,14 @@ export default {
   data() {
     return {}
   },
-  methods: {},
-  components: {
+  computed: {
+    specification() {
+      if(this.bookDesc.bookWidth || this.bookDesc.bookHigh || this.bookDesc.bookLong) {
+        return `${this.bookDesc.bookWidth} x ${this.bookDesc.bookLong} x ${this.bookDesc.bookHigh} cm`;
+      }else {
+        return '無提供';
+      }
+    }
   }
 }
 </script>

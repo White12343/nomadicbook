@@ -3,8 +3,8 @@
     <BookCard :card-data="bookData" :photoHeight="'280px'"/>
     <div class="seek-card__desc mb-3">
       <ul>
-        <li><small>{{seekData.seekDate}}</small></li>
-        <li><small>{{tradeMode}}</small></li>
+        <li><v-icon class="mr-1">mdi-calendar-range</v-icon>{{seekData.seekDate}}</li>
+        <li><v-icon class="mr-1">mdi-handshake</v-icon>{{tradeMode}}</li>
       </ul>
     </div>
     <v-row justify="center">

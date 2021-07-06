@@ -37,7 +37,6 @@ if ($cookies.get('user')) {
 
 var instance = _axios["default"].create({
   baseURL: PROD_PATH,
-  // headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${$cookies.get('user').token}` },
   headers: headerConfig,
   timeout: 20000
 }); // request 的攔截器 (Request Interceptors)，放入兩個函式做為參數。
@@ -64,11 +63,14 @@ instance.interceptors.response.use(function (response) {
   if (error.response) {
     switch (error.response.status) {
       case 401:
-        console.log('token issure'); // alert('已在其他地方登入，請重新登入')
-        // $cookies.set('isLogin', '0');
-        // $cookies.remove('user');
-        // store.commit("changeLoginState");
-        // router.push('/login/signin');
+        console.log('token issure');
+        alert('身份驗證失敗，請重新登入');
+        $cookies.set('isLogin', '0');
+        $cookies.remove('user');
+
+        _store["default"].commit("changeLoginState");
+
+        _router["default"].push('/login/signin');
 
         break;
 

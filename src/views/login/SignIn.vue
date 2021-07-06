@@ -116,7 +116,7 @@ export default {
       valid: true,
       emailRules: [
         v => !!v || '此為必填欄位',
-        v => /.+@.+\..+/.test(v) || '請輸入正確格式',
+        v => /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(v) || '請輸入正確格式',
       ],
 
       mail: '',
