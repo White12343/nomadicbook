@@ -43,7 +43,12 @@
               md="8"
               lg="8"
             >
-              <v-text-field label="ISBN" id="Isbn" v-model="uploadData.ISBN"></v-text-field>
+              <v-text-field
+                label="ISBN"
+                id="Isbn"
+                v-model="uploadData.ISBN"
+                maxlength="13"
+              ></v-text-field>
             </v-col>
             <v-col
               cols="12"
@@ -112,6 +117,7 @@
             id="BookName"
             v-model="uploadData.BookName"
             :rules="defaultRules"
+            maxlength="400"
             required
           ></v-text-field>
           <v-row align="center">
@@ -122,6 +128,7 @@
                 id="Author"
                 v-model="uploadData.Author"
                 :rules="defaultRules"
+                maxlength="200"
                 required
               ></v-text-field>
             </v-col>
@@ -132,6 +139,7 @@
                 id="PublishingHouse"
                 v-model="uploadData.PublishingHouse"
                 :rules="defaultRules"
+                maxlength="100"
                 required
               ></v-text-field>
             </v-col>
@@ -210,6 +218,8 @@
                 label="長(選填)"
                 id="BookLong"
                 v-model="uploadData.BookLong"
+                :rules="numberRules"
+                required
               ></v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="4">
@@ -217,6 +227,8 @@
                 label="寬(選填)"
                 id="BookWidth"
                 v-model="uploadData.BookWidth"
+                :rules="numberRules"
+                required
               ></v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="4">
@@ -224,6 +236,8 @@
                 label="高(選填)"
                 id="BookHigh"
                 v-model="uploadData.BookHigh"
+                :rules="numberRules"
+                required
               ></v-text-field>
             </v-col>
           </v-row>
@@ -254,6 +268,7 @@
               label="姓名"
               id="TrueName"
               v-model="uploadData.TrueName"
+              maxlength="15"
               :rules="defaultRules"
               required
             ></v-text-field>
@@ -263,6 +278,7 @@
               id="CellphoneNumber"
               v-model="uploadData.CellphoneNumber"
               :rules="phoneRules"
+              maxlength="15"
               required
             ></v-text-field>
             <!-- 地址 -->
@@ -391,6 +407,9 @@ export default {
       expRules: [
         v => v.length <= 2000 || '請勿超過 2000 字',
       ],
+      numberRules: [
+        v => /^[0-9]+(.[0-9]{0,2})?$/.test(v) || '請輸入數字，最多小數點後兩位',
+      ],
       uploadData: {
         UserId: null,
         PublishDate: "",
@@ -399,9 +418,9 @@ export default {
         Author: "",
         PublishingHouse: "",
         CategoryId: "",
-        BookLong: null,
-        BookWidth: null,
-        BookHigh: null,
+        BookLong: 0,
+        BookWidth: 0,
+        BookHigh: 0,
         Introduction: "",
         Condition: "",
         TrueName: "",
@@ -668,16 +687,8 @@ export default {
         alert('請至少上傳一張照片')
         return;
       }
-      if(!this.condition) {
-        alert('請選擇新舊程度')
-      }
-      if(!this.uploadData.TrueName){
-        alert('請選擇填寫真實姓名(在交易達成後提供給對方交易資訊)')
-      }
-      if(!this.uploadData.CellphoneNumber){
-        alert('請選擇填寫手機號碼(在交易達成後提供給對方交易資訊)')
-      }
       if(!this.$refs.form.validate()){
+        alert('請確認資料都有正常填寫')
         return;
       }
       this.isUpload = true;
@@ -704,13 +715,8 @@ export default {
         alert('請至少上傳一張照片')
         return;
       }
-      if(!this.uploadData.TrueName){
-        alert('請選擇填寫真實姓名(在交易達成後提供給對方交易資訊)')
-      }
-      if(!this.uploadData.CellphoneNumber){
-        alert('請選擇填寫手機號碼(在交易達成後提供給對方交易資訊)')
-      }
       if(!this.$refs.form.validate()){
+        alert('請確認資料都有正常填寫')
         return;
       }
       this.isUpload = true;

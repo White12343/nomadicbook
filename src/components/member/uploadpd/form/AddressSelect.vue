@@ -52,6 +52,7 @@
         v-model="address.path"
         :disabled="!isOpen"
         v-if="openInput"
+        maxlength="50"
         @change="sentData"
       ></v-text-field>
       <v-text-field
@@ -60,6 +61,7 @@
         v-model="address.detail"
         :disabled="!isOpen"
         v-if="openRemark"
+        maxlength="50"
         @change="sentData"
       ></v-text-field>
     </div>
