@@ -77,7 +77,7 @@ var router = new _vueRouter["default"]({
     name: 'Home',
     component: _Home["default"]
   }, {
-    path: '/booklist/:mainId?/:bigCategory?/:keyword?',
+    path: '/booklist/:mainId?/:bigCategory?/:keyword?/:filternum?/:filter?',
     name: 'BookList',
     component: _BookList["default"]
   }, {
