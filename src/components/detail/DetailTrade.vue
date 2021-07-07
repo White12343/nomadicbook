@@ -228,9 +228,7 @@ export default {
       let address =
         this.bookDesc.faceTradeCity +
         this.bookDesc.faceTradeArea +
-        this.bookDesc.faceTradeRoad +
-        this.bookDesc.faceTradePath +
-        this.bookDesc.faceTradeDetail;
+        this.bookDesc.faceTradeRoad;
       return address;
     },
   },
