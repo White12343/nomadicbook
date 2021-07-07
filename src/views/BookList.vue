@@ -47,6 +47,7 @@
               label="新舊(以上)"
               v-model="conditionNum"
               clear-icon="mdi-close-circle-outline"
+              @change="clickFilter"
               clearable
             ></v-select>
             <v-checkbox
@@ -55,6 +56,7 @@
               v-model="filter"
               :label="item"
               :value="item"
+              @change="clickFilter"
               hide-details
             ></v-checkbox>
           </div>
@@ -292,6 +294,10 @@ export default {
         max = this.total;
       }
       return this.filterList.filter((item, i) => i >= min && i <= max);
+    },
+    clickFilter() {
+      this.page = 1;
+      this.goPage();
     },
     goPage() {
       this.$router.push({

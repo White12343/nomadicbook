@@ -116,7 +116,7 @@
         </v-card-title>
 
         <v-card-text>
-          對方已有提出過邀請，是否直接進行媒合？
+          對方以<b>{{getTradeMode}}</b>的交易方式對您提出過邀請，是否直接進行媒合？
 
         </v-card-text>
 
@@ -202,7 +202,7 @@ export default {
           str.address = this.bookDesc.storeAddress;
           str.name = this.bookDesc.storeName;
           break;
-        // 宅配 ( 郵寄、黑貓 )
+        // 宅配
         case 2:
           str.address = this.bookDesc.homeAddress;
           break;
@@ -231,10 +231,29 @@ export default {
         this.bookDesc.faceTradeRoad;
       return address;
     },
+    getTradeMode() {
+      if(this.seekDetail) {
+        switch(this.seekDetail.tradeMode) {
+          // 7-11
+          case 1:
+            return '7-11 店到店'
+          // 宅配 ( 郵寄、黑貓 )
+          case 2:
+            return '宅配'
+          // i郵箱
+          case 3:
+            return 'i郵箱'
+          // 面交
+          case 4:
+            return '面交'
+        }
+      }
+    },
   },
   components: {
   },
   methods: {
+
     // 按下交換前先檢查
     checkLogin() {
       if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){

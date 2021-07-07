@@ -378,6 +378,7 @@ export default {
       valid: true,
       date: '',
       menu: false,
+      photoDelId: [],
       defaultCondition: [
         '近全新',
         '保存良好',
@@ -605,15 +606,9 @@ export default {
       formData.append('Author', this.uploadData.Author)
       formData.append('PublishingHouse', this.uploadData.PublishingHouse)
       formData.append('CategoryId', this.category.bottom)
-      if(this.uploadData.BookLong) {
-        formData.append('BookLong', this.uploadData.BookLong)
-      }
-      if(this.uploadData.BookWidth) {
-        formData.append('BookWidth', this.uploadData.BookWidth)
-      }
-      if(this.uploadData.BookHigh) {
-        formData.append('BookHigh', this.uploadData.BookHigh)
-      }
+      formData.append('BookLong', this.uploadData.BookLong)
+      formData.append('BookWidth', this.uploadData.BookWidth)
+      formData.append('BookHigh', this.uploadData.BookHigh)
       formData.append('Introduction', this.uploadData.Introduction)
       formData.append('experience', this.experience)
       formData.append('Condition', this.conditionValue.join(','))
@@ -721,6 +716,7 @@ export default {
         return;
       }
       this.isUpload = true;
+      this.deletePhotoRemote();
       putProduct(this.bookId, this.getFormData)
         .then((res) => {
           alert(res.data);
@@ -729,7 +725,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          alert('資料未修改');
+          alert('修改成功');
           this.isUpload = false;
           this.$router.push(`/member/${$cookies.get('user').id}/booth`);
         })
@@ -826,13 +822,31 @@ export default {
       this.tradeModeOpen.store = val;
     },
     deletePhoto(id, index) {
-      deletePhotoByApi(id)
-        .then(res => {
-          this.defaultPhoto.splice(index, 1);
-        })
-        .catch(error => {
-          console.log(error);
-        })
+      // console.log(this.defaultPhoto.length);
+      // if(this.defaultPhoto.length <= 1) {
+      //   alert('至少要有一張圖片');
+      //   return;
+      // }
+      this.photoDelId.push(id);
+      this.defaultPhoto.splice(index, 1);
+      // deletePhotoByApi(id)
+      //   .then(res => {
+      //     this.defaultPhoto.splice(index, 1);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   })
+    },
+    deletePhotoRemote() {
+      this.photoDelId.forEach(id => {
+        deletePhotoByApi(id)
+          .then(res => {
+            console.log(res);
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      })
     },
     categoryBelong(val) {
       getCategoryBelong({

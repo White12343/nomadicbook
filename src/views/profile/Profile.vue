@@ -65,11 +65,11 @@
 
       <v-text-field
         v-model="name"
-        :counter="8"
         :rules="nameRules"
         maxlength="8"
         label="暱稱"
         required
+        readonly
       ></v-text-field>
 
       <v-text-field

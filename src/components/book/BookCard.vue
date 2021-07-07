@@ -41,7 +41,10 @@ export default {
       type: String,
       default: '200px',
       require: false,
-    }
+    },
+    // seekStatus: {
+    //   type: Boolean,
+    // }
   },
   data() {
     return {
