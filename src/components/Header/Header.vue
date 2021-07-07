@@ -248,7 +248,6 @@ export default {
                 notify: '沒有任何通知'
               }
             ]
-            console.log(error);
           })
       }
     },
@@ -281,7 +280,6 @@ export default {
             if(error.response.status === 401) {
               clearInterval(this.notifyRefresh);
             }
-            // console.log(error.response);
           })
       }, 2000);
     }

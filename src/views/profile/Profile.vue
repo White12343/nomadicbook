@@ -48,19 +48,26 @@
       <v-text-field
         v-model="trueName"
         :counter="8"
+        :rules="nameRules"
+        maxlength="8"
         label="姓名"
       ></v-text-field>
 
       <v-text-field
         v-model="phone"
-        :counter="10"
-        label="手機"
+        :counter="15"
+        label="聯絡電話"
+        :rules="phoneRules"
+        hint="輸入格式為 02-12345678 或 0912345678"
+        maxlength="15"
+        required
       ></v-text-field>
 
       <v-text-field
         v-model="name"
         :counter="8"
         :rules="nameRules"
+        maxlength="8"
         label="暱稱"
         required
       ></v-text-field>
@@ -77,6 +84,7 @@
       <v-textarea
         name="input-7-1"
         label="自我介紹"
+        maxlength="100"
         v-model="selfIntroduction"
       ></v-textarea>
       <v-row align="center">
@@ -257,7 +265,7 @@ export default {
     ],
     phoneRules: [
       v => !!v || '此為必填欄位',
-      v => (v && v.length <= 10) || '名稱不得超出 10 個字符',
+      v => /(^(\d{2,4}-)?\d{7,8})$|(^09[0-9]{8}$)/.test(v) || '請填入正確聯絡電話號碼',
     ],
 
     email: '',

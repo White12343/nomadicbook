@@ -268,15 +268,16 @@
               label="姓名"
               id="TrueName"
               v-model="uploadData.TrueName"
-              maxlength="15"
+              maxlength="8"
               :rules="defaultRules"
               required
             ></v-text-field>
             <!-- 手機 -->
             <v-text-field
-              label="手機"
+              label="聯絡電話"
               id="CellphoneNumber"
               v-model="uploadData.CellphoneNumber"
+              hint="輸入格式為 02-12345678 或 0912345678"
               :rules="phoneRules"
               maxlength="15"
               required
@@ -402,7 +403,7 @@ export default {
       ],
       phoneRules: [
         v => !!v || '此為必填欄位',
-        v => /^09[0-9]{8}$/.test(v) || '請填入正確手機號碼',
+        v => /(^(\d{2,4}-)?\d{7,8})$|(^09[0-9]{8}$)/.test(v) || '請填入正確聯絡電話號碼',
       ],
       expRules: [
         v => v.length <= 2000 || '請勿超過 2000 字',

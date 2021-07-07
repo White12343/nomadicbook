@@ -11,19 +11,19 @@
       <ul class="detail-trade__list">
         <li class="detail-trade__item" v-if="bookDesc.storeAddress">
           <v-icon>mdi-check-bold</v-icon>
-          7-11
+          7-11 {{bookDesc.storeName}}
         </li>
         <li class="detail-trade__item" v-if="bookDesc.homeAddress">
           <v-icon>mdi-check-bold</v-icon>
-          宅配 ( 郵寄、黑貓 )
+          宅配 {{bookDesc.homeAddress.slice(0, 3)}}
         </li>
         <li class="detail-trade__item" v-if="bookDesc.mailBoxAddress">
           <v-icon>mdi-check-bold</v-icon>
-          i郵箱
+          i郵箱 {{bookDesc.mailBoxName}}
         </li>
         <li class="detail-trade__item" v-if="bookDesc.faceTradeArea">
           <v-icon>mdi-check-bold</v-icon>
-          面交
+          面交 {{getFaceTradeAddress}}
         </li>
       </ul>
       <div class="detail-trade__btn-group">
@@ -224,7 +224,15 @@ export default {
       return str;
     },
     // 取得交易方式
-
+    getFaceTradeAddress() {
+      let address =
+        this.bookDesc.faceTradeCity +
+        this.bookDesc.faceTradeArea +
+        this.bookDesc.faceTradeRoad +
+        this.bookDesc.faceTradePath +
+        this.bookDesc.faceTradeDetail;
+      return address;
+    },
   },
   components: {
   },
