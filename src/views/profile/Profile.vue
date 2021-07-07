@@ -69,6 +69,7 @@
         v-model="email"
         :rules="emailRules"
         label="E-mail"
+        readonly
         required
       ></v-text-field>
 
@@ -426,7 +427,7 @@ export default {
       formData.append('TrueName', this.trueName)
       formData.append('CellphoneNumber', this.phone)
       formData.append('NickName', this.name)
-      formData.append('Email', this.email)
+      // formData.append('Email', this.email)
       // 交易方式
       formData.append('HomeAddress', this.homeAddress)
       formData.append('MailBoxName', this.mailBox.Name)
