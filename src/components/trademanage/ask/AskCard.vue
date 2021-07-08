@@ -1,6 +1,6 @@
 <template>
   <article class="ask-card">
-    <BookCard :card-data="bookData" :photoHeight="'280px'"/>
+    <BookCard :card-data="bookData" :photoHeight="'280px'" :seekStatus="askData.seekStatus"/>
     <div class="ask-card__desc mb-3">
       <ul>
         <li><v-icon class="mr-1">mdi-calendar-range</v-icon>{{askData.seekDate}}</li>
@@ -45,6 +45,7 @@
                     block
                     color="primary"
                     class="ask-card__btn"
+                    :disabled="!askData.seekStatus"
                     v-bind="attrs"
                     v-on="on"
                   >
@@ -139,6 +140,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { getBookDetail, getAskBoothBookList, selectedBook, putRefusal } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 import AskStall from '@/components/trademanage/ask/AskStall';
@@ -186,6 +188,10 @@ export default {
       })
   },
   computed: {
+    ...mapState([
+      'isLogin',
+      'user',
+    ]),
     bookData() {
       return {
         bookId: this.askData.seekBookId,
@@ -244,8 +250,9 @@ export default {
     },
     refusal() {
       this.isClickRefusal = true;
-      putRefusal(this.askData.seekId)
+      putRefusal(this.askData.seekId, this.user.id)
         .then(res => {
+          console.log(res);
           this.reload();
         })
         .catch(error => {

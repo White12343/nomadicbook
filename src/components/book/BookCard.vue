@@ -17,16 +17,27 @@
       <h4 class="card__author" v-if="cardData.author">{{ cardData.author }}</h4>
       <h4 class="card__desc">{{ cardData.conditionNum }} 成新 {{ cardData.condition }}</h4>
     </header>
-    <router-link class="card__link" :to="{
-        name: 'Detail',
-        params: {
-          id: cardData.bookId,
-        }
-      }">
-      <figure class="card__inner" :style="{'height': photoHeight}">
-        <img :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg` || defaultImg" :alt="cardData.name" class="card__img img-resp">
-      </figure>
-    </router-link>
+    <div class="card__link-wrap">
+      <router-link class="card__link" :to="{
+          name: 'Detail',
+          params: {
+            id: cardData.bookId,
+          }
+        }">
+        <figure class="card__inner" :style="{'height': photoHeight}">
+          <img :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg` || defaultImg" :alt="cardData.name" class="card__img img-resp">
+        </figure>
+      </router-link>
+
+      <v-overlay
+        absolute
+        :value="!seekStatus"
+      >
+        <span class="text-h5">該書已不在架上</span>
+      </v-overlay>
+    </div>
+
+
   </article>
 
 </template>
@@ -42,9 +53,11 @@ export default {
       default: '200px',
       require: false,
     },
-    // seekStatus: {
-    //   type: Boolean,
-    // }
+    seekStatus: {
+      type: Boolean,
+      default: true,
+      require: false,
+    }
   },
   data() {
     return {
@@ -103,5 +116,9 @@ export default {
     color $text-primary
     min-height 42px
     textHiding(2)
+
+  &__link-wrap
+
+    position relative
 
 </style>

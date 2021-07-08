@@ -235,8 +235,8 @@ var putReceipt = function putReceipt(id, user) {
 
 exports.putReceipt = putReceipt;
 
-var putRefusal = function putRefusal(id) {
-  return (0, _http["default"])("put", "/seek/otherpeople/refusal/".concat(id));
+var putRefusal = function putRefusal(id, userId) {
+  return (0, _http["default"])("put", "/seek/otherpeople/refusal/".concat(id, "/").concat(userId));
 }; // 歷史訂單
 
 

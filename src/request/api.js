@@ -81,7 +81,7 @@ export const putConsignment = (id, user) => req("put", `/Seek/match/consignment/
 // 書已收到
 export const putReceipt = (id, user) => req("put", `/Seek/match/receipt/${id}`, user);
 // 拒絕
-export const putRefusal = (id) => req("put", `/seek/otherpeople/refusal/${id}`);
+export const putRefusal = (id, userId) => req("put", `/seek/otherpeople/refusal/${id}/${userId}`);
 // 歷史訂單
 export const getRecord = (id) => req("get", "/Seek/history/" + id);
 // 評價
