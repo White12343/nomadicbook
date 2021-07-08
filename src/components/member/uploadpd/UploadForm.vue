@@ -765,8 +765,9 @@ export default {
             vm.uploadData.BookName = res.data.bookName;
             vm.categoryBelong(res.data.categoryId)
             vm.uploadData.Introduction = vm.replaceIntroduction(res.data.introduction);
-            let publishDate = res.data.publishDate.split('/');
-            vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
+            // let publishDate = res.data.publishDate.split('/');
+            // vm.date = `${publishDate[0]}-${publishDate[1]}-${publishDate[2]}`;
+            vm.date = res.data.publishDate;
             vm.uploadData.PublishingHouse = res.data.publishingHouse;
             vm.isISBNBtnClick = false;
           })
