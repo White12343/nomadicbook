@@ -120,7 +120,7 @@
 
                       </v-col>
                     </v-row>
-                    <BookCntr cntr-title="書況" :cntr="pdDetail.condition" />
+                    <BookCntr cntr-title="書況" :cntr="getCondition" />
                     <BookCntr cntr-title="簡介" :cntr="pdDetail.introduction" />
                   </v-card-text>
                   <v-card-text v-else class="text-center my-6">
@@ -219,7 +219,10 @@ export default {
 
       }
       return str;
-    }
+    },
+    getCondition() {
+      return `${this.pdDetail.conditionNum} 成新,${this.pdDetail.condition}`;
+    },
   },
   methods: {
     bookDetail(id) {

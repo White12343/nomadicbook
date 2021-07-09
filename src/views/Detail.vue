@@ -16,7 +16,7 @@
       />
     </div>
     <div class="detail__cntr">
-      <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.condition" />
+      <BookCntr class="detail__desc" cntr-title="書況" :cntr="getCondition" />
       <BookCntr class="detail__desc" cntr-title="簡介" :cntr="replaceIntroduction" />
 
     </div>
@@ -85,7 +85,10 @@ export default {
       }
       return str;
 
-    }
+    },
+    getCondition() {
+      return `${this.bookDesc.conditionNum} 成新,${this.bookDesc.condition}`;
+    },
   },
   watch: {
     $route(to) {
