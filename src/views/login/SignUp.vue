@@ -59,31 +59,68 @@
         v-model.lazy="password"
         :counter="18"
         validate-on-blur
-        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="rules"
-        :type="show ? 'text' : 'password'"
+        :type="show1 ? 'text' : 'password'"
         name="input-10-1"
         label="請輸入密碼"
         hint="密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符"
-        @click:append="show = !show"
+        @click:append="show1 = !show1"
         autocomplete
       ></v-text-field>
       <v-text-field
         v-model.lazy="passwordCheck"
         :counter="18"
         validate-on-blur
-        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="checkRules"
-        :type="show ? 'text' : 'password'"
+        :type="show2 ? 'text' : 'password'"
         name="input-10-1"
         label="請再次輸入密碼"
         hint="密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符"
-        @click:append="show = !show"
+        @click:append="show2 = !show2"
         autocomplete
       ></v-text-field>
+      <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            系統訊息
+          </v-card-title>
+          <v-card-text>{{systemMsg}}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <!-- <v-btn
+              v-if="systemCode === 200"
+              @click="dialog = false"
+            >
+              取消
+            </v-btn> -->
+            <v-btn
+              v-if="systemCode === 200"
+              color="primary"
+              :to="{
+                name: 'SignIn',
+              }"
+            >
+              前往登入
+            </v-btn>
+            <v-btn
+              v-else
+              color="primary"
+              @click="dialog = false"
+            >
+              確認
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-btn
         block
-        :disabled="!valid"
+        :disabled="isSignUp || !valid"
+        :loading="isSignUp"
         color="primary"
         class="my-4"
         @click="signUp"
@@ -103,7 +140,12 @@ export default {
   name: 'SignUp',
   data() {
     return {
-      show: false,
+      isSignUp: false,
+      dialog: false,
+      systemCode: 0,
+      systemMsg: '',
+      show1: false,
+      show2: false,
       rules: [
         v => !!v || '此為必填欄位',
         v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,18}$/.test(v) || '密碼至少 8 個字符，至少 1 個字母和 1 個數字，且不得超出 18 個字符',
@@ -111,7 +153,7 @@ export default {
       valid: true,
       emailRules: [
         v => !!v || '此為必填欄位',
-        v => /.+@.+\..+/.test(v) || '請輸入正確格式',
+        v => /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(v) || '請輸入正確格式',
       ],
       nameRules: [
         v => !!v || '此為必填欄位',
@@ -168,6 +210,7 @@ export default {
         alert('mail 重複');
         return;
       }
+      this.isSignUp = true;
       const signUpData = {
         Nickname: this.nickName,
         Email: this.mail,
@@ -175,11 +218,17 @@ export default {
       }
       userSignUp(signUpData)
         .then(res => {
-          alert('註冊成功');
-          this.$router.push('/login/signin');
+          this.dialog = true;
+          this.systemCode = 200;
+          this.systemMsg = '註冊成功，請到信箱收取驗證信'
+          this.isSignUp = false;
+          // this.$router.push('/login/signin');
         })
         .catch(error => {
-          alert('註冊失敗');
+          this.dialog = true;
+          this.isSignUp = false;
+          this.systemCode = 404;
+          this.systemMsg = '註冊失敗'
         })
     },
     checkNickNameIsRepeat() {
@@ -228,13 +277,6 @@ export default {
 <style lang="stylus" scoped>
 
 .signup
-  // width 400px
-  // padding 1em 2em
-  // margin-top 60px
-  // box-shadow 2px 3px 10px $shadow
-  // background-color $light
-  // &__tit
-  //   margin-bottom 1em
 
 
 

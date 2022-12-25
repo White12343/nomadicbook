@@ -31,6 +31,7 @@
             >
               <BookCard
                 :card-data="item"
+                :photoHeight="photoHeight"
               />
             </v-col>
 
@@ -50,6 +51,11 @@ export default {
     noHeader: {
       type: Boolean,
       default: false,
+      require: false,
+    },
+    photoHeight: {
+      type: String,
+      default: '200px',
       require: false,
     }
   },

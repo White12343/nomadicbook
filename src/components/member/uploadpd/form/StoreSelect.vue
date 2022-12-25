@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getCity, getArea, getIMailBox } from "@/request/api";
+import { getStoreCity, getStoreArea, getStoreAddress } from "@/request/api";
 export default {
   name: 'AddressSelect',
   props: {
@@ -117,7 +117,7 @@ export default {
     getRoadDetailArr() {
       let arr = [];
       this.roadArr.forEach(item => {
-        arr.push(`${item.mailboxName}(${item.mailboxAddress})`)
+        arr.push(`${item.shopName}門市(${item.shopAddress})`)
       })
       return arr;
     },
@@ -137,7 +137,7 @@ export default {
   methods: {
     openTrade() {
       this.$emit('isOpenTrade', this.isOpen);
-      getCity()
+      getStoreCity()
         .then(res => {
           this.cityArr = res.data;
         })
@@ -147,9 +147,9 @@ export default {
     },
     getAreaArr() {
       this.address.area = '',
-      this.address.road = '',
-      getArea({
-        City: this.address.city
+      this.address.detail = '',
+      getStoreArea({
+        city: this.address.city
       })
         .then(res => {
           this.areaArr = res.data;
@@ -160,12 +160,13 @@ export default {
     },
     getRoadArr() {
       this.address.road = '';
-      getIMailBox({
-        City: this.address.city,
-        Area: this.address.area
+      getStoreAddress({
+        city: this.address.city,
+        area: this.address.area
       })
         .then(res => {
           this.roadArr = res.data;
+          console.log(res);
         })
         .catch(error => {
           console.log(error);

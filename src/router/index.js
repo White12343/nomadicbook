@@ -31,7 +31,13 @@ Router.prototype.push = function push(location) {
 }
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
+  scrollBehavior(to, from,savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    }
+  },
   routes: [
     {
       path: '/',
@@ -39,7 +45,7 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/booklist/:mainId?/:bigCategory?/:keyword?',
+      path: '/booklist/:mainId?/:bigCategory?/:keyword?/:filternum?/:filter?',
       name: 'BookList',
       component: BookList
     },
@@ -191,17 +197,9 @@ const router = new Router({
     },
     // 通知
     {
-      path: '/notifications',
+      path: '/notifications/:id',
       name: 'Notifications',
       component: Notifications,
-      beforeEnter: (to, from, next) => {
-        if($cookies.get('isLogin') && $cookies.get('isLogin') === '1'){
-          next();
-        }else{
-          alert('請先登入');
-          next('/signin');
-        }
-      },
     },
 
   ]

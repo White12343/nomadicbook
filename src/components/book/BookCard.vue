@@ -15,18 +15,29 @@
         </h3>
       </router-link>
       <h4 class="card__author" v-if="cardData.author">{{ cardData.author }}</h4>
-      <h4 class="card__desc" v-if="cardData.condition">{{ cardData.conditionNum }} 成新,{{ cardData.condition }}</h4>
+      <h4 class="card__desc">{{ cardData.conditionNum }} 成新 {{ cardData.condition }}</h4>
     </header>
-    <router-link class="card__link" :to="{
-        name: 'Detail',
-        params: {
-          id: cardData.bookId,
-        }
-      }">
-      <figure class="card__inner">
-        <img :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg` || defaultImg" :alt="cardData.name" class="card__img img-resp">
-      </figure>
-    </router-link>
+    <div class="card__link-wrap">
+      <router-link class="card__link" :to="{
+          name: 'Detail',
+          params: {
+            id: cardData.bookId,
+          }
+        }">
+        <figure class="card__inner" :style="{'height': photoHeight}">
+          <img :src="`http://35.236.167.85/photo/${cardData.bookPhoto}.jpg` || defaultImg" :alt="cardData.name" class="card__img img-resp">
+        </figure>
+      </router-link>
+
+      <v-overlay
+        absolute
+        :value="!seekStatus"
+      >
+        <span class="text-h5">該書已不在架上</span>
+      </v-overlay>
+    </div>
+
+
   </article>
 
 </template>
@@ -34,7 +45,20 @@
 <script>
 export default {
   name: 'BookCard',
-  props: ['cardData'],
+  props: ['cardData', 'photoHeight'],
+  props: {
+    cardData: Object,
+    photoHeight: {
+      type: String,
+      default: '200px',
+      require: false,
+    },
+    seekStatus: {
+      type: Boolean,
+      default: true,
+      require: false,
+    }
+  },
   data() {
     return {
       rating: 4.5,
@@ -55,7 +79,7 @@ export default {
   flex-direction column-reverse
   background-color $light
   &__inner
-    height 200px
+    height 250px
     overflow hidden
     display flex
     align-items center
@@ -65,6 +89,7 @@ export default {
     display block
     margin-left auto
     margin-right auto
+    height 100%
 
   &__header
     margin-top 1em
@@ -79,13 +104,21 @@ export default {
     height 40px
     &:hover
       text-decoration underline
-  &__author,&__desc
+  &__author
     font-size .9em
     margin-bottom .6em
   &__author
     color $text-secondary
+    textHiding(1)
 
   &__desc
+    font-size .9em
     color $text-primary
+    min-height 42px
+    textHiding(2)
+
+  &__link-wrap
+
+    position relative
 
 </style>

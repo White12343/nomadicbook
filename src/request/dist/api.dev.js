@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.seekNew = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.getUserBasic = exports.getUserDetail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
+exports.editMsg = exports.delMsg = exports.postMsg = exports.getMsg = exports.seekNew = exports.getStoreAddress = exports.getStoreArea = exports.getStoreCity = exports.getIMailBox = exports.getRoad = exports.getArea = exports.getCity = exports.getCategoryBelong = exports.deletePhotoByApi = exports.getDataByISBNApi = exports.putProduct = exports.uploadProduct = exports.getSeekBookList = exports.rating = exports.getRecord = exports.putRefusal = exports.putReceipt = exports.putConsignment = exports.getMatchDetail = exports.getMatchList = exports.getAskBookList = exports.selectedBook = exports.getAskBoothBookList = exports.setOnShelf = exports.setOffShelf = exports.getBoothBookList = exports.chosen = exports.checkIsAlreadyAsk = exports.getBookDetail = exports.getBookList = exports.getNotifyNum = exports.getNotify = exports.getCategoryDetail = exports.getCategory = exports.checkMail = exports.checkNickName = exports.setNewPassword = exports.putUserDetail = exports.getUserBasic = exports.getUserDetail = exports.verify = exports.verifymail = exports.forgetPassword = exports.userSignin = exports.userSignUp = exports.search = exports.getPublishDayList = exports.getNewBookList = exports.getExperienceList = void 0;
 
 var _http = _interopRequireDefault(require("./http"));
 
@@ -50,11 +50,24 @@ exports.userSignin = userSignin;
 
 var forgetPassword = function forgetPassword(mail) {
   return (0, _http["default"])("put", "/User/forgetpassword", mail);
+};
+
+exports.forgetPassword = forgetPassword;
+
+var verifymail = function verifymail(mail) {
+  return (0, _http["default"])("get", "/User/verifymail/" + mail);
+}; // 會員驗證
+
+
+exports.verifymail = verifymail;
+
+var verify = function verify(id) {
+  return (0, _http["default"])("get", "/User/verify/" + id);
 }; // export const userLogOut = () => req("get", "/user/logout");
 // 會員資料
 
 
-exports.forgetPassword = forgetPassword;
+exports.verify = verify;
 
 var getUserDetail = function getUserDetail(id) {
   return (0, _http["default"])("get", "/User/detaildata/" + id);
@@ -64,10 +77,17 @@ exports.getUserDetail = getUserDetail;
 
 var getUserBasic = function getUserBasic(id) {
   return (0, _http["default"])("get", "/User/basicdata/" + id);
-}; // 修改密碼
+}; // 修改會員資料
 
 
 exports.getUserBasic = getUserBasic;
+
+var putUserDetail = function putUserDetail(id, data) {
+  return (0, _http["default"])("put", "/User/" + id, data);
+}; // 修改密碼
+
+
+exports.putUserDetail = putUserDetail;
 
 var setNewPassword = function setNewPassword(id, data) {
   return (0, _http["default"])("put", "/User/password/" + id, data);
@@ -215,8 +235,8 @@ var putReceipt = function putReceipt(id, user) {
 
 exports.putReceipt = putReceipt;
 
-var putRefusal = function putRefusal(id) {
-  return (0, _http["default"])("put", "/seek/otherpeople/refusal/".concat(id));
+var putRefusal = function putRefusal(id, userId) {
+  return (0, _http["default"])("put", "/seek/otherpeople/refusal/".concat(id, "/").concat(userId));
 }; // 歷史訂單
 
 
@@ -238,7 +258,7 @@ exports.rating = rating;
 
 var getSeekBookList = function getSeekBookList(id) {
   return (0, _http["default"])("get", "/seek/myself/" + id);
-}; // 上架
+}; // 上架商品
 
 
 exports.getSeekBookList = getSeekBookList;
@@ -246,11 +266,16 @@ exports.getSeekBookList = getSeekBookList;
 var uploadProduct = function uploadProduct(data) {
   return (0, _http["default"])("post", "/product/new", data);
 }; // 更新
-// export const putProduct = (id) => req("put", "/Stall/bookupdate/" + id);
-// isbn
 
 
 exports.uploadProduct = uploadProduct;
+
+var putProduct = function putProduct(id, data) {
+  return (0, _http["default"])("put", "/Stall/bookupdate/" + id, data);
+}; // isbn
+
+
+exports.putProduct = putProduct;
 
 var getDataByISBNApi = function getDataByISBNApi(isbn) {
   return (0, _http["default"])("get", "/Product", isbn);
@@ -295,19 +320,65 @@ exports.getRoad = getRoad;
 
 var getIMailBox = function getIMailBox(data) {
   return (0, _http["default"])("get", "/trade/mailbox", data);
-}; // 產品
+}; // 7-11
 
 
 exports.getIMailBox = getIMailBox;
 
+var getStoreCity = function getStoreCity() {
+  return (0, _http["default"])("get", "/Trade/store/city");
+};
+
+exports.getStoreCity = getStoreCity;
+
+var getStoreArea = function getStoreArea(data) {
+  return (0, _http["default"])("get", "/Trade/store/area", data);
+};
+
+exports.getStoreArea = getStoreArea;
+
+var getStoreAddress = function getStoreAddress(data) {
+  return (0, _http["default"])("get", "/Trade/store/address", data);
+}; // 產品
+
+
+exports.getStoreAddress = getStoreAddress;
+
 var seekNew = function seekNew(data) {
   return (0, _http["default"])("post", "/seek/new", data);
+}; // 留言板
+// 取得留言
+
+
+exports.seekNew = seekNew;
+
+var getMsg = function getMsg(id, user) {
+  return (0, _http["default"])("get", "/Message/" + id + '/' + user);
+}; // 留言
+
+
+exports.getMsg = getMsg;
+
+var postMsg = function postMsg(data) {
+  return (0, _http["default"])("post", "/Message", data);
+};
+
+exports.postMsg = postMsg;
+
+var delMsg = function delMsg(id) {
+  return (0, _http["default"])("delete", "/Message/" + id);
+};
+
+exports.delMsg = delMsg;
+
+var editMsg = function editMsg(id, data) {
+  return (0, _http["default"])("put", "/Message/" + id, data);
 }; // 使用範例
 
 /*
-import { getCategoryBelong } from "@/request/api";
+import { editMsg } from "@/request/api";
 
-getCategoryBelong()
+editMsg()
   .then(res => {
     console.log(res);
   })
@@ -318,4 +389,4 @@ getCategoryBelong()
 */
 
 
-exports.seekNew = seekNew;
+exports.editMsg = editMsg;

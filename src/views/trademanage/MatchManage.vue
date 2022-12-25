@@ -1,39 +1,32 @@
 <template>
 
   <section class="match-manage mt-6">
-    <div class="match-manage__cntr">
-      <v-row>
-        <v-col
-          v-for="(item, index) in matchData"
-          :key="index"
-          cols="12"
-          sm="12"
-          md="12"
-          lg="12"
-        >
-          <Match
-            :match-data="item"
-            class="match-manage__item"
-          />
-          <v-divider
-            v-if="index < matchData.length - 1"
-            class="match-manage__divider mt-6 mb-6"></v-divider>
-        </v-col>
-      </v-row>
+
+
+    <div class="text-center" v-if="isLoading">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
     </div>
-
-
+    <div v-else>
+      <MatchList v-if="matchData.length" :match-data="matchData" :hideRating="true"/>
+    </div>
   </section>
 </template>
 
 <script>
 import { getMatchList } from "@/request/api";
 import Match from '@/components/trademanage/match/Match';
+import MatchList from '@/components/trademanage/match/MatchList';
 export default {
   name: 'MatchManage',
   data() {
     return {
       matchData: [],
+      isLoading: true,
     }
   },
   created() {
@@ -41,14 +34,16 @@ export default {
     getMatchList(this.$cookies.get('user').id)
       .then(res => {
         vm.matchData = res.data;
-        console.log(res.data);
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
+        this.isLoading = false;
       })
   },
   components: {
     Match,
+    MatchList,
   },
 }
 </script>

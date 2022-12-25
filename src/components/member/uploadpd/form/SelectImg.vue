@@ -43,11 +43,24 @@
 <script>
 export default {
   name: 'SelectImg',
+  props: {
+    limit: {
+      type: Number,
+      default: 0,
+      require: false,
+    }
+  },
   data() {
     return {
       preview: [],
       image: [],
+      max: 5,
     }
+  },
+  computed: {
+    getImgLenLimit() {
+      return this.max - this.limit;
+    },
   },
   methods: {
     // 拖曳上傳圖檔
@@ -66,13 +79,13 @@ export default {
     },
     // 處理檔案
     handleFiles(files) {
-      if(files.length > 5 || (this.image.length + files.length) > 5){
-        alert('系統：一次最多只能上傳五張，請重試。')
+      if(files.length > this.getImgLenLimit || (this.image.length + files.length) > this.getImgLenLimit){
+        alert(`系統：最多只能上傳 ${this.getImgLenLimit} 張，請重試。`)
         return;
       }
 
-      if(this.image.length >= 5){
-        alert('系統：圖片最多只能上傳五張，請重試。')
+      if(this.image.length >= this.getImgLenLimit){
+        alert(`系統：最多只能上傳 ${this.getImgLenLimit} 張，請重試。`)
         return;
       }
 
@@ -81,6 +94,10 @@ export default {
       if (f) {
         for(let i = 0; i < f.length; i++){
           // 建立一個讀檔器
+          if(f[i].size > 102400) {
+            alert("上傳的圖片不能超過 100KB")
+            continue;
+          }
           const reader = new FileReader();
           reader.onload = (e) => {
             this.preview.push(e.target.result);

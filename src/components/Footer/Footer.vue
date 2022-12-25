@@ -38,5 +38,6 @@
 
 <style lang="stylus">
 
-
+.footer
+  margin-top 1em
 </style>

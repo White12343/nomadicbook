@@ -1,6 +1,12 @@
 <template>
   <article class="ask-card">
-    <BookCard :card-data="bookData"/>
+    <BookCard :card-data="bookData" :photoHeight="'280px'" :seekStatus="askData.seekStatus"/>
+    <div class="ask-card__desc mb-3">
+      <ul>
+        <li><v-icon class="mr-1">mdi-calendar-range</v-icon>{{askData.seekDate}}</li>
+        <li><v-icon class="mr-1">mdi-handshake</v-icon>{{tradeMode}}</li>
+      </ul>
+    </div>
     <div class="ask-card__cntr">
 
       <v-row justify="center">
@@ -15,6 +21,8 @@
             outlined
             color="red white--text"
             @click="refusal"
+            :disabled="isClickRefusal"
+            :loading="isClickRefusal"
           >
             拒絕
           </v-btn>
@@ -37,6 +45,7 @@
                     block
                     color="primary"
                     class="ask-card__btn"
+                    :disabled="!askData.seekStatus"
                     v-bind="attrs"
                     v-on="on"
                   >
@@ -45,9 +54,9 @@
                 </template>
 
                 <v-card
-                  class="overflow-hidden"
+                  class="stall overflow-hidden"
                 >
-                  <v-card-title class="text-h5 grey lighten-2">
+                  <v-card-title class="stall__header text-h5 grey lighten-2">
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                     對方攤位
                   </v-card-title>
@@ -111,7 +120,7 @@
 
                       </v-col>
                     </v-row>
-                    <BookCntr cntr-title="書況" :cntr="pdDetail.condition" />
+                    <BookCntr cntr-title="書況" :cntr="getCondition" />
                     <BookCntr cntr-title="簡介" :cntr="pdDetail.introduction" />
                   </v-card-text>
                   <v-card-text v-else class="text-center my-6">
@@ -131,6 +140,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { getBookDetail, getAskBoothBookList, selectedBook, putRefusal } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 import AskStall from '@/components/trademanage/ask/AskStall';
@@ -148,7 +158,8 @@ export default {
       dialog: false,
       pdData: [],
       pdDetail: {},
-      drawer: false,
+      drawer: true,
+      isClickRefusal: false,
     }
   },
   watch: {
@@ -177,6 +188,10 @@ export default {
       })
   },
   computed: {
+    ...mapState([
+      'isLogin',
+      'user',
+    ]),
     bookData() {
       return {
         bookId: this.askData.seekBookId,
@@ -185,7 +200,29 @@ export default {
         conditionNum: this.askData.conditionNum,
         condition: this.askData.condition,
       }
-    }
+    },
+    tradeMode() {
+      let str = '';
+      switch(this.askData.tradeMode) {
+        case 1:
+          str = '7-11';
+          break;
+        case 2:
+          str = '宅配 ( 郵寄、黑貓 )';
+          break;
+        case 3:
+          str = 'i郵箱';
+          break;
+        case 4:
+          str = '面交';
+          break;
+
+      }
+      return str;
+    },
+    getCondition() {
+      return `${this.pdDetail.conditionNum} 成新,${this.pdDetail.condition}`;
+    },
   },
   methods: {
     bookDetail(id) {
@@ -215,12 +252,14 @@ export default {
         })
     },
     refusal() {
-      putRefusal(this.askData.seekId)
+      this.isClickRefusal = true;
+      putRefusal(this.askData.seekId, this.user.id)
         .then(res => {
-          alert('已拒絕')
+          console.log(res);
           this.reload();
         })
         .catch(error => {
+          this.isClickRefusal = false;
           console.log(error);
         })
     }
@@ -229,6 +268,12 @@ export default {
 </script>
 
 <style lang="stylus">
-
+// .stall
+//   position relative !important
+//   &__header
+//     position fixed
+//     top 0
+//     left 0
+//     right 0
 
 </style>

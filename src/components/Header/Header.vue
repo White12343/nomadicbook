@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header class="header__main">
-      <v-container>
+      <div class="header__base">
         <v-row justify="space-between" align="center">
           <v-col col="12" lg="3">
             <h1 class="header__tit fs-1">
@@ -30,7 +30,7 @@
             <nav class="header__nav">
               <div class="header__signin-btn d-flex align-center justify-end" v-if="isLogin === '1'">
                 <h4 class="header__nav-item mr-2">
-                  {{user.nickName}}
+                  {{user.nickName || ''}}
                 </h4>
                 <!-- Dropdown -->
 
@@ -41,7 +41,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      class="mx-2"
+                      class="ml-4"
                       fab
                       dark
                       text
@@ -58,22 +58,18 @@
                     <v-list-item
                       v-for="(item, index) in items"
                       :key="index"
+                      :to="item.path"
                     >
                       <v-list-item-title>
-                        <router-link :to="item.path">
-                          {{ item.title }}
-                        </router-link>
+                        {{ item.title }}
                       </v-list-item-title>
                     </v-list-item>
                     <!-- 登出 -->
-                    <v-list-item>
+                    <v-list-item
+                      @click.prevent="signOut"
+                    >
                       <v-list-item-title>
-                        <a
-                          href="#"
-                          @click.prevent="signOut"
-                        >
                           登出
-                        </a>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -84,10 +80,11 @@
                   offset-y
                   left
                   color="white"
+                  max-height="530"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      class="mx-2"
+                      class="ml-4"
                       fab
                       dark
                       text
@@ -108,10 +105,15 @@
                     </v-btn>
                   </template>
                   <template>
-                    <v-list width="500" max-height="500">
+                    <v-list
+                      width="500"
+                    >
+                      <v-list-item-title class="ml-4 text-h6">
 
-                      <v-list-item-title class="ml-3 text-h6">
-                        通知
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-3">mdi-bell</v-icon>
+                          通知
+                        </div>
                       </v-list-item-title>
                       <v-divider></v-divider>
                       <template v-for="(item, index) in notifications">
@@ -119,9 +121,12 @@
                         <v-list-item
                           :key="index"
                         >
-                          <v-list-item-title>
-                            {{item.notify}}
-                          </v-list-item-title>
+                          <v-list-item-content>
+                            <div class="d-flex align-center">
+                              <v-icon class="mr-3">mdi-alert-circle-outline</v-icon>
+                              {{item.notify}}
+                            </div>
+                          </v-list-item-content>
                         </v-list-item>
                         <v-divider
                           v-if="index < notifications.length - 1"
@@ -132,14 +137,31 @@
                   </template>
                 </v-menu>
               </div>
-              <div class="header__signin-btn" v-else>
-                <router-link class="header__link header__nav-item nav__link" to="/login/signin">登入</router-link>
-                <router-link class="header__link header__nav-item nav__link" to="/login/signup">註冊</router-link>
+              <div class="header__signin-btn d-flex align-center justify-end" v-else>
+                <v-btn
+                  dark
+                  text
+                  class="ml-4"
+                  :to="{
+                    name: 'SignIn'
+                  }"
+                >
+                  登入
+                </v-btn><v-btn
+                  dark
+                  text
+                  class="ml-4"
+                  :to="{
+                    name: 'SignUp'
+                  }"
+                >
+                  註冊
+                </v-btn>
               </div>
             </nav>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </header>
     <!-- <Nav /> -->
     <Menu></Menu>
@@ -155,14 +177,47 @@ export default {
   name: 'Header',
   data () {
     return {
+      notifications: [],
+      notifyNum: 0,
+      keyWord: '',
+    }
+  },
+  created() {
+    if(parseInt(this.isLogin)) {
+      getNotifyNum(this.user.id)
+        .then(res => {
+          this.notifyNum = parseInt(res.data);
+        })
+        .catch(error => {
+          // console.log(error.response);
+        })
 
-      items: [
+      this.getNotifyNumTimer();
+    }
+  },
+  watch: {
+    isLogin(val) {
+      let state = parseInt(val);
+      if(state) {
+        this.getNotifyNumTimer();
+      }else {
+        clearInterval(this.notifyRefresh);
+      }
+    }
+  },
+  computed: {
+    ...mapState([
+      'isLogin',
+      'user',
+    ]),
+    items() {
+      return [
         {
           title: '攤位頁',
           path: {
             name: 'Booth',
             params: {
-              id: '',
+              id: this.user.id,
             }
           },
         },
@@ -170,56 +225,63 @@ export default {
           title: '交易管理',
           path: '/manage/seek',
         },
-      ],
-      notifications: [],
-      notifyNum: 0,
-      keyWord: '',
+      ]
     }
-  },
-  created() {
-    this.items[0].path.params.id = this.$cookies.get('user').id;
-    getNotifyNum(this.$cookies.get('user').id)
-      .then(res => {
-        this.notifyNum = parseInt(res.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  },
-  computed: {
-    ...mapState([
-      'isLogin',
-      'user',
-    ]),
   },
   methods: {
     signOut() {
-      $cookies.set('isLogin', '0');
-      this.$router.push('/login/signin');
+      this.$cookies.set('isLogin', '0');
+      this.$cookies.remove('user');
       this.$store.commit("changeLoginState");
+      this.$router.push('/login/signin');
     },
     getNotifications() {
-      getNotify(this.$cookies.get('user').id)
-        .then(res => {
-          this.notifyNum = 0;
-          this.notifications = res.data;
-        })
-        .catch(error => {
-          this.notifications = [
-            {
-              notify: '沒有任何通知'
-            }
-          ]
-          console.log(error);
-        })
+      if(parseInt(this.isLogin)) {
+        getNotify(this.user.id)
+          .then(res => {
+            this.notifyNum = 0;
+            this.notifications = res.data;
+          })
+          .catch(error => {
+            this.notifications = [
+              {
+                notify: '沒有任何通知'
+              }
+            ]
+          })
+      }
     },
     searchBook() {
-      this.$router.push({
-        name: 'BookList',
-        query: {
-          keyword: this.keyWord,
-        }
-      })
+      if(this.$route.name === 'BookList'){
+        let path = this.$route.fullPath;
+        this.$router.push({
+          path: path,
+          query: {
+            keyword: this.keyWord,
+            page: 1,
+          }
+        })
+      }else {
+        this.$router.push({
+          name: 'BookList',
+          query: {
+            keyword: this.keyWord,
+          }
+        })
+      }
+    },
+    getNotifyNumTimer() {
+      this.notifyRefresh = window.setInterval(() => {
+        getNotifyNum(this.user.id)
+          .then(res => {
+            this.notifyNum = parseInt(res.data);
+          })
+          .catch(error => {
+            if(error.response.status === 401) {
+              clearInterval(this.notifyRefresh);
+            }
+          })
+      }, 2000);
     }
   },
   components: {
@@ -237,12 +299,11 @@ export default {
   &__main
     background-color $primary
 
+
   &__base
-    padding-top 6px
-    padding-bottom 6px
-    display flex
-    justify-content space-between
-    align-items center
+    max-width 1200px
+    margin 0 auto
+    padding .6em 0
 
   &__nav
     &-item
@@ -266,5 +327,7 @@ export default {
     border-radius 3px
     color #f4f2eb
     cursor pointer
+.notify
+  background-color #fff !important
 
 </style>

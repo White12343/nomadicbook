@@ -12,12 +12,18 @@ export const search = (keyword) => req("get", "/HomePage", keyword);
 export const userSignUp = (signUpData) => req("post", "/user/signup", signUpData);
 export const userSignin = (logInData) => req("post", "/user/signin", logInData);
 export const forgetPassword = (mail) => req("put", "/User/forgetpassword", mail);
+export const verifymail = (mail) => req("get", "/User/verifymail/" + mail);
+// 會員驗證
+export const verify = (id) => req("get", "/User/verify/" + id);
+
 
 // export const userLogOut = () => req("get", "/user/logout");
 
 // 會員資料
 export const getUserDetail = (id) => req("get", "/User/detaildata/" + id);
 export const getUserBasic = (id) => req("get", "/User/basicdata/" + id);
+// 修改會員資料
+export const putUserDetail = (id, data) => req("put", "/User/" + id, data);
 // 修改密碼
 export const setNewPassword = (id, data) => req("put", "/User/password/" + id, data);
 
@@ -75,7 +81,7 @@ export const putConsignment = (id, user) => req("put", `/Seek/match/consignment/
 // 書已收到
 export const putReceipt = (id, user) => req("put", `/Seek/match/receipt/${id}`, user);
 // 拒絕
-export const putRefusal = (id) => req("put", `/seek/otherpeople/refusal/${id}`);
+export const putRefusal = (id, userId) => req("put", `/seek/otherpeople/refusal/${id}/${userId}`);
 // 歷史訂單
 export const getRecord = (id) => req("get", "/Seek/history/" + id);
 // 評價
@@ -86,10 +92,10 @@ export const rating = (id, data) => req("put", `/Seek/match/evaluation/${id}`, d
 export const getSeekBookList = (id) => req("get", "/seek/myself/" + id);
 
 
-// 上架
+// 上架商品
 export const uploadProduct = (data) => req("post", "/product/new", data);
 // 更新
-// export const putProduct = (id) => req("put", "/Stall/bookupdate/" + id);
+export const putProduct = (id, data) => req("put", "/Stall/bookupdate/" + id, data);
 // isbn
 export const getDataByISBNApi = (isbn) => req("get", "/Product", isbn);
 // 刪除圖片
@@ -105,18 +111,31 @@ export const getArea = (data) => req("get", "/Trade/address/area", data);
 export const getRoad = (data) => req("get", "/Trade/address/road", data);
 // iMail
 export const getIMailBox = (data) => req("get", "/trade/mailbox", data);
+// 7-11
+export const getStoreCity = () => req("get", "/Trade/store/city");
+export const getStoreArea = (data) => req("get", "/Trade/store/area", data);
+export const getStoreAddress = (data) => req("get", "/Trade/store/address", data);
 
 
 // 產品
 export const seekNew = (data) => req("post", "/seek/new", data);
 
+// 留言板
+// 取得留言
+export const getMsg = (id, user) => req("get", "/Message/" + id + '/' + user);
+// 留言
+export const postMsg = (data) => req("post", "/Message", data);
+export const delMsg = (id) => req("delete", "/Message/" + id);
+export const editMsg = (id, data) => req("put", "/Message/" + id, data);
+
+
 
 
 // 使用範例
 /*
-import { getCategoryBelong } from "@/request/api";
+import { editMsg } from "@/request/api";
 
-getCategoryBelong()
+editMsg()
   .then(res => {
     console.log(res);
   })

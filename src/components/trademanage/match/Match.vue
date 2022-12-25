@@ -5,183 +5,56 @@
     >
       <v-col
         cols="12"
-        sm="12"
+        sm="6"
         md="6"
         lg="6"
       >
-        <h3>自己的書</h3>
-        <v-row align="center">
-          <v-col
-            cols="12"
-            sm="12"
-            md="4"
-            lg="4"
+        <!-- <h3 class="font-weight-bold">自己的書</h3> -->
+        <v-list>
+          <v-subheader>自己的書</v-subheader>
+          <v-list-item
+            v-for="(item, i) in selfInfo"
+            :key="i"
+            three-line
+            dense
           >
-            <BookCard :card-data="selfBook"/>
-            <v-dialog
-              v-model="consignmentCheck"
-              max-width="250"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  block
-                  color="primary"
-                  :disabled="matchData.seek.seekSend"
-                  v-if="!record"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  寄出
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="text-h5">
-                  注意
-                </v-card-title>
-                <v-card-text>
-                  請確認是否已寄出，確認後會通知對方您已寄出書籍。
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn
-                    color="grey darken-1"
-                    text
-                    @click="consignmentCheck = false"
-                  >
-                    取消
-                  </v-btn>
-
-                  <v-btn
-                    color="primary"
-                    text
-                    @click="consignment"
-                  >
-                    確認
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="12"
-            md="8"
-            lg="8"
-          >
-            <v-list
-            >
-              <v-list-item
-                v-for="(item, i) in selfInfo"
-                :key="i"
-                three-line
-                dense
-              >
-                <v-list-item-icon>
-                  <v-icon v-text="item.icon"></v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
-                  <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-col>
-        </v-row>
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
 
       </v-col>
 
       <v-col
         cols="12"
-        sm="12"
+        sm="6"
         md="6"
         lg="6"
       >
 
-        <h3>對方的書</h3>
-        <v-row align="center">
-          <v-col
-            cols="12"
-            sm="12"
-            md="4"
-            lg="4"
+        <!-- <h3 class="font-weight-bold">對方的書</h3> -->
+        <v-list>
+          <v-subheader>對方的書</v-subheader>
+          <v-list-item
+            v-for="(item, i) in otherInfo"
+            :key="i"
+            three-line
+            dense
           >
-            <BookCard :card-data="otherSideBook"/>
-            <v-dialog
-              v-model="receiveCheck"
-              max-width="250"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  block
-                  color="primary"
-                  :disabled="matchData.seek.seekReceive"
-                  v-if="!record"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  收到
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="text-h5">
-                  收到書籍
-                </v-card-title>
-                <v-card-text>
-                  這次交易您還滿意嗎？
-                  <v-rating
-                    class="mt-3"
-                    v-model="evaluation"
-                    color="warning"
-                    background-color="warning"
-                    empty-icon="mdi-star-outline"
-                    half-icon="mdi-star-half"
-                    half-increments
-                    size="16"
-                    @input="receipt"
-                  ></v-rating>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn
-                    color="grey darken-1"
-                    text
-                    @click="receiveCheck = false"
-                  >
-                    取消
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="12"
-            md="8"
-            lg="8"
-          >
-            <v-list
-            >
-              <v-list-item
-                v-for="(item, i) in otherInfo"
-                :key="i"
-                three-line
-                dense
-              >
-                <v-list-item-icon>
-                  <v-icon v-text="item.icon"></v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
-                  <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-col>
-        </v-row>
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </v-col>
     </v-row>
 
@@ -190,31 +63,19 @@
 </template>
 
 <script>
-import { putConsignment, putReceipt, rating } from "@/request/api";
 import BookCard from '@/components/book/BookCard';
 export default {
   name: 'Match',
   inject: ['reload'],
   props: {
     matchData: Object,
-    record: {
-      type: Boolean,
-      default: false,
-      require: false,
-    }
   },
   data() {
     return {
-      consignmentCheck: false,
-      receiveCheck: false,
-      evaluation: 0,
     }
   },
   components: {
     BookCard,
-  },
-  created() {
-
   },
   computed: {
     selfBook() {
@@ -316,41 +177,7 @@ export default {
 
   },
   methods: {
-    consignment() {
-      this.consignmentCheck = false;
-      putConsignment(this.matchData.seekId, this.$cookies.get('user').id)
-        .then(res => {
-          console.log(res);
-          this.reload();
-        })
-        .catch(error => {
-          console.log(error);
-        })
 
-    },
-    receipt() {
-      this.receiveCheck = false;
-      const data = {
-        userId: this.$cookies.get('user').id,
-        evaluation: this.evaluation,
-      }
-      rating(this.matchData.seekId, data)
-        .then(res => {
-          console.log(res);
-          putReceipt(this.matchData.seekId, this.$cookies.get('user').id)
-            .then(res => {
-              this.reload();
-            })
-            .catch(error => {
-              console.log(error);
-              alert('失敗');
-            })
-        })
-        .catch(error => {
-          console.log(error);
-        })
-
-    },
   }
 }
 </script>
@@ -359,4 +186,7 @@ export default {
 .match-card
   background-color #fff
   padding 1em
+.message
+  &__body
+    padding 0 1em
 </style>

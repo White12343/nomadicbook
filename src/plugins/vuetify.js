@@ -1,9 +1,9 @@
 // src/plugins/vuetify.js
 
 import Vue from 'vue'
+import colors from 'vuetify/lib/util/colors'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-import colors from 'vuetify/lib/util/colors'
 
 Vue.use(Vuetify)
 

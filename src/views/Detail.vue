@@ -2,7 +2,7 @@
   <section class="detail">
     <div class="detail__head">
       <div class="detail__info">
-        <BookPic class="detail__pic" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
+        <BookPic class="detail__pic align-self-center" :book-photo="bookDesc.bookPhotos" :book-name="bookDesc.bookName"/>
         <BookInfo
           :book-id="parseInt(this.$route.params.id)"
           :bookDesc="bookDesc"
@@ -16,13 +16,13 @@
       />
     </div>
     <div class="detail__cntr">
-      <BookCntr class="detail__desc" cntr-title="書況" :cntr="bookDesc.condition" />
-      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="bookDesc.introduction" />
+      <BookCntr class="detail__desc" cntr-title="書況" :cntr="getCondition" />
+      <BookCntr class="detail__desc" cntr-title="簡介" :cntr="replaceIntroduction" />
 
     </div>
 
     <div class="detail__cntr">
-      <NewBook :no-header="true"/>
+      <NewBook :no-header="true" :photoHeight="'280px'"/>
     </div>
   </section>
 </template>
@@ -38,6 +38,7 @@ import NewBook from '@/components/home/NewBook';
 
 export default {
   namd: 'Detail',
+  inject: ['reload'],
   data() {
     return {
       bookDesc: {},
@@ -74,6 +75,26 @@ export default {
 
 
 
+  },
+  computed: {
+    replaceIntroduction() {
+
+      let str = '';
+      if(this.bookDesc.introduction) {
+        str = this.bookDesc.introduction.replace(/\n/g, '<br>')
+      }
+      return str;
+
+    },
+    getCondition() {
+      return `${this.bookDesc.conditionNum} 成新,${this.bookDesc.condition}`;
+    },
+  },
+  watch: {
+    $route(to) {
+      console.log(to);
+      this.reload();
+    }
   },
   methods: {
   },

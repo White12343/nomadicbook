@@ -16,6 +16,7 @@
           class="d-block my-6"
         >
           <img
+            class="img-resp"
             :src="this.preview || userPhoto || defaultPhoto"
             alt="大頭貼"
           >
@@ -47,27 +48,35 @@
       <v-text-field
         v-model="trueName"
         :counter="8"
+        :rules="nameRules"
+        maxlength="8"
         label="姓名"
       ></v-text-field>
 
       <v-text-field
         v-model="phone"
-        :counter="10"
-        label="手機"
+        :counter="15"
+        label="聯絡電話"
+        :rules="phoneRules"
+        hint="輸入格式為 02-12345678 或 0912345678"
+        maxlength="15"
+        required
       ></v-text-field>
 
       <v-text-field
         v-model="name"
-        :counter="8"
         :rules="nameRules"
+        maxlength="8"
         label="暱稱"
         required
+        readonly
       ></v-text-field>
 
       <v-text-field
         v-model="email"
         :rules="emailRules"
         label="E-mail"
+        readonly
         required
       ></v-text-field>
 
@@ -75,6 +84,7 @@
       <v-textarea
         name="input-7-1"
         label="自我介紹"
+        maxlength="100"
         v-model="selfIntroduction"
       ></v-textarea>
       <v-row align="center">
@@ -146,6 +156,18 @@
                       @isOpenTrade="isMailBoxOpen"
                     />
                   </v-col>
+                  <v-col
+                      cols="12"
+                      sm="12"
+                      md="12"
+                    >
+                    <StoreSelect
+                      title="7-11"
+                      nameId="store"
+                      @getVal="getStoreAddress"
+                      @isOpenTrade="isStoreOpen"
+                    />
+                  </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -167,21 +189,26 @@
           </v-dialog>
         </v-col>
       </v-row>
-      <div class="defaultTradeMode">
+      <div class="defaultTradeMode" v-if="homeAddress || userData.homeAddress">
         <h4 class="defaultTradeMode__tit mb-3">宅配 ( 郵寄、黑貓 )</h4>
-        <p class="defaultTradeMode__desc">{{userData.homeAddress}}</p>
+        <p class="defaultTradeMode__desc">{{homeAddress || userData.homeAddress}}</p>
       </div>
-      <div class="defaultTradeMode" v-if="getHomeAddress">
+      <div class="defaultTradeMode" v-if="getDefaultHomeAddress || getHomeAddress">
         <h4 class="defaultTradeMode__tit">面交</h4>
-        <p class="defaultTradeMode__desc">{{getHomeAddress}}</p>
+        <p class="defaultTradeMode__desc">{{getDefaultHomeAddress || getHomeAddress}}</p>
       </div>
-      <div class="defaultTradeMode" v-if="getIMailAddressAll">
+      <div class="defaultTradeMode" v-if="getDefaultIMailAddressAll || getIMailAddressAll">
         <h4 class="defaultTradeMode__tit">i 郵箱</h4>
-        <p class="defaultTradeMode__desc">{{getIMailAddressAll}}</p>
+        <p class="defaultTradeMode__desc">{{getDefaultIMailAddressAll || getIMailAddressAll}}</p>
+      </div>
+      <div class="defaultTradeMode" v-if="getStoreAddressAll || getStoreAddressAll">
+        <h4 class="defaultTradeMode__tit">7-11 店到店</h4>
+        <p class="defaultTradeMode__desc">{{getDefaultStoreAddressAll || getStoreAddressAll}}</p>
       </div>
       <div class="d-flex justify-end">
         <v-btn
-          :disabled="!valid"
+          :disabled="!valid || isClick"
+          :loading="isClick"
           color="primary"
           @click="updateProfile"
         >
@@ -192,6 +219,7 @@
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
+      color="primary"
     >
       {{ text }}
 
@@ -212,12 +240,14 @@
 
 <script>
 import { mapState } from "vuex";
-import { getUserDetail } from "@/request/api";
+import { getUserDetail, putUserDetail } from "@/request/api";
 import AddressSelect from '@/components/member/uploadpd/form/AddressSelect';
 import IMailBoxSelect from '@/components/member/uploadpd/form/IMailBoxSelect';
+import StoreSelect from '@/components/member/uploadpd/form/StoreSelect';
 export default {
   inject: ['reload'],
   data: () => ({
+    isClick: false,
     snackbar: false,
     text: '',
     timeout: 2000,
@@ -235,7 +265,7 @@ export default {
     ],
     phoneRules: [
       v => !!v || '此為必填欄位',
-      v => (v && v.length <= 10) || '名稱不得超出 10 個字符',
+      v => /(^(\d{2,4}-)?\d{7,8})$|(^09[0-9]{8}$)/.test(v) || '請填入正確聯絡電話號碼',
     ],
 
     email: '',
@@ -278,16 +308,19 @@ export default {
       if(!this.$refs.form.validate()){
         return;
       }
-      console.log(this.getFormData.get('HomeAddress'));
-      this.$http.put('/api/User/' + this.user.id, this.getFormData)
-        .then((res) => {
+      this.isClick = true;
+      putUserDetail(this.user.id, this.getFormData)
+        .then(res => {
           this.snackbar = true;
           this.text = res.data;
-          this.reload();
+          this.isClick = false;
+          // this.reload();
+          // this.$router.push({name: 'Member'});
         })
         .catch(error => {
           this.snackbar = true;
-          this.text = '更新失敗';
+          this.isClick = false;
+          this.text = '無資料更新';
           console.log(error);
         })
     },
@@ -299,6 +332,9 @@ export default {
     },
     isMailBoxOpen(val) {
       this.tradeModeOpen.mailBox = val;
+    },
+    isStoreOpen(val) {
+      this.tradeModeOpen.store = val;
     },
     getTradeAddress(val) {
       this.faceTrade.City = val.city;
@@ -313,6 +349,10 @@ export default {
     getIMailAddress(val) {
       this.mailBox.Address = val.Address;
       this.mailBox.Name = val.Name;
+    },
+    getStoreAddress(val) {
+      this.store.Address = val.Address;
+      this.store.Name = val.Name;
     },
     // 點擊觸發 form 選取
     clickUploadPic() {
@@ -340,6 +380,7 @@ export default {
   components: {
     AddressSelect,
     IMailBoxSelect,
+    StoreSelect,
   },
 
   computed: {
@@ -360,8 +401,30 @@ export default {
         this.userData.faceTradePath +
         this.userData.faceTradeDetail;
     },
+    getDefaultHomeAddress() {
+      return this.faceTrade.Area +
+        this.faceTrade.City +
+        this.faceTrade.Road +
+        this.faceTrade.Path +
+        this.faceTrade.Detail;
+    },
     getIMailAddressAll() {
       return this.userData.mailBoxName + this.userData.mailBoxAddress;
+    },
+    getStoreAddressAll() {
+      return this.userData.storeName + this.userData.storeAddress;
+    },
+    getDefaultIMailAddressAll() {
+      if(!this.mailBox.Name && !this.mailBox.Address){
+        return '';
+      }
+      return this.mailBox.Name + '(' + this.mailBox.Address + ')';
+    },
+    getDefaultStoreAddressAll() {
+      if(!this.store.Name && !this.store.Address){
+        return '';
+      }
+      return this.store.Name + '(' + this.store.Address + ')';
     },
     getFormData() {
       let formData = new FormData()
@@ -372,7 +435,7 @@ export default {
       formData.append('TrueName', this.trueName)
       formData.append('CellphoneNumber', this.phone)
       formData.append('NickName', this.name)
-      formData.append('Email', this.email)
+      // formData.append('Email', this.email)
       // 交易方式
       formData.append('HomeAddress', this.homeAddress)
       formData.append('MailBoxName', this.mailBox.Name)
@@ -416,8 +479,8 @@ export default {
         }
         if(this.userData.storeAddress){
           this.hasDefaultAddress = true;
-          this.store.name = this.userData.storeName;
-          this.stort.address = this.userData.storeAddress;
+          this.store.Name = this.userData.storeName;
+          this.store.Address = this.userData.storeAddress;
         }
         if(this.userData.faceTradeRoad){
           this.hasDefaultAddress = true;

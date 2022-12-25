@@ -34,7 +34,10 @@
       <ul class="book-info__list">
         <li class="book-info__list-item">作者：{{ bookDesc.author }}</li>
         <li class="book-info__list-item">出版社：{{ bookDesc.publishingHouse }}</li>
-        <li class="book-info__list-item">出版日：{{ publishDate }}</li>
+        <li class="book-info__list-item">出版日：{{ bookDesc.publishDate }}</li>
+        <li class="book-info__list-item">規格：{{specification}}</li>
+
+
       </ul>
 
       <p class="book-info__desc mt-3">
@@ -45,7 +48,6 @@
 </template>
 
 <script>
-import Btn from '@/components/ui/Btn';
 export default {
   name: 'BookInfo',
   props: {
@@ -56,16 +58,13 @@ export default {
     return {}
   },
   computed: {
-    publishDate() {
-      if(!this.bookDesc.publishDate){
-        return;
+    specification() {
+      if(this.bookDesc.bookWidth || this.bookDesc.bookHigh || this.bookDesc.bookLong) {
+        return `${this.bookDesc.bookWidth} x ${this.bookDesc.bookLong} x ${this.bookDesc.bookHigh} cm`;
+      }else {
+        return '無提供';
       }
-      return this.bookDesc.publishDate.split(' ')[0];
     }
-  },
-  methods: {},
-  components: {
-    Btn,
   }
 }
 </script>

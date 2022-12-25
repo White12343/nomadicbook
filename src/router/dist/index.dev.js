@@ -65,13 +65,19 @@ _vueRouter["default"].prototype.push = function push(location) {
 };
 
 var router = new _vueRouter["default"]({
-  mode: 'history',
+  // mode: 'history',
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    };
+  },
   routes: [{
     path: '/',
     name: 'Home',
     component: _Home["default"]
   }, {
-    path: '/booklist/:mainId?/:bigCategory?/:keyword?',
+    path: '/booklist/:mainId?/:bigCategory?/:keyword?/:filternum?/:filter?',
     name: 'BookList',
     component: _BookList["default"]
   }, {
@@ -199,17 +205,9 @@ var router = new _vueRouter["default"]({
     }]
   }, // 通知
   {
-    path: '/notifications',
+    path: '/notifications/:id',
     name: 'Notifications',
-    component: _Notifications["default"],
-    beforeEnter: function beforeEnter(to, from, next) {
-      if ($cookies.get('isLogin') && $cookies.get('isLogin') === '1') {
-        next();
-      } else {
-        alert('請先登入');
-        next('/signin');
-      }
-    }
+    component: _Notifications["default"]
   }]
 });
 var _default = router;

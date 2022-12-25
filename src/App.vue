@@ -2,12 +2,12 @@
   <v-app>
     <div id="app">
       <Header />
-        <v-container>
-          <main class="main">
-              <router-view v-if="isRouterAlive"/>
-          </main>
-        </v-container>
-      <Footer />
+        <!-- <v-container> -->
+        <main class="main">
+            <router-view v-if="isRouterAlive"/>
+        </main>
+        <!-- </v-container> -->
+      <Footer class="app-footer"/>
     </div>
   </v-app>
 </template>
@@ -48,32 +48,12 @@ export default {
 
 <style lang="stylus">
 #app
-  position relative
   background-image url('/static/img/bg.png')
+
 .main
-  min-height calc(100vh - 115px - 112px)
-.background
-  width 100%
-  height 160px
-  position absolute
-  bottom 0
-  overflow hidden
-  z-index -1
-  &::before
-    content ''
-    display block
-    width 0
-    height 0
-    border-style solid
-    border-width 80px 0 80px 100vw
-    border-color transparent transparent transparent rgb(231, 247, 255)
-  &::after
-    content ''
-    display block
-    height 80px
-    width 100vw
-    background-color rgb(231, 247, 255)
-    position absolute
-    bottom 0
+  min-height calc(100vh - 154px - 72px)
+  max-width 1200px
+  margin 0 auto
+  padding 1px
 
 </style>

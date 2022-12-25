@@ -27,6 +27,8 @@
       <v-pagination
         v-model="page"
         :length="getPage"
+        :total-visible="7"
+        @input="goPage"
       ></v-pagination>
     </div>
   </section>
@@ -50,7 +52,9 @@ export default {
     getExperienceList()
       .then(res => {
         this.expData = res.data;
-        console.log(res);
+        if(this.$route.query.page) {
+          this.page = parseInt(this.$route.query.page);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -80,6 +84,14 @@ export default {
         max = this.total;
       }
       return this.expData.filter((item, i) => i >= min && i <= max);
+    },
+    goPage() {
+      this.$router.push({
+        name: 'ExperienceList',
+        query: {
+          page: this.page,
+        }
+      })
     }
   }
 }

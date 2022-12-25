@@ -20,12 +20,15 @@
         <v-pagination
           v-model="page"
           :length="getPage"
+          :total-visible="7"
+          @input="goPage"
         ></v-pagination>
       </div>
     </div>
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
+      color="primary"
     >
       {{ text }}
 
@@ -92,19 +95,28 @@ export default {
     }
   },
   watch: {
-    $route(to) {
-      console.log(to);
-      this.reload();
+    $route(from, to) {
+      if(from.params.id !== to.params.id) {
+        this.reload();
+      }
+      if(from.query.page !== to.query.page) {
+        this.reload();
+      }
     }
   },
   created() {
-    if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
-      this.isSelf = true;
+    if(this.user) {
+      if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
+        this.isSelf = true;
+      }
     }
     let vm = this;
     getBoothBookList(this.$route.params.id)
       .then(res => {
         vm.pdData = res.data;
+        if(this.$route.query.page) {
+          this.page = parseInt(this.$route.query.page);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -133,6 +145,18 @@ export default {
         max = this.total;
       }
       return this.getPdData.filter((item, i) => i >= min && i <= max);
+    },
+
+    goPage() {
+      this.$router.push({
+        name: 'Booth',
+        params: {
+          id: this.$route.params.id,
+        },
+        query: {
+          page: this.page,
+        }
+      })
     }
   }
 
@@ -140,8 +164,4 @@ export default {
 </script>
 
 <style lang="stylus">
-// .booth
-  // background-color $light
-//   padding 1em
-
 </style>

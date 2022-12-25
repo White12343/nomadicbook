@@ -11,19 +11,19 @@
       <ul class="detail-trade__list">
         <li class="detail-trade__item" v-if="bookDesc.storeAddress">
           <v-icon>mdi-check-bold</v-icon>
-          7-11
+          7-11 {{bookDesc.storeName}}
         </li>
         <li class="detail-trade__item" v-if="bookDesc.homeAddress">
           <v-icon>mdi-check-bold</v-icon>
-          宅配 ( 郵寄、黑貓 )
+          宅配 {{bookDesc.homeAddress.slice(0, 3)}}
         </li>
         <li class="detail-trade__item" v-if="bookDesc.mailBoxAddress">
           <v-icon>mdi-check-bold</v-icon>
-          i郵箱
+          i郵箱 {{bookDesc.mailBoxName}}
         </li>
         <li class="detail-trade__item" v-if="bookDesc.faceTradeArea">
           <v-icon>mdi-check-bold</v-icon>
-          面交
+          面交 {{getFaceTradeAddress}}
         </li>
       </ul>
       <div class="detail-trade__btn-group">
@@ -32,7 +32,8 @@
           block
           @click.stop="openPopup"
           v-if="popupOpen"
-          :disabled="isSelf"
+          :disabled="isSelf || isClick"
+          :loading="isClick"
         >
           我要交換
         </v-btn>
@@ -41,7 +42,8 @@
           block
           @click.prevent="requestExchange"
           v-else
-          :disabled="isSelf"
+          :disabled="isSelf || isClick"
+          :loading="isClick"
         >
           交換
         </v-btn>
@@ -96,8 +98,43 @@
           <v-btn
             color="primary"
             @click.prevent="seek"
+            :disabled="!tradeMode"
           >
             交換
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="isAsk"
+      max-width="350"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          提示
+        </v-card-title>
+
+        <v-card-text>
+          對方以<b>{{getTradeMode}}</b>的交易方式對您提出過邀請，是否直接進行媒合？
+
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            outlined
+            @click="openTrade"
+          >
+            否，我要提出新的徵求
+          </v-btn>
+
+          <v-btn
+            color="primary"
+            @click="match"
+          >
+            是
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -107,9 +144,7 @@
 </template>
 
 <script>
-import { seekNew, chosen } from "@/request/api";
-import Popup from '@/components/ui/Popup';
-import Btn from '@/components/ui/Btn';
+import { seekNew, chosen, checkIsAlreadyAsk, selectedBook } from "@/request/api";
 export default {
   name: 'DetailTrade',
   inject: ['reload'],
@@ -129,6 +164,10 @@ export default {
       isOpenPopup: false,
       tradeMode: 0,
       isSelf: true,
+      isAsk: false,
+      seekDetail: null,
+      isClick: false,
+
     }
   },
   created() {
@@ -163,7 +202,7 @@ export default {
           str.address = this.bookDesc.storeAddress;
           str.name = this.bookDesc.storeName;
           break;
-        // 宅配 ( 郵寄、黑貓 )
+        // 宅配
         case 2:
           str.address = this.bookDesc.homeAddress;
           break;
@@ -183,13 +222,38 @@ export default {
           break;
       }
       return str;
-    }
+    },
+    // 取得交易方式
+    getFaceTradeAddress() {
+      let address =
+        this.bookDesc.faceTradeCity +
+        this.bookDesc.faceTradeArea +
+        this.bookDesc.faceTradeRoad;
+      return address;
+    },
+    getTradeMode() {
+      if(this.seekDetail) {
+        switch(this.seekDetail.tradeMode) {
+          // 7-11
+          case 1:
+            return '7-11 店到店'
+          // 宅配 ( 郵寄、黑貓 )
+          case 2:
+            return '宅配'
+          // i郵箱
+          case 3:
+            return 'i郵箱'
+          // 面交
+          case 4:
+            return '面交'
+        }
+      }
+    },
   },
   components: {
-    Popup,
-    Btn,
   },
   methods: {
+
     // 按下交換前先檢查
     checkLogin() {
       if(!$cookies.get('isLogin') || $cookies.get('isLogin') === '0'){
@@ -200,11 +264,29 @@ export default {
     // 開啟 popup window
     openPopup() {
       this.checkLogin();
-      this.dialog = true;
+      checkIsAlreadyAsk({
+        userId: this.$cookies.get('user').id,
+        stallUserId: this.bookDesc.userId,
+      })
+        .then(res => {
+          switch(res.status) {
+            case 200:
+              this.isAsk = true;
+              this.seekDetail = res.data;
+              break;
+            case 204:
+              this.dialog = true;
+              break;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
     },
     // 提出交換
     seek() {
       this.dialog = false;
+      this.isClick = true;
       const seekData = {
         SeekUserId: parseInt(this.$cookies.get('user').id),
         SeekBookId: this.bookId,
@@ -213,20 +295,22 @@ export default {
         SeekToName: this.getAddress.name,
         SeekedUserId: this.bookDesc.userId,
       }
-      console.log(seekData);
       seekNew(seekData)
         .then(res => {
-          console.log(res);
           this.reload();
+          this.isClick = false;
         })
         .catch(error => {
           console.log(error);
+          this.isClick = false;
         })
     },
     // 直接交換 for 交易請求
     requestExchange() {
       this.$emit('exchange', this.bookDesc.bookId)
+      this.isClick = true;
     },
+    // 是否選擇過
     checkChosen() {
       chosen({
         userId: this.$cookies.get('user').id,
@@ -237,6 +321,30 @@ export default {
         })
         .catch(error => {
           console.log(error);
+        })
+    },
+    // 進去交換頁面
+    openTrade() {
+      this.isAsk = false;
+      this.dialog = true;
+    },
+    // 直接媒合
+    match() {
+      this.isClick = true;
+      const exchangeData = {
+        bookId: this.bookId,
+        tradeMode: this.seekDetail.tradeMode,
+      }
+      selectedBook(this.seekDetail.seekId, exchangeData)
+        .then(res => {
+          this.reload();
+          this.isAsk = false;
+          this.isClick = false;
+        })
+        .catch(error => {
+          console.log(error);
+          this.isAsk = false;
+          this.isClick = false;
         })
     }
   }
@@ -260,37 +368,4 @@ export default {
 
   &__btn-group
     margin-top 1.5em
-    border-top 1px solid $shadow
-
-  &__btn
-    display block
-    text-align center
-    padding-top .6em
-    padding-bottom .6em
-    border-radius 3px
-    margin-top 1em
-    &--dark
-      background-color $accent
-      color $light
-    &--light
-      background-color $gray
-      color $text-secondary
-.seek-new
-  padding 1em
-  &__btn
-    display inline-block
-    padding 6px 1em
-    margin-left 6px
-    border-radius 3px
-    &--light
-      background-color $gray
-      color $text-secondary
-    &--dark
-      background-color $accent
-      color $light
-  &__form
-    color $text-secondary
-  &__input-group
-    margin-top 6px
-    margin-bottom 6px
 </style>

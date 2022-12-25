@@ -22,12 +22,15 @@
       <v-pagination
         v-model="page"
         :length="getPage"
+        :total-visible="7"
+        @input="goPage"
       ></v-pagination>
     </div>
   </div>
   <v-snackbar
     v-model="snackbar"
     :timeout="timeout"
+    color="primary"
   >
     {{ text }}
 
@@ -93,13 +96,18 @@ export default {
     }
   },
   created() {
-    if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
-      this.isSelf = true;
+    if(this.user) {
+      if(parseInt(this.$route.params.id) === parseInt(this.user.id)) {
+        this.isSelf = true;
+      }
     }
     let vm = this;
     getBoothBookList(this.$route.params.id)
       .then(res => {
         vm.pdData = res.data;
+        if(this.$route.query.page) {
+          this.page = parseInt(this.$route.query.page);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -128,6 +136,18 @@ export default {
         max = this.total;
       }
       return this.getPdData.filter((item, i) => i >= min && i <= max);
+    },
+    goPage() {
+
+      this.$router.push({
+        name: 'OffShelf',
+        params: {
+          id: this.user.id,
+        },
+        query: {
+          page: this.page,
+        }
+      })
     }
   }
 }

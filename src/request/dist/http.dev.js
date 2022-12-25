@@ -7,17 +7,37 @@ exports["default"] = _default;
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _vue = _interopRequireDefault(require("vue"));
+
+var _vueCookies = _interopRequireDefault(require("vue-cookies"));
+
+var _router = _interopRequireDefault(require("@/router"));
+
+var _store = _interopRequireDefault(require("@/store"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+_vue["default"].use(_vueCookies["default"]);
 
 var API_PATH = '/api';
 var PROD_PATH = process.env.API_ROOT;
-var LOACL_PATH = '/static/'; // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
+var headerConfig = {};
+
+if ($cookies.get('user')) {
+  headerConfig = {
+    'Content-Type': 'application/json',
+    'Authorization': "Bearer ".concat($cookies.get('user').token)
+  };
+} else {
+  headerConfig = {
+    'Content-Type': 'application/json'
+  };
+} // baseURL 是 API 的主要 Domain，只後發請求時只要填相對路徑就可以了
+
 
 var instance = _axios["default"].create({
-  baseURL: API_PATH,
-  headers: {
-    'Content-Type': 'application/json'
-  },
+  baseURL: PROD_PATH,
+  headers: headerConfig,
   timeout: 20000
 }); // request 的攔截器 (Request Interceptors)，放入兩個函式做為參數。
 
@@ -25,6 +45,10 @@ var instance = _axios["default"].create({
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent
   // 在 request 送出前攔截到此次的 config，可以做最後的處理。
+  if (parseInt($cookies.get('isLogin'))) {
+    config.headers.Authorization = "Bearer ".concat($cookies.get('user').token);
+  }
+
   return config;
 }, function (error) {
   // Do something with request error
@@ -38,6 +62,18 @@ instance.interceptors.response.use(function (response) {
 }, function (error) {
   if (error.response) {
     switch (error.response.status) {
+      case 401:
+        console.log('token issure');
+        alert('身份驗證失敗，請重新登入');
+        $cookies.set('isLogin', '0');
+        $cookies.remove('user');
+
+        _store["default"].commit("changeLoginState");
+
+        _router["default"].push('/login/signin');
+
+        break;
+
       case 404:
         // console.log("你要找的頁面不存在")
         // go to 404 page

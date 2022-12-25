@@ -2,7 +2,7 @@
   <nav class="menu">
     <div class="menu__cntr mx-auto">
 
-      <router-link class="menu__link ml-4"
+      <router-link class="menu__link"
         @click.prevent
         :to="{name: 'BookList'}"
       >
